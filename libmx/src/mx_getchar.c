@@ -5,6 +5,7 @@ static void setTerminalSettings() {
     tcgetattr(STDIN_FILENO, &newTerm);
     newTerm.c_lflag &= ~(ICANON | ECHO);
     newTerm.c_lflag &= ~(ISIG);
+    // newTerm.c_cc[VMIN] = 1;
     // newTerm.c_iflag &= ~INPCK;
     newTerm.c_iflag &= IGNCR; // IGNOR NEWLINE (return 13 on return)
     tcsetattr(STDIN_FILENO, 0, &newTerm);

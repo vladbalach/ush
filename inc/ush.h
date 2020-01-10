@@ -11,6 +11,7 @@
 #include <sys/types.h>
 #include <pwd.h>
 #include <stdio.h>
+#include <sys/ioctl.h>
 
 #include "libmx.h"
 
