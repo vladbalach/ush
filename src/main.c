@@ -26,11 +26,11 @@ void mx_do_actions(char *str) {
 
 }
 
-static void del_list_sring(t_list **comands) {
+static void del_list_sring(t_list **history) {
     t_list *comand = NULL;
 
-    if (comands != 0 && *comands != 0) {
-        comand = *comands;
+    if (history != 0 && *history != 0) {
+        comand = *history;
         while (comand != 0) {
             free(comand->data);
             comand = comand->next;
@@ -40,16 +40,16 @@ static void del_list_sring(t_list **comands) {
 
 int main(int argc, char *argv[], char *envp[]) {
     bool str = 1;
-    t_list *comands = NULL;
+    t_list *history = NULL;
 
     while(str) {
-        if (comands) {
-            mx_parsing(comands->data);
-            mx_do_actions(comands->data);
+        if (history) {
+            mx_parsing(history->data);
+            mx_do_actions(history->data);
         }
-        str = mx_input(&comands);
+        str = mx_input(&history);
     }
-    del_list_sring(&comands);
+    del_list_sring(&history);
     system("leaks ush");
     return 0;
 }
