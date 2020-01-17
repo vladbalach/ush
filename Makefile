@@ -5,6 +5,7 @@ INC = inc/ush.h \
 	./libmx/libmx.a
 
 HEADTMP = ush.h\
+	libmx.h
 
 OBJ_DIR = ./obj/
 SRC_DIR = ./src/
@@ -13,7 +14,9 @@ SRC = main.c \
 	mx_cd.c \
 	mx_printstr_env.c \
 	mx_env.c mx_pwd.c mx_echo.c \
-	mx_export.c
+	mx_export.c \
+	mx_input.c \
+	out_monitor.c
 	
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC))

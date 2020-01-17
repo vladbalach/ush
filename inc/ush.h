@@ -56,7 +56,9 @@ void mx_pwd();
 void mx_echo(char **str);
 void mx_env(char *envp[]);
 void mx_export(const char *str, char **envp);
-
+bool mx_input(t_list **list_comands);
+void out_monitor(int position, char *str, int count, int ch);
+void clean_monitor(char *str, int *table, char *new_str);
 // 
 
 #endif
