@@ -5,7 +5,6 @@ INC = inc/ush.h \
 	./libmx/libmx.a
 
 HEADTMP = ush.h\
-	libmx.h
 
 OBJ_DIR = ./obj/
 SRC_DIR = ./src/
@@ -15,9 +14,18 @@ SRC = main.c \
 	mx_printstr_env.c \
 	mx_env.c mx_pwd.c mx_echo.c \
 	mx_export.c \
+	mx_parsing.c \
+	mx_init.c \
+	mx_insert_tree.c \
+	mx_create_tnode.c \
+	mx_delete_tnode.c \
+	mx_get_min_tnode.c \
+	mx_find_tnode.c \
+	mx_create_token.c \
+	mx_lexer.c \
 	mx_input.c \
-	out_monitor.c
-	
+	out_monitor.c \
+	mx_clear_tokens.c \
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC))
 

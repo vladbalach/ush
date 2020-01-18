@@ -15,6 +15,40 @@
 
 #include "libmx.h"
 
+// VARIABLES
+
+typedef struct s_variable {
+    char* name;
+    char* value;
+} t_variable;
+
+typedef struct s_tree_node {
+    struct s_tree_node *left;
+    struct s_tree_node *right;
+    void *data;
+} t_tnode;
+
+enum e_branch {
+    RIGHT,
+    LEFT
+};
+
+// AST
+
+enum e_type_of_token{
+    TYPE_OPERATOR,
+    TYPE_COMMAND,
+
+    TYPE_FILENAME,
+    TYPE_DESC_NUMB,
+};
+
+typedef struct s_token{
+    char type;
+    char *value;
+    int priority;
+} t_token;
+
 typedef struct s_programInfo {
     struct termios term_old;
     struct termios term_new;
@@ -48,6 +82,24 @@ enum e_keys{
     KEY_ENTER = 13
 };
 
+
+// tree
+void mx_insert_tree(t_tnode **root, t_tnode *new, 
+    int (*cmp)(void*, void*),
+    void (*free_)(void **)
+);
+t_tnode* mx_get_min_tnode(t_tnode *root);
+t_tnode *mx_create_tnode(void *data);
+void mx_delete_tnode(t_tnode **root, void *data, int (*cmp)(void*, void*));
+t_tnode *mx_find_tnode(t_tnode *root, void *data, int (*cmp)(void*, void*));
+
+t_token *mx_create_token(char type, char *value, int priority);
+void mx_clear_tokens(t_list **tokens);
+// 
+void mx_init();
+void mx_parsing(char *str);
+t_list *mx_lexer(char *str);
+
 typedef struct termios t_termios;
 //BUILT IN
 void mx_cd(char *str);
@@ -56,9 +108,12 @@ void mx_pwd();
 void mx_echo(char **str);
 void mx_env(char *envp[]);
 void mx_export(const char *str, char **envp);
+
+//
 bool mx_input(t_list **list_comands);
 void out_monitor(int position, char *str, int count, int ch);
 void clean_monitor(char *str, int *table, char *new_str);
+
 // 
 
 #endif
