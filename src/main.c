@@ -1,11 +1,5 @@
 #include "ush.h"
 
-
-
-void mx_do_actions(char *str) {
-
-}
-
 static void del_list_sring(t_list **history) {
     t_list *comand = NULL;
 
@@ -31,19 +25,39 @@ void printStrarr(char **strs) {
     }
 }
 
+unsigned int mx_mix_atoi(char *s){
+    unsigned int a = 0;
+    for(int i = 0; i < mx_strlen(s); i++){
+        a = a * 10 + (s[i] - '0');
+    }
+    return a;
+}
 
+static void test() {
+    char *str = getenv("SHLVL");
+    int i = 0;
+    char *temp = 0;
 
-int main(int argc, char *argv[], char *envp[]) {
-    bool    str         = 1;
-    t_list  *history    = NULL;
+    i = mx_mix_atoi(str);
+    temp = mx_itoa(++i);
+    str = mx_strjoin("SHLVL=", temp);
+    putenv(str);
+    free(temp);
+}
+
+int main(int argc, char *argv[], char **envp) {
+    bool str = 1;
+    t_list *history = NULL;
+    t_list *tokens = 0;
     char    **commands  = NULL;
     int     i = 0;
 
     mx_ush_init();
+
+    test();
     while(str) {
         if (history) {
-            mx_parsing(history->data);
-            mx_do_actions(history->data);
+            mx_parsing(history->data, envp);
         }
         str = mx_input(&history);
         // char *str2 = mx_strdup("cat -e | cat");
@@ -52,10 +66,13 @@ int main(int argc, char *argv[], char *envp[]) {
         mx_del_strarr(&commands);
         // printStrarr(commands);
         // printTokens(tokens);
+        // tokens = mx_lexer(str2);
+        // printTokens(tokens);
+        // mx_clear_tokens(&tokens);
     }
     del_list_sring(&history);
 
-    system("leaks ush");
+    // system("leaks ush");
     return 0;
 }
 

@@ -32,6 +32,7 @@ SRC = main.c \
 	mx_get_token_type.c \
 	mx_create_ast.c \
 	mx_syntax_analyzer.c \
+	Key_TAB.c \
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC))
 
