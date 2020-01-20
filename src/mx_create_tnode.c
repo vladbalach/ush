@@ -5,5 +5,6 @@ t_tnode *mx_create_tnode(void *data) {
     newNode->data = data;
     newNode->left = 0;
     newNode->right = 0;
+    newNode->parent = 0;
     return newNode;
 }

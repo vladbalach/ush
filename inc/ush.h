@@ -25,6 +25,8 @@ typedef struct s_variable {
 typedef struct s_tree_node {
     struct s_tree_node *left;
     struct s_tree_node *right;
+    struct s_tree_node *parent;
+    
     void *data;
 } t_tnode;
 
@@ -45,7 +47,7 @@ enum e_type_of_token{
 
 typedef struct s_token{
     char type;
-    char *value;
+    char **value;
     int priority;
 } t_token;
 
@@ -93,12 +95,16 @@ t_tnode *mx_create_tnode(void *data);
 void mx_delete_tnode(t_tnode **root, void *data, int (*cmp)(void*, void*));
 t_tnode *mx_find_tnode(t_tnode *root, void *data, int (*cmp)(void*, void*));
 
-t_token *mx_create_token(char type, char *value, int priority);
+t_token *mx_create_token(char type, char **value, int priority);
 void mx_clear_tokens(t_list **tokens);
+t_token* mx_get_next_token(int *start, int end, char *str);
+char mx_get_token_type(char *str);
 // 
-void mx_init();
+void mx_ush_init();
 void mx_parsing(char *str);
 t_list *mx_lexer(char *str);
+bool mx_syntax_analyzer(t_list *tokens);
+void mx_execute(char **commands);
 
 typedef struct termios t_termios;
 //BUILT IN
@@ -114,6 +120,11 @@ bool mx_input(t_list **list_comands);
 void out_monitor(int position, char *str, int count, int ch);
 void clean_monitor(char *str, int *table, char *new_str);
 
-// 
+// lexer
+bool mx_is_char(char c);
+
+// AST
+t_tnode* mx_create_ast(t_list* tokens);
+
 
 #endif

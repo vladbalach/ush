@@ -1,5 +1,10 @@
 #include "ush.h"
 
+void mx_segfault() {
+    mx_printerr("OOPS! SEGMENT FAULT\n");
+    exit(1);
+}
+
 static void init_var() {
     // int initCount = 10;
     
@@ -9,5 +14,6 @@ static void init_var() {
     // }
 }
 
-void mx_init() {
+void mx_ush_init() {
+    signal(SIGSEGV, mx_segfault);
 }

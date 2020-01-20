@@ -15,7 +15,7 @@ SRC = main.c \
 	mx_env.c mx_pwd.c mx_echo.c \
 	mx_export.c \
 	mx_parsing.c \
-	mx_init.c \
+	mx_ush_init.c \
 	mx_insert_tree.c \
 	mx_create_tnode.c \
 	mx_delete_tnode.c \
@@ -26,6 +26,12 @@ SRC = main.c \
 	mx_input.c \
 	out_monitor.c \
 	mx_clear_tokens.c \
+	mx_is_char.c \
+	mx_get_next_token.c \
+	mx_execute.c \
+	mx_get_token_type.c \
+	mx_create_ast.c \
+	mx_syntax_analyzer.c \
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC))
 

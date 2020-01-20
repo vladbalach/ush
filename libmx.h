@@ -56,6 +56,7 @@ char *mx_del_extra_spaces(const char *str);
 char **mx_strsplit(const char *s, char c);
 char *mx_strjoin(const char *s1, const char *s2);
 char *mx_strjoin2(char *s1, char *s2);
+char *mx_strjoin3(char *s1, char *s2);
 char *mx_file_to_str(const char *file);
 char *mx_replace_substr(const char *str, const char *sub, const char *replace);
 void *mx_memset(void *b, int c, size_t len);
@@ -75,6 +76,7 @@ void mx_pop_back(t_list **head);
 int mx_list_size(t_list *list);
 t_list *mx_sort_list(t_list *lst, bool (*cmp)(void *, void *));
 int mx_read_line(char **lineptr, int buf_size, char delim, const int fd);
+void mx_add_to_strarr(char ***strs, char *str);
 
 char *mx_get_user_home();
 char *mx_get_user_name();

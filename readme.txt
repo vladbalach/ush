@@ -8,3 +8,8 @@ ls -l /bin/usr 2> /dev/null
 ls /bin /usr/bin | sort | less
 echo *
 echo $((2 + 2))
+
+
+//
+Лексер - удаляет лишние пробелы
+Подставляет кавычки

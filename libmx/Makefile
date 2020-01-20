@@ -65,6 +65,8 @@ SRC = ./mx_printchar.c \
 	./mx_get_user_name.c \
 	./mx_get_user_home.c \
 	./mx_getchar.c \
+	./mx_strjoin3.c \
+	./mx_add_strarr.c \
 
 SRCS = ./src/mx_printchar.c \
 	./src/mx_strlen.c \
@@ -127,6 +129,8 @@ SRCS = ./src/mx_printchar.c \
 	./src/mx_get_user_name.c \
 	./src/mx_get_user_home.c \
 	./src/mx_getchar.c \
+	./src/mx_strjoin3.c \
+	./src/mx_add_strarr.c \
 
 OUT = mx_printchar.o \
 	mx_strlen.o \
@@ -188,7 +192,9 @@ OUT = mx_printchar.o \
 	mx_printerr.o \
 	mx_get_user_name.o \
 	mx_get_user_home.o \
-	mx_getchar.o
+	mx_getchar.o \
+	mx_strjoin3.o \
+	mx_add_strarr.o \
 
 OUT1 = ./obj/mx_printchar.o \
 	./obj/mx_strlen.o \
@@ -251,6 +257,8 @@ OUT1 = ./obj/mx_printchar.o \
 	./obj/mx_get_user_name.o \
 	./obj/mx_get_user_home.o \
 	./obj/mx_getchar.o \
+	./obj/mx_strjoin3.o \
+	./obj/mx_add_strarr.o \
 
 CFLSGS = -std=c11 -Wall -Wextra -Wpedantic -Werror 
 

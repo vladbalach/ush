@@ -18,31 +18,41 @@ static void del_list_sring(t_list **history) {
     }
 }
 
-void printTokens(t_list *tokens) {
-    t_list *tmp = tokens;
-    while(tmp) {
-        printf("%s\n",((t_token*)tmp->data)->value);
-        tmp = tmp->next;
+
+
+void printStrarr(char **strs) {
+    int i = 0;
+    
+    if (strs == 0)
+        return;
+    while(strs[i]) {
+        printf("str[%d]: |%s|\n", i, strs[i]);
+        i++;
     }
-    printf("\n\n");
 }
 
+
+
 int main(int argc, char *argv[], char *envp[]) {
-    bool str = 1;
-    t_list *history = NULL;
-    t_list *tokens = 0;
+    bool    str         = 1;
+    t_list  *history    = NULL;
+    char    **commands  = NULL;
+    int     i = 0;
+
+    mx_ush_init();
     while(str) {
         if (history) {
             mx_parsing(history->data);
             mx_do_actions(history->data);
         }
         str = mx_input(&history);
-        char *str2 = mx_strdup("cat -e | cat");
-        tokens = mx_lexer(str2);
-        printTokens(tokens);
-        mx_clear_tokens(&tokens);
+        // char *str2 = mx_strdup("cat -e | cat");
+        commands = mx_strsplit(history->data, ';');
+        mx_execute(commands);
+        mx_del_strarr(&commands);
+        // printStrarr(commands);
+        // printTokens(tokens);
     }
-
     del_list_sring(&history);
 
     system("leaks ush");
