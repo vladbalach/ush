@@ -26,6 +26,7 @@ SRC = main.c \
 	mx_input.c \
 	out_monitor.c \
 	mx_clear_tokens.c \
+	Key_TAB.c \
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC))
 

@@ -12,7 +12,7 @@
 #include <pwd.h>
 #include <stdio.h>
 #include <sys/ioctl.h>
-
+#include <dirent.h>
 #include "libmx.h"
 
 // VARIABLES
@@ -97,7 +97,9 @@ t_token *mx_create_token(char type, char *value, int priority);
 void mx_clear_tokens(t_list **tokens);
 // 
 void mx_init();
-void mx_parsing(char *str);
+void mx_parsing(char *str, char **envp);
+void mx_key_tab(char *parsing);
+void mx_print_Tab_comands(t_list *list_comand);
 t_list *mx_lexer(char *str);
 
 typedef struct termios t_termios;
