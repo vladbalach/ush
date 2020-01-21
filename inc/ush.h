@@ -14,6 +14,7 @@
 #include <sys/ioctl.h>
 #include <dirent.h>
 #include "libmx.h"
+#include <time.h>
 
 // VARIABLES
 
@@ -88,11 +89,11 @@ enum e_keys{
 // tree
 void mx_insert_tree(t_tnode **root, t_tnode *new, 
     int (*cmp)(void*, void*),
-    void (*free_)(void **)
+    void (*free_)(void *)
 );
 t_tnode* mx_get_min_tnode(t_tnode *root);
 t_tnode *mx_create_tnode(void *data);
-void mx_delete_tnode(t_tnode **root, void *data, int (*cmp)(void*, void*));
+void mx_delete_tnode(t_tnode **root, void *data, int (*cmp)(void*, void*), void (*free_tnode)(t_tnode *tnode));
 t_tnode *mx_find_tnode(t_tnode *root, void *data, int (*cmp)(void*, void*));
 
 t_token *mx_create_token(char type, char **value, int priority);
@@ -127,7 +128,11 @@ void clean_monitor(char *str, int *table, char *new_str);
 bool mx_is_char(char c);
 
 // AST
-t_tnode* mx_create_ast(t_list* tokens);
+t_tnode* mx_create_ast(t_list **tokens);
+void mx_delete_ast(t_tnode **root);
+
+//exec
+void mx_execute_tree(t_tnode *root);
 
 
 #endif

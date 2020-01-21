@@ -2,7 +2,7 @@
 
 void mx_insert_tree(t_tnode **root, t_tnode *new, 
     int (*cmp)(void*, void*),
-    void (*free_)(void **))
+    void (*free_)(void *))
 {
     if (*root == 0) {
         *root = new;
@@ -28,7 +28,7 @@ void mx_insert_tree(t_tnode **root, t_tnode *new,
         }
     }
     else { // equal
-        // free((*root)->data));
+        free_((*root)->data);
         (*root)->data = new->data;
     }
 }

@@ -16,18 +16,22 @@ void printTokens(t_list *tokens) {
         printf("\n");
 }
 
+
+
 /* execute all commands ony by one*/
 void mx_execute(char **commands) {
     t_list  *tokens  = NULL;
     t_tnode *rootAst = 0;
     int     i        = 0;
-
+    
     while(commands[i]) {
         tokens = mx_lexer(commands[i]);
-        // if (mx_syntax_analyzer(tokens)) {
-        //     // rootAst = mx_create_ast(tokens);
-        //     // printf("O : %s\n", ((t_token*)rootAst->right->data)->value);
-        // }
+        if (mx_syntax_analyzer(tokens)) {
+            rootAst = mx_create_ast(&tokens);  
+            mx_execute_tree(rootAst);
+            mx_delete_ast(&rootAst);
+        }
+        
         printTokens(tokens);
         mx_clear_tokens(&tokens);
         i++;

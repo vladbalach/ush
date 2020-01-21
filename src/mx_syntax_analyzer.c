@@ -10,6 +10,8 @@ bool mx_syntax_analyzer(t_list *tokens) {
     t_list *tmp = tokens;
     bool op = 0;
 
+    if (tokens == 0)
+        return true;
     if (((t_token*)tmp->data)->type ==  TYPE_OPERATOR) {
         print_err_msg(((t_token*)tmp->data)->value[0]);
         return false;

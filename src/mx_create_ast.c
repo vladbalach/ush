@@ -1,57 +1,71 @@
 #include "ush.h"
-
+// SIGFAULT
 static t_list* find_max_priority(t_list* tokens) {
     t_list *tmp = tokens;
     t_list* maxNode = tmp;
+
     if (tmp == 0)
         return 0;
     int maxPriority = ((t_token*)tmp->data)->priority;
-    printf("PRIORITET:");
     while (tmp) {
-        printf("%d ", ((t_token*)tmp->data)->priority);
         if (((t_token*)tmp->data)->priority > maxPriority) {
             maxPriority = ((t_token*)tmp->data)->priority;
             maxNode = tmp;
         }
         tmp = tmp->next;
     }
-    printf("\n");
+    if (maxNode == 0)
+        return 0;
+    
     return maxNode;
 }
 
-static void delete_max_from_list(t_list **tokens, t_list *maxToken) {
+t_list* del_token(t_list **tokens, t_list *max) {
     t_list *tmp = *tokens;
-    if (tmp == 0)
-        return;
-    if (tmp == maxToken) {
+    t_list *next = 0;
+
+    if (*tokens == max) {
+        next = (*tokens)->next;
+        free(*tokens);
         *tokens = 0;
-        return;
     }
     while (tmp->next) {
-        if (tmp->next == maxToken) {
+        if (strcmp(((t_token*)tmp->next->data)->value[0], 
+                    ((t_token*)max->data)->value[0]) == 0) {
+            next = tmp->next->next;
+            free(tmp->next);
             tmp->next = 0;
             break;
         }
-        tmp = tmp->next; 
+        tmp = tmp->next;
     }
+    return next;
 }
 
-t_tnode* mx_create_ast(t_list* tokens) {
-    // sleep(1);
-    t_tnode *root = 0;
-    t_list *maxToken = find_max_priority(tokens);
-    t_list *newStart = 0;
-    if (maxToken == 0)
-        return 0;
-    root = (t_tnode*) malloc (sizeof(t_tnode));
-    newStart = maxToken->next;
-    root->data = maxToken;
-    delete_max_from_list(&tokens, maxToken);
-    
-    if (tokens != 0)
+t_tnode* mx_create_ast(t_list** tokens) {
+    t_list *max = find_max_priority(*tokens);
+    t_list *tmp = *tokens;
+    t_tnode *root = mx_create_tnode(max->data);
+   
+    t_list *next = del_token(tokens, max);
+    while (tmp) {
+        // printf("TOK = %s\n", ((t_token*)tmp->data)->value[0]);
+        tmp = tmp->next;
+    }
+
+    tmp = next;
+    while (tmp) {
+        // printf("NEXT = %s\n", ((t_token*)tmp->data)->value[0]);
+        tmp = tmp->next;
+    }
+
+    if (next != 0) {
+        //  printf("right ");
+        root->right = mx_create_ast(&next);
+    }
+    if (*tokens != 0) {
+        // printf("left ");
         root->left = mx_create_ast(tokens);
-    if (newStart != 0)
-        root->right = mx_create_ast(newStart);
-    
+    }
     return root;
 }

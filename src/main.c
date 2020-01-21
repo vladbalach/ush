@@ -45,6 +45,23 @@ static void test() {
     free(temp);
 }
 
+void free_insert(void *ptr) {
+    free(ptr);
+}
+
+int cmp(void* a, void* b) {
+    return strcmp(a, b);
+}
+
+int cmp_del(void* a, void* b) {
+    return strcmp(a, b);
+}
+
+void free_delete(t_tnode *ptr) {
+    free(ptr->data);
+    free(ptr);
+}
+
 int main(int argc, char *argv[], char **envp) {
     bool str = 1;
     t_list *history = NULL;
@@ -60,19 +77,13 @@ int main(int argc, char *argv[], char **envp) {
             mx_parsing(history->data, envp);
         }
         str = mx_input(&history);
-        // char *str2 = mx_strdup("cat -e | cat");
         commands = mx_strsplit(history->data, ';');
         mx_execute(commands);
         mx_del_strarr(&commands);
-        // printStrarr(commands);
-        // printTokens(tokens);
-        // tokens = mx_lexer(str2);
-        // printTokens(tokens);
-        // mx_clear_tokens(&tokens);
     }
     del_list_sring(&history);
-
-    // system("leaks ush");
+    mx_del_strarr(&commands);
+    system("leaks ush");
     return 0;
 }
 
