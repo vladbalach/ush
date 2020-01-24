@@ -20,8 +20,6 @@ void printTokens(t_list *tokens) {
     }
 }
 
-
-
 /* execute all commands ony by one*/
 void mx_execute(char **commands) {
     t_list  *tokens  = NULL;

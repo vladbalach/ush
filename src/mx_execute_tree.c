@@ -22,50 +22,30 @@ bool check_dir(char *dirname, char *filename) {
     return false;
 }
 
-/* if no file return 0*/
-char* mx_return_dirname(char *name) {
-    if (check_dir("/bin/", name))
-        return mx_strdup("/bin/");
-    else if(check_dir("/usr/local/bin/", name))
-        return mx_strdup("/usr/local/bin/");
-        else if(check_dir("/usr/bin/", name))
-        return mx_strdup("/usr/bin/");
-    else if(check_dir("/usr/sbin/", name))
-        return mx_strdup("/usr/sbin/");
-    else if(check_dir("/sbin/", name))
-        return mx_strdup("/sbin/");
-    else if(check_dir("/usr/local/munki/", name))
-        return mx_strdup("/usr/local/munki/");
-    else 
-        return 0;
-}
 
-void execute_proces(t_token* token, char *from_dir) {
-    char *name = mx_strjoin(from_dir,token->value[0]);
+
+void execute_proces(t_token* token) {
     char **argv = 0;
     char *newArg = 0;
-    int i = 1;
+    int i = 0;
     int status = 0;
 
-    mx_add_to_strarr(&argv, name);
     while (token->value[i]) {
         mx_add_to_strarr(&argv, token->value[i]);
         i++;
     }
-    if (execv(name,argv) == -1) {
-        mx_printerr("Execute error: ");
-        mx_printerr(strerror(errno));
-        mx_printerr(" ");
+    mx_add_to_strarr(&argv, token->value[i]);
+
+    if (execvp(argv[0], argv) == -1) {
+        mx_printerr("u$h: command not found: ");
         mx_printerr(token->value[0]);
         mx_printerr("\n");
         mx_del_strarr(&(token->value));
-        free(name);
         exit(1);
     }
 }
 
 static void exec_token(t_token* token, int *fds, char pipe_status) {
-    char *dirname = mx_return_dirname(token->value[0]);
     pid_t pid = fork();
 
         if (pid == -1) {        // error
@@ -78,10 +58,9 @@ static void exec_token(t_token* token, int *fds, char pipe_status) {
                 dup2(fds[0], 0);
             if (pipe_status & PIPE_W)
                 dup2(fds[1], 1);
-            execute_proces(token, dirname);
+            execute_proces(token);
         }
         else {                  // parent
-            free(dirname);
             wait(0);
         }
 }

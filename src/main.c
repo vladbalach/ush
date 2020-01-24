@@ -107,7 +107,6 @@ int main(int argc, char *argv[], char **envp) {
 
     bool str = 1;
     t_list *history = NULL;
-    t_list *tokens = 0;
     char    **commands  = NULL;
     int     i = 0;
 
@@ -116,13 +115,12 @@ int main(int argc, char *argv[], char **envp) {
     test();
     while(str) {
         if (history) {
-            mx_parsing(history->data, envp);
+            // mx_parsing(history->data, envp);
             commands = mx_strsplit(history->data, ';');
             mx_execute(commands);
             mx_del_strarr(&commands);
         }
         str = mx_input(&history);
-        
         
     }
     del_list_sring(&history);
