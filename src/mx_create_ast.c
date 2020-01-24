@@ -42,12 +42,14 @@ t_list* del_token(t_list **tokens, t_list *max) {
     return next;
 }
 
-t_tnode* mx_create_ast(t_list** tokens) {
+t_tnode* mx_create_ast(t_list** tokens, t_tnode *prev) {
     t_list *max = find_max_priority(*tokens);
     t_list *tmp = *tokens;
     t_tnode *root = mx_create_tnode(max->data);
-   
     t_list *next = del_token(tokens, max);
+
+    root->parent = prev;
+    
     while (tmp) {
         // printf("TOK = %s\n", ((t_token*)tmp->data)->value[0]);
         tmp = tmp->next;
@@ -61,11 +63,11 @@ t_tnode* mx_create_ast(t_list** tokens) {
 
     if (next != 0) {
         //  printf("right ");
-        root->right = mx_create_ast(&next);
+        root->right = mx_create_ast(&next, root);
     }
     if (*tokens != 0) {
         // printf("left ");
-        root->left = mx_create_ast(tokens);
+        root->left = mx_create_ast(tokens, root);
     }
     return root;
 }

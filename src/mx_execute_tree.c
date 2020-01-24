@@ -15,7 +15,6 @@ bool check_dir(char *dirname, char *filename) {
         while ((dirnode = readdir(dir)))
             if (mx_strcmp(dirnode->d_name, filename) == 0) {
                 closedir(dir);
-                printf("TRUE\n");
                 return true;
             }
     }
@@ -54,52 +53,65 @@ void execute_proces(t_token* token, char *from_dir) {
         i++;
     }
     if (execv(name,argv) == -1) {
+        mx_printerr("Execute error: ");
         mx_printerr(strerror(errno));
         mx_printerr(" ");
         mx_printerr(token->value[0]);
         mx_printerr("\n");
+        mx_del_strarr(&(token->value));
+        free(name);
+        exit(1);
     }
-    mx_del_strarr(&(token->value));
-    free(name);
 }
 
-void mx_execute_tree(t_tnode *root) {
-    int fds[2];
-    char *value = ((t_token*)root->data)->value[0];
-    pid_t pid = 0;
-    
-    if (mx_strcmp(value, "|") == 0) {
-        pipe(fds);
-        pid = fork();
-        if (pid == 0) {
-            close(1);
-            dup(fds[1]);
-            char *dir = mx_return_dirname(((t_token*)(root->left->data))->value[0]);
-            execute_proces((t_token*)root->left->data, dir);
-        }
-        else {
-            wait(0);
-            pid = fork();
-            if (pid == 0) {
-                close(0);
-                dup(fds[0]);
-                char *dir = mx_return_dirname(((t_token*)root->right->data)->value[0]);
-                execute_proces((t_token*)root->right->data, dir);
-            }
-            else 
-                wait(0);
-        }
-            
-    }
-    else{
-        char *dirname = mx_return_dirname(((t_token*)root->data)->value[0]);
-        pid_t pid = 0;
+static void exec_token(t_token* token, int *fds, char pipe_status) {
+    char *dirname = mx_return_dirname(token->value[0]);
+    pid_t pid = fork();
 
-        pid = fork();
-        if (pid == 0)
-            execute_proces((t_token*)root->data, dirname);
-        else
+        if (pid == -1) {        // error
+            mx_printerr("fork error: ");
+            mx_printerr(strerror(errno));
+            return;
+        }
+        else if (pid == 0) {    // child
+            if (pipe_status & PIPE_R)
+                dup2(fds[0], 0);
+            if (pipe_status & PIPE_W)
+                dup2(fds[1], 1);
+            execute_proces(token, dirname);
+        }
+        else {                  // parent
+            free(dirname);
             wait(0);
-        free(dirname);
+        }
+}
+
+void mx_pipe_execute(t_tnode *root, int *fds, char pipe_status) {
+    if (pipe_status == PIPE_R) { // if pipe and status == read
+        mx_execute_tree(root->left, fds, PIPE_RW);
+        mx_execute_tree(root->right, fds, PIPE_R);
     }
+    else if (pipe_status == PIPE_NOTHING) {
+        mx_execute_tree(root->left, fds, PIPE_W);
+        mx_execute_tree(root->right, fds, PIPE_R);
+    }
+}
+
+void mx_execute_tree(t_tnode *root, int *fds, char pipeStatus) {
+    if (root == 0)
+        return;
+    char *cmd = ((t_token*)root->data)->value[0];
+    if (((t_token*)root->data)->type == TYPE_COMMAND) {
+        exec_token((t_token*)root->data, fds, pipeStatus);
+    }
+    else if (mx_strcmp(((t_token*)root->data)->value[0], "|") == 0) {
+        mx_pipe_execute(root, fds, pipeStatus);
+    }
+    else if (mx_strcmp(((t_token*)root->data)->value[0], ">") == 0) {
+        mx_pipe_execute(root, fds, pipeStatus);
+    }
+    else {
+       printf("ELSE\n"); 
+    }
+
 }

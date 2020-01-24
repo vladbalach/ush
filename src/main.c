@@ -63,6 +63,48 @@ void free_delete(t_tnode *ptr) {
 }
 
 int main(int argc, char *argv[], char **envp) {
+    // int fds[2];
+    // pipe(fds);
+    // pid_t pid = fork();
+
+    // if (pid == 0) {
+    //     write(fds[1], "Helloow", 8);
+    //     write(fds[1], " World", 7);
+    //     char buff[100];
+    //     int fd = open("1.txt", O_RDWR);
+    //     off_t lseek0 = lseek(fds[0], 0, SEEK_CUR);
+
+    //     printf("lseek0 = %lld\n", lseek0);
+    //     off_t lseek1 = lseek(0, 0, SEEK_CUR);
+    //     printf("lseek1 = %lld\n", lseek1);
+    //     // mx_printerr(strerror(errno));
+    //     int c = read(fds[0], buff, 2);
+
+    //     // mx_printerr(strerror(errno));
+    //     // if(fork() == 0) {
+    //     //     char buff[100];
+    //     //     int c = read(fds[0], buff, 2);
+    //     //     write(1, "1: ",4);
+    //     //     write(1, buff, c);
+    //     // }
+    //     // else 
+    //     // {
+    //     //     pid = fork();
+    //     //     if(pid == 0) {
+    //     //         char buff[100];
+    //     //         int c = read(fds[0], buff, 2);
+    //     //         write(1, "1: ",4);
+    //     //         write(1, buff, c);
+    //     //     }
+    //     //     else if (pid == -1) {
+    //     //         printf("Error!\n");
+    //     //     }
+    //     // }
+    // }
+    // else {
+    //     wait(0);
+    // }
+
     bool str = 1;
     t_list *history = NULL;
     t_list *tokens = 0;
@@ -75,11 +117,13 @@ int main(int argc, char *argv[], char **envp) {
     while(str) {
         if (history) {
             mx_parsing(history->data, envp);
+            commands = mx_strsplit(history->data, ';');
+            mx_execute(commands);
+            mx_del_strarr(&commands);
         }
         str = mx_input(&history);
-        commands = mx_strsplit(history->data, ';');
-        mx_execute(commands);
-        mx_del_strarr(&commands);
+        
+        
     }
     del_list_sring(&history);
     mx_del_strarr(&commands);
