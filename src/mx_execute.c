@@ -37,7 +37,7 @@ void mx_execute(char **commands) {
             close(fds[0]);
             close(fds[1]);
         }
-        printTokens(tokens);
+        // printTokens(tokens);
         mx_clear_tokens(&tokens);
         i++;
     }

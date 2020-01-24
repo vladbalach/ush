@@ -35,7 +35,6 @@ void execute_proces(t_token* token) {
         i++;
     }
     mx_add_to_strarr(&argv, token->value[i]);
-
     if (execvp(argv[0], argv) == -1) {
         mx_printerr("u$h: command not found: ");
         mx_printerr(token->value[0]);
@@ -46,6 +45,7 @@ void execute_proces(t_token* token) {
 }
 
 static void exec_token(t_token* token, int *fds, char pipe_status) {
+   
     pid_t pid = fork();
 
         if (pid == -1) {        // error
@@ -54,9 +54,9 @@ static void exec_token(t_token* token, int *fds, char pipe_status) {
             return;
         }
         else if (pid == 0) {    // child
-            if (pipe_status & PIPE_R)
+            if (pipe_status & OP_PIPE_R)
                 dup2(fds[0], 0);
-            if (pipe_status & PIPE_W)
+            if (pipe_status & OP_PIPE_W)
                 dup2(fds[1], 1);
             execute_proces(token);
         }
@@ -65,29 +65,36 @@ static void exec_token(t_token* token, int *fds, char pipe_status) {
         }
 }
 
-void mx_pipe_execute(t_tnode *root, int *fds, char pipe_status) {
-    if (pipe_status == PIPE_R) { // if pipe and status == read
-        mx_execute_tree(root->left, fds, PIPE_RW);
-        mx_execute_tree(root->right, fds, PIPE_R);
+
+
+void mx_pipe_execute(t_tnode *root, int *fds, char operatorStatus) {
+    if (operatorStatus & OP_PIPE_R) { // if pipe and status == read
+        operatorStatus &= 252; // zeroed pipes
+        mx_execute_tree(root->left, fds, operatorStatus | OP_PIPE_RW);
+        mx_execute_tree(root->right, fds, operatorStatus | OP_PIPE_R);
     }
-    else if (pipe_status == PIPE_NOTHING) {
-        mx_execute_tree(root->left, fds, PIPE_W);
-        mx_execute_tree(root->right, fds, PIPE_R);
+    else if ((operatorStatus & 252) == 0) { // If no pipes
+        operatorStatus &= 252;
+        mx_execute_tree(root->left, fds, operatorStatus | OP_PIPE_W);
+        mx_execute_tree(root->right, fds, operatorStatus | OP_PIPE_R);
     }
 }
 
-void mx_execute_tree(t_tnode *root, int *fds, char pipeStatus) {
+void mx_execute_tree(t_tnode *root, int *fds, char operatorStatus) {
     if (root == 0)
         return;
     char *cmd = ((t_token*)root->data)->value[0];
     if (((t_token*)root->data)->type == TYPE_COMMAND) {
-        exec_token((t_token*)root->data, fds, pipeStatus);
+        exec_token((t_token*)root->data, fds, operatorStatus);
     }
     else if (mx_strcmp(((t_token*)root->data)->value[0], "|") == 0) {
-        mx_pipe_execute(root, fds, pipeStatus);
+        mx_pipe_execute(root, fds, operatorStatus);
     }
     else if (mx_strcmp(((t_token*)root->data)->value[0], ">") == 0) {
-        mx_pipe_execute(root, fds, pipeStatus);
+        mx_exec_more(root, fds, operatorStatus | OP_MORE);
+    }
+    else if (mx_strcmp(((t_token*)root->data)->value[0], ">>") == 0) {
+        mx_exec_more(root, fds, operatorStatus | OP_DMORE);
     }
     else {
        printf("ELSE\n"); 

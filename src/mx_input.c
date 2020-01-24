@@ -170,7 +170,7 @@ bool mx_input(t_list **list) {
     int *table;
     char **comands = creat_comands(list, &mx_strdup, &table);
 
-    mx_printstr("u$h = ");
+    mx_printstr("u$h: ");
     while (1) {
         if ((ch = mx_getchar()) == 0)
             mx_printerr("uSh: some troubeles with input!\n");
@@ -225,4 +225,5 @@ bool mx_input(t_list **list) {
             out_monitor(table[3], comands[table[0]], table[2], ch);
         // mx_printstr("1");
     }
+    
 }

@@ -35,6 +35,7 @@ SRC = main.c \
 	Key_TAB.c \
 	mx_delete_ast.c \
 	mx_execute_tree.c \
+	mx_exec_more.c \
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC))
 

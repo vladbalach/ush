@@ -15,6 +15,7 @@
 #include <dirent.h>
 #include "libmx.h"
 #include <time.h>
+#include <signal.h>
 
 // VARIABLES
 
@@ -36,11 +37,13 @@ enum e_branch {
     LEFT
 };
 
-enum e_pipe_status {
-    PIPE_NOTHING,
-    PIPE_R,
-    PIPE_W,
-    PIPE_RW
+enum e_operator_status {
+    OP_NOTHING,
+    OP_PIPE_R,
+    OP_PIPE_W,
+    OP_PIPE_RW,
+    OP_MORE = 4,
+    OP_DMORE = 8
 };
 
 // AST
@@ -140,6 +143,7 @@ void mx_delete_ast(t_tnode **root);
 
 //exec
 void mx_execute_tree(t_tnode *root, int *fds, char pipeStatus);
-
+void execute_proces(t_token* token);
+void mx_exec_more(t_tnode *root, int *fds, int operatorStatus);
 
 #endif
