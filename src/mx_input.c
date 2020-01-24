@@ -105,7 +105,7 @@ int mx_handleEvents(char ch) {
     return 0;
 }
 
-void one_symbol(char **str, char ch, int *count, int position) {
+static void one_symbol(char **str, char ch, int *count, int position) {
     int i = 0;
 
     if (ch == 127) {
@@ -141,6 +141,7 @@ static char **creat_comands(t_list **list_comands, char *(*creat)(const char *s)
     table_int[1] = mx_list_size(*list_comands);
     table_int[2] = 1;
     table_int[3] = 0;
+    table_int[5] = 0;
     *table = table_int;
     comands[0] = mx_strnew(0);
     comands[1] = NULL;
@@ -162,6 +163,7 @@ static char **creat_comands(t_list **list_comands, char *(*creat)(const char *s)
 /*         2 = sum letter in command       */ //count
 /*         3 = printing position           */ //position
 /*         4 = if ch < 32                  */
+/*         5 = position TAB                */
 /*******************************************/
 
 bool mx_input(t_list **list) {
@@ -169,11 +171,15 @@ bool mx_input(t_list **list) {
     char *chars = (char*)(&ch);
     int *table;
     char **comands = creat_comands(list, &mx_strdup, &table);
+    char **comand_tab = NULL; 
 
     mx_printstr("u$h = ");
     while (1) {
+        
         if ((ch = mx_getchar()) == 0)
             mx_printerr("uSh: some troubeles with input!\n");
+        if (table[4] == 9 && ch != 9)
+            mx_del_strarr(&comand_tab);
         if (ch > 127) { // 2-4 symbols
             if (chars[0] == 27 /*&& chars[2] > 64 && chars[2] < 69*/)
                 escape_sequences(chars, table, comands);
@@ -187,10 +193,14 @@ bool mx_input(t_list **list) {
         }
         else { // 1 symbol
             if (ch < 32) {
-                if (table[4] != 9 && ch == 9)
-                    mx_key_tab(mx_strndup(comands[*table],table[2] - table[3] - 1));
-                // if (table[4] == 9 && ch == 9)
-                //     key_tab_end_tab();
+                if (table[4] != 9 && ch == 9) {
+                    clean_monitor(comands[*table], table, comands[*table]);
+                    write(1, "\n", 1);
+                    comand_tab = mx_key_tab(mx_strndup(comands[*table],table[2] - table[3] - 1));
+                    table[5] = 0;
+                }
+                if (table[4] == 9 && ch == 9)
+                    mx_key_duble_tab(&comands[table[0]], comand_tab, table);
                 table[4] = mx_handleEvents(ch);
                 if (table[4] == -1) { // CTRL_C | Z
                     free(table);
