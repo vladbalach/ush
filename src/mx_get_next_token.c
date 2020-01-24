@@ -10,7 +10,7 @@ static void set_current_pos(int *currPos, char c, char *str) {
 }
 
 static bool is_operator(char c) {
-    if (c == '|' || c == '&' || c == '>' || c == '<') 
+    if (c == '|' || c == '&' || c == '>' || c == '<')
         return true;
     return false;
 }
@@ -31,7 +31,7 @@ static int get_token_priority(char *str) {
         return 3;
     else if (str[0] == '>' || str[0] == '<' )
         return 2;
-    else 
+    else
         return 1;
 }
 

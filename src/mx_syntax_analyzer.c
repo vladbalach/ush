@@ -11,12 +11,12 @@ bool mx_syntax_analyzer(t_list *tokens) {
     bool op = 0;
 
     if (tokens == 0)
-        return true;
+        return false;
     if (((t_token*)tmp->data)->type ==  TYPE_OPERATOR) {
         print_err_msg(((t_token*)tmp->data)->value[0]);
         return false;
     }
-    while(tmp) {
+    while(tmp->next) {
         if (((t_token*)tmp->data)->type == TYPE_OPERATOR) {
             if (op) {
                 print_err_msg(((t_token*)tmp->data)->value[0]);
@@ -31,6 +31,10 @@ bool mx_syntax_analyzer(t_list *tokens) {
             return false;
         }
         tmp = tmp->next;
+    }
+    if (((t_token*)tmp->data)->type ==  TYPE_OPERATOR) {
+        print_err_msg(((t_token*)tmp->data)->value[0]);
+        return false;
     }
     return true;
 }

@@ -36,6 +36,13 @@ enum e_branch {
     LEFT
 };
 
+enum e_pipe_status {
+    PIPE_NOTHING,
+    PIPE_R,
+    PIPE_W,
+    PIPE_RW
+};
+
 // AST
 
 enum e_type_of_token{
@@ -129,11 +136,11 @@ void clean_monitor(char *str, int *table, char *new_str);
 bool mx_is_char(char c);
 
 // AST
-t_tnode* mx_create_ast(t_list **tokens);
+t_tnode* mx_create_ast(t_list** tokens, t_tnode *prev);
 void mx_delete_ast(t_tnode **root);
 
 //exec
-void mx_execute_tree(t_tnode *root);
+void mx_execute_tree(t_tnode *root, int *fds, char pipeStatus);
 
 
 #endif
