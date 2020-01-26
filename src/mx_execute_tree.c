@@ -9,10 +9,16 @@ void mx_pipe_execute(t_tnode *root, int *fds, char operatorStatus) {
         operatorStatus &= 252;
         fdsBuff[0] = 0;
         fdsBuff[1] = newFds[1];
-        mx_execute_tree(root->left, fdsBuff, operatorStatus | OP_PIPE_W);
+        if ((operatorStatus & LEFT_VISITED) == 0) {
+            operatorStatus &= 63;
+            mx_execute_tree(root->left, fdsBuff, operatorStatus | OP_PIPE_W);
+        }
         fdsBuff[0] = newFds[0];
         fdsBuff[1] = 1;
-        mx_execute_tree(root->right, fdsBuff, operatorStatus | OP_PIPE_R);
+        if ((operatorStatus & RIGHT_VISITED) == 0) {
+            operatorStatus &= 63;
+            mx_execute_tree(root->right, fdsBuff, operatorStatus | OP_PIPE_R);
+        }
     }
     if (operatorStatus & OP_PIPE_R) {
         operatorStatus &= 252;
