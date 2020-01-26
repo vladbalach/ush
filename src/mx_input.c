@@ -177,7 +177,7 @@ bool mx_input(t_list **list) {
     while (1) {
         
         if ((ch = mx_getchar()) == 0)
-            mx_printerr("uSh: some troubeles with input!\n");
+            mx_printerr("uSh: some troubeles with input!\n");\
         if (table[4] == 9 && ch != 9)
             mx_del_strarr(&comand_tab);
         if (ch > 127) { // 2-4 symbols

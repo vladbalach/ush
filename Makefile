@@ -36,6 +36,10 @@ SRC = main.c \
 	mx_delete_ast.c \
 	mx_execute_tree.c \
 	mx_exec_more.c \
+	mx_exec_less.c \
+	mx_exec_token.c \
+	mx_execute_proces.c \
+	mx_write_from_to.c \
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC))
 

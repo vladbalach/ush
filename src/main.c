@@ -119,9 +119,32 @@ int main(int argc, char *argv[], char **envp) {
             commands = mx_strsplit(history->data, ';');
             mx_execute(commands);
             mx_del_strarr(&commands);
+
+            // char *firstArgs[] =  {"/bin/cat", "1",0};
+            // char *secondArgs[] =  {"/bin/cat", 0};
+            // int fds[2];
+
+            // pipe(fds);
+            // pid_t pid = fork();
+            // if (pid == 0) {
+            //     close(1);
+            //     dup(fds[1]);
+            //     close(fds[1]);
+            //     execv("/bin/cat", firstArgs);
+            // }
+            // else {
+            //     wait(0);
+            //     close(fds[1]);
+            //     pid = fork();
+            //     if (pid == 0) { 
+            //         close(0);
+            //         dup(fds[0]);
+            //         execv("/bin/cat", secondArgs);
+            //     }
+            // }
+            // wait(0);
         }
         str = mx_input(&history);
-        
     }
     del_list_sring(&history);
     mx_del_strarr(&commands);

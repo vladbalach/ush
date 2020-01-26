@@ -43,7 +43,10 @@ enum e_operator_status {
     OP_PIPE_W,
     OP_PIPE_RW,
     OP_MORE = 4,
-    OP_DMORE = 8
+    OP_DMORE = 8,
+    OP_LESS = 16,
+    LEFT_VISITED = 128,
+    RIGHT_VISITED = 64
 };
 
 // AST
@@ -121,11 +124,12 @@ t_list *mx_lexer(char *str);
 bool mx_syntax_analyzer(t_list *tokens);
 void mx_execute(char **commands);
 
+void mx_write_from_to(int from , int to, off_t start);
 typedef struct termios t_termios;
 //BUILT IN
-void mx_cd(char *str);
+void mx_cd(char *str[]);
 void mx_printstr_env(char *str);
-void mx_pwd();
+void mx_pwd(char *str);
 void mx_echo(char **str);
 void mx_env(char *envp[]);
 void mx_export(const char *str, char **envp);
@@ -144,7 +148,8 @@ void mx_delete_ast(t_tnode **root);
 
 //exec
 void mx_execute_tree(t_tnode *root, int *fds, char pipeStatus);
-void execute_proces(t_token* token);
 void mx_exec_more(t_tnode *root, int *fds, int operatorStatus);
-
+void mx_exec_token(t_token* token, int *fds, char pipe_status);
+void mx_exec_less(t_tnode *root, int *fds, char operatorStatus);
+void mx_execute_proces(t_token* token);
 #endif

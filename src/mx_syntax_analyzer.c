@@ -35,7 +35,20 @@ static bool is_double_more(t_list *tmp) {
     if ((mx_strcmp(value, ">") == 0) || (mx_strcmp(value, ">>") == 0)) {
         if ((tmp->next) && (tmp->next->next) 
             && ((mx_strcmp(((t_token*)tmp->next->next->data)->value[0], ">") == 0
-            || mx_strcmp(((t_token*)tmp->next->next->data)->value[0], ">>") == 0))) {
+            || mx_strcmp(((t_token*)tmp->next->next->data)->value[0], ">>") == 0
+            || mx_strcmp(((t_token*)tmp->next->next->data)->value[0], "<") == 0))) {
+                print_err_msg(value);
+                return true;
+        }
+    }
+    return false;
+}
+
+static bool is_double_less(t_list *tmp) {
+    char *value = ((t_token*)tmp->data)->value[0];
+    if (mx_strcmp(value, "<") == 0) {
+        if ((tmp->next) && (tmp->next->next) 
+            && (mx_strcmp(((t_token*)tmp->next->next->data)->value[0], "<") == 0)) {
                 print_err_msg(value);
                 return true;
         }
@@ -55,6 +68,8 @@ bool mx_syntax_analyzer(t_list *tokens) {
         if (is_double_op(tmp, &op))
             return false;
         if (is_double_more(tmp))
+            return false;
+        if (is_double_less(tmp))
             return false;
         tmp = tmp->next;
     }
