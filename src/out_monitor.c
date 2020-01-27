@@ -56,7 +56,7 @@ void mx_clean_monitor(char *str, int *table, char *new_str) {
     }
     write(1,"\r",1);
     mx_print_esc("J");
-    mx_printstr("u$h> ");
+    mx_printstr(HISTORY_STRING);
     mx_printstr(new_str);
-    mx_printstr(" \n");
+    mx_printstr(" \x1b[0m\n");
 }

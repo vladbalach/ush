@@ -17,6 +17,9 @@
 #include <time.h>
 #include <signal.h>
 
+// #define HISTORY_STRING "\x1b[38;2;2;2;2mu$h> \x1b[0m\x1b[33m"
+#define HISTORY_STRING "\x1b[38;5;243mu$h> \x1b[38;5;68m"
+#define MAIN_STRING "\x1b[31;1mu$h> \x1b[0m"
 // VARIABLES
 
 typedef struct s_variable {

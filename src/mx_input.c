@@ -87,18 +87,18 @@ static void mx_ctrl_R(char *name, char **comands, int *table){
 
 static void special_symbols(char **comands, int *table, unsigned int ch, char ***comand_tab) {
     if (table[4] != 9 && ch == 9) {
-        mx_clean_monitor_new("u$h> ", table[2], table[3], comands[table[0]]);
+        mx_clean_monitor_new("\x1b[34mu$h> \x1b[0m", table[2], table[3], comands[table[0]]);
         *comand_tab = mx_key_tab(mx_strndup(comands[*table],table[2] - table[3] - 1), table, &comands[table[0]]);
         table[5] = 0;
     }
     if (table[4] == 9 && ch == 9) {
-        mx_clean_monitor_new("u$h> ", table[2], table[3], comands[table[0]]);
+        mx_clean_monitor_new("\x1b[34mu$h> \x1b[0m", table[2], table[3], comands[table[0]]);
         mx_key_duble_tab(&comands[table[0]], *comand_tab, table);
     }
         table[4] = mx_handleEvents(ch);
     if (table[4] == 18) {
-        mx_clean_monitor_new("u$h> ", table[2], table[3], comands[table[0]]);
-        mx_ctrl_R("u$h> ", comands, table);
+        mx_clean_monitor_new("\x1b[34mu$h> \x1b[0m", table[2], table[3], comands[table[0]]);
+        mx_ctrl_R("\x1b[34mu$h> \x1b[0m", comands, table);
     }
 }
 
@@ -110,7 +110,7 @@ int mx_input(t_list **list) {
     int *table;
     char **comands = creat_comands(list, &mx_strdup, &table);
     char **comand_tab = NULL; 
-    char *name = "u$h> ";
+    char *name = MAIN_STRING;
 
     while (1) {
         if (chars[2] != 10)
