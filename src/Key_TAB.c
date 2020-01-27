@@ -6,6 +6,7 @@ static bool cmp_str_min_max(void *str1, void *str2) {
     else 
         return 0;
 }
+
 static bool comands(char temp) {
     if (temp == '\r'|| temp == '|' || temp == '&')
         return 1;
@@ -28,11 +29,12 @@ static char *direct(char *parsing) {
 
 static void add_comand(t_list **list_comand, char *parsing) {
     DIR *dir = 0;
-    // static char *comand[] = {"./", "/", 0};
+    static char *comand[] = {"history", "/", 0};
     char *temp = 0;
     struct dirent *entry;
     char *directori = direct(parsing);
     int i = 1;
+
     if (mx_strcmp2("./", directori) == 0)
         i = 1;
     else
@@ -47,12 +49,12 @@ static void add_comand(t_list **list_comand, char *parsing) {
         closedir(dir);
     }
     free(directori);
-    // for (int i = 0; comand[i]; i++) {
-    //     if (mx_strcmp2(comand[i],&parsing[1]) == 0) {
-    //         temp = mx_strdup(comand[i]);
-    //         mx_push_front(list_comand, temp);
-    //     }
-    // }
+    for (i = 0; comands(parsing[0]) != 0 && comand[i]; i++) {
+        if (mx_strcmp2(comand[i],&parsing[1]) == 0) {
+            temp = mx_strdup(comand[i]);
+            mx_push_front(list_comand, temp);
+        }
+    }
 }
 
 

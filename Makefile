@@ -43,6 +43,8 @@ SRC = main.c \
 	mx_exec_token.c \
 	mx_execute_proces.c \
 	mx_write_from_to.c \
+	mx_print_Tab_comands.c \
+	mx_key_delite.c \
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC))
 
