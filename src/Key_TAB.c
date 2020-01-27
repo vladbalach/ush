@@ -37,7 +37,6 @@ static void add_comand(t_list **list_comand, char *parsing) {
         i = 1;
     else
         i = mx_strlen(directori) + 1;
-
     if ((comands(parsing[0]) == 0) && (dir = opendir(directori))) {
         while ((entry = readdir(dir)) != NULL) {
             if (entry->d_name[0] != '.' && mx_strcmp2(entry->d_name, &parsing[i]) == 0) {
@@ -85,9 +84,13 @@ static t_list *read_comand(char *parsing) {
 }
 
 static bool name_comand(char temp) {
+    char check = temp >> 7;
+
     if ((temp > 47 && temp < 58) || (temp > 64 && temp <91))
         return 1;
     if ((temp > 96 && temp < 123) || temp == 46 || temp == '/')
+        return 1;
+    if (check != 0)
         return 1;
     else
         return 0;
@@ -115,8 +118,7 @@ static char *mini_parser(char *parsing) {
     return comands;
 }
 
-
-char **mx_key_tab(char *parsing) {
+char **mx_key_tab(char *parsing, int *table, char **str) {
     char *path = mini_parser(parsing);
     t_list *list_comand;
     char **creat_list_comands = NULL;
@@ -125,68 +127,69 @@ char **mx_key_tab(char *parsing) {
 
     list_comand = read_comand(path);
     list_comand = mx_sort_list(list_comand, &cmp_str_min_max);
-    mx_print_Tab_comands(list_comand);
-    mx_printchar('\n');
-    creat_list_comands = (char **)malloc((mx_list_size(list_comand) + 1) * sizeof(char *));
-    for (temp = mx_strlen(path) - 1; temp != 0 && path[temp] != '/'; temp--);
-    temp = mx_strlen(&path[temp]);
-    free(path);
-    free(parsing);
-    while (list_comand) {
+    if (!((temp = mx_list_size(list_comand)) == 0 || temp == 1)) {
+        mx_clean_monitor("", table, *str);
+        mx_print_Tab_comands(list_comand);
+        creat_list_comands = (char **)malloc((mx_list_size(list_comand) + 1) * sizeof(char *));
+        for (temp = mx_strlen(path) - 1; temp != 0 && path[temp] != '/'; temp--);
+        temp = mx_strlen(&path[temp]);
+        free(path);
+        free(parsing);
+        while (list_comand) {
+            path = list_comand->data;
+            creat_list_comands[i++] = mx_strdup(&path[temp - 1]);
+            mx_pop_front(&list_comand);
+        }
+        creat_list_comands[i++] = NULL;
+    }
+    else if (temp == 1) {
+        for (temp = mx_strlen(path) - 1; temp != 0 && path[temp] != '/'; temp--);
+        temp = mx_strlen(&path[temp]);
+        free(path);
+        free(parsing);
         path = list_comand->data;
-        creat_list_comands[i++] = mx_strdup(&path[temp - 1]);
+        for (i = temp - 1; path[i]; i++)
+            mx_one_symbol(str, path[i], &table[2], table[3]);
+        if (table[3] != 0) {
+            mx_one_symbol(str, ' ', &table[2], table[3]);
+            table[3]++;
+        }
         mx_pop_front(&list_comand);
     }
-    creat_list_comands[i++] = NULL;
+    else {
+        write(1,"\a", 1);
+        free(path);
+        free(parsing);
+    }
     return creat_list_comands;
 }
 
-static void one_symbol(char **str, char ch, int *count, int position) {
-    int i = 0;
-
-    if (ch == 127) {
-        if ((*count) > 1 && (*count) > position + 1) {
-            (*count)--;
-            i = position;
-            while (i > 0) {
-                (*str)[(*count) - i - 1] = (*str)[(*count) - i];
-                i--;
-            }
-            (*str)[(*count) - 1] = 0;
-        }
-    }
-    else {
-        (*count)++;
-        *str = realloc(*str, *count);
-        while (i <= position) {
-            (*str)[(*count) - i - 1] = (*str)[(*count) - i - 2];
-            i++;
-        }
-        (*str)[(*count) - position - 2] = ch;
-    }
-}
-
-
 void mx_key_duble_tab(char **str, char **comands, int *table) {
-    if (comands[0] != 0) {
+    if (comands != 0 && comands[0] != 0) {
         if (table[5] == 0 && comands[0] != 0) {
             for (int i = 0; comands[0][i]; i++)
-                one_symbol(str, comands[0][i], &table[2], table[3]);
+                mx_one_symbol(str, comands[0][i], &table[2], table[3]);
+            if (table[3] != 0) {
+                mx_one_symbol(str, ' ', &table[2], table[3]);
+                table[3]++;
+            }
             table[5]++;
         }
         else {
             for (int i = 0; comands[table[5] - 1][i]; i++)
-                one_symbol(str, 127, &table[2], table[3]);
+                mx_one_symbol(str, 127, &table[2], table[3]);
             if (comands[table[5]] != 0) {
                 for (int i = 0; comands[table[5]][i]; i++)
-                    one_symbol(str, comands[table[5]][i], &table[2], table[3]);
+                    mx_one_symbol(str, comands[table[5]][i], &table[2], table[3]);
                 table[5]++;
             }
             else {
                 for (int i = 0; comands[0][i]; i++)
-                    one_symbol(str, comands[0][i], &table[2], table[3]);
+                    mx_one_symbol(str, comands[0][i], &table[2], table[3]);
                 table[5] = 1;
             }
         }
     }
+    else
+        write(1,"\a", 1);
 }

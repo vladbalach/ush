@@ -114,9 +114,6 @@ char mx_get_token_type(char *str);
 void mx_ush_init();
 void mx_init();
 void mx_parsing(char *str, char **envp);
-char **mx_key_tab(char *parsing);
-void mx_key_duble_tab(char **str, char **comands, int *table);
-void mx_print_Tab_comands(t_list *list_comand);
 t_list *mx_lexer(char *str);
 bool mx_syntax_analyzer(t_list *tokens);
 void mx_execute(char **commands);
@@ -131,9 +128,19 @@ void mx_env(char *envp[]);
 void mx_export(const char *str, char **envp);
 
 //
+void mx_one_symbol(char **str, char ch, int *count, int position);
+void mx_not_ascii(char *name, char *chars, int *table,  char **comands);
+int mx_bit_sumbol(char *str);
+int mx_len_symbol(int sum, char *str);
 bool mx_input(t_list **list_comands);
-void out_monitor(int position, char *str, int count, int ch);
-void clean_monitor(char *str, int *table, char *new_str);
+void mx_print_esc(char *s);
+void mx_clean_monitor(char *str, int *table, char *new_str);
+void mx_out_monitor_new(char *name, int table2, int pos,char *str);
+void mx_clean_monitor_new(char *name, int table2, int pos,char *str);
+void mx_print_esc(char *s);
+char **mx_key_tab(char *parsing, int *table, char **str);
+void mx_key_duble_tab(char **str, char **comands, int *table);
+void mx_print_Tab_comands(t_list *list_comand);
 
 // lexer
 bool mx_is_char(char c);

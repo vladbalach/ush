@@ -125,7 +125,7 @@ int main(int argc, char *argv[], char **envp) {
     }
     del_list_sring(&history);
     mx_del_strarr(&commands);
-    system("leaks ush");
+    // system("leaks ush");
     return 0;
 }
 

@@ -36,6 +36,9 @@ SRC = main.c \
 	mx_delete_ast.c \
 	mx_execute_tree.c \
 	mx_exec_more.c \
+	mx_one_symbol.c \
+	mx_not_ascii.c \
+	bit_function.c \
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC))
 

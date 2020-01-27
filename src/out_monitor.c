@@ -1,6 +1,6 @@
 #include "ush.h"
 
-static void print_esc(char *s) {
+void mx_print_esc(char *s) {
     char temp = 27;
 
     write(1, &temp, 1);
@@ -8,54 +8,57 @@ static void print_esc(char *s) {
     mx_printstr(s);
 }
 
-void out_monitor(int position, char *str, int count, int ch) {
+void mx_out_monitor_new(char *name, int table2, int pos, char *str) {
     struct winsize w;
-    int temp;
-    char *chars = (char*)(&ch);
+    int symbol = mx_bit_sumbol(&str[table2 - pos - 1]);
+    int len = mx_strlen(name) - 1;
 
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-    temp = (count + 5 - position) / w.ws_col;
-    if ((count + 5 - position) % w.ws_col == 0 && !(chars[2] == 65 || chars[2] == 66))
-        temp--;
-    if  (((count + 5 - position) % w.ws_col == 0 && chars[2] == 68) || ((count + 5 - position) % w.ws_col  - w.ws_col == -1 && ch == 127))
-        temp++;
-    if ((count + 5 - position) % w.ws_col == 0 && ch == 127)
-        temp++;
-    for (int i = temp; i > 0; i--)
-        print_esc("1A");
-    write(1,"\r",1);
-    print_esc("J");
-    mx_printstr("u$h = ");
+    mx_printstr(name);
     mx_printstr(str);
     mx_printstr(" ");
-    for (int i = (count + 5) / w.ws_col; i > 0; i--)
-        print_esc("1A");
+    for (int i = (mx_len_symbol(table2, str) + len) / w.ws_col; i > 0; i--)
+        mx_print_esc("1A");
     write(1,"\r",1);
-    mx_printstr("u$h = ");
-    write(1, str, count - position - 1);
-    if ((count + 5 - position) % w.ws_col == 0) {
-        if (position == 0)
+    mx_printstr(name);
+    write(1, str, table2 - pos - 1);
+    if ((mx_len_symbol(table2 - pos, str) + len) % w.ws_col == 0) {
+        if (pos == 0)
             write(1, " ", 1);
         else
-            write(1, &str[count - position - 1], 1);
+            write(1, &str[table2 - pos - 1], symbol);
     write(1, "\b", 1);
     }
 }
 
-void clean_monitor(char *str, int *table, char *new_str) {
+void mx_clean_monitor_new(char *name, int table2, int pos, char *str) {
+    struct winsize w;
+    int temp;
+    int len = mx_strlen(name) - 1;
+
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+    temp = (mx_len_symbol(table2 - pos, str) + len) / w.ws_col;
+    for (int i = temp; i > 0; i--) {
+        mx_print_esc("1A");
+    }
+    write(1,"\r",1);
+    mx_print_esc("J");
+}
+
+void mx_clean_monitor(char *str, int *table, char *new_str) {
     struct winsize w;
     int temp;
 
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-    temp = (table[2] + 5 - table[3]) / w.ws_col;
+    temp = (mx_len_symbol(table[2] - table[3], str) + 4) / w.ws_col;
     for (int i = temp; i > 0; i--) {
-        print_esc("1A");
+        mx_print_esc("1A");
     }
     write(1,"\r",1);
-    print_esc("J");
-    mx_printstr("u$h = ");
+    mx_print_esc("J");
+    mx_printstr("u$h> ");
     mx_printstr(new_str);
-    mx_printstr(" ");
+    mx_printstr(" \n");
 }
 
 static void print_comands(int max, char *comands) {
@@ -96,14 +99,17 @@ void mx_print_Tab_comands(t_list *list_comand) {
     else
         max = max + 8 - max % 8;
     coloms = w.ws_col / max;
+    if (coloms == 0)
+        coloms = 1;
     max /= 8;
     row = mx_list_size(list_comand) / coloms;
     if (mx_list_size(list_comand) % coloms != 0)
         row++;
     for (int i = w.ws_col; i != 0; i--)
         mx_printchar('=');
+    mx_printchar('\n');
     if (list_comand == NULL)
-        mx_printstr("\nNOT COMAND\n");
+        mx_printstr("NOT COMAND\n");
     for (int i = row; i != 0; i--) {
         list = list2;
         while (list != 0) {
@@ -116,5 +122,6 @@ void mx_print_Tab_comands(t_list *list_comand) {
     }
     for (int i = w.ws_col; i != 0; i--)
         mx_printchar('=');
+    mx_printchar('\n');
 }
 
