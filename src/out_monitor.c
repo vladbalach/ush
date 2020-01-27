@@ -18,7 +18,7 @@ void mx_out_monitor_new(char *name, int table2, int pos, char *str) {
     mx_printstr(str);
     mx_printstr(" ");
     for (int i = (mx_len_symbol(table2, str) + len) / w.ws_col; i > 0; i--)
-        mx_print_esc("1A");
+        mx_print_esc("1F");
     write(1,"\r",1);
     mx_printstr(name);
     write(1, str, table2 - pos - 1);
@@ -39,7 +39,7 @@ void mx_clean_monitor_new(char *name, int table2, int pos, char *str) {
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
     temp = (mx_len_symbol(table2 - pos, str) + len) / w.ws_col;
     for (int i = temp; i > 0; i--) {
-        mx_print_esc("1A");
+        mx_print_esc("1F");
     }
     write(1,"\r",1);
     mx_print_esc("J");
@@ -52,7 +52,7 @@ void mx_clean_monitor(char *str, int *table, char *new_str) {
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
     temp = (mx_len_symbol(table[2] - table[3], str) + 4) / w.ws_col;
     for (int i = temp; i > 0; i--) {
-        mx_print_esc("1A");
+        mx_print_esc("1F");
     }
     write(1,"\r",1);
     mx_print_esc("J");

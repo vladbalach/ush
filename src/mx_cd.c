@@ -37,16 +37,17 @@ static int set_oldpwd() {
     return 0;
 }
 
-void mx_cd(char *str) {
-    if (str == NULL)
-        str = getenv("HOME");
-    if (mx_strcmp(str, "-") == 0)
-        str = getenv("OLDPWD");
-    if ((chdir(str) == -1) || (set_oldpwd() == -1) || (set_pwd() == -1)) {
+void mx_cd(char *str[]) {
+    char *str_ = str[1];
+    if (str_ == NULL)
+        str_ = getenv("HOME");
+    if (mx_strcmp(str_, "-") == 0)
+        str_ = getenv("OLDPWD");
+    if ((chdir(str_) == -1) || (set_oldpwd() == -1) || (set_pwd() == -1)) {
         write(2,"cd: ",4);
         write(2, strerror(errno), mx_strlen(strerror(errno)));
         write(2,": ",2);
-        write(2, str, mx_strlen(str));
+        write(2, str_, mx_strlen(str_));
         write(2,"\n",1);
         return;
     }

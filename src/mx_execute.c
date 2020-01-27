@@ -25,17 +25,13 @@ void mx_execute(char **commands) {
     t_list  *tokens  = NULL;
     t_tnode *rootAst = 0;
     int     i        = 0;
-    int fds[2];
 
     while(commands[i]) {
         tokens = mx_lexer(commands[i]);
         if (mx_syntax_analyzer(tokens)) {
             rootAst = mx_create_ast(&tokens, 0);
-            pipe(fds);
-            mx_execute_tree(rootAst, fds, 0);
+            mx_execute_tree(rootAst, 0, 0);
             mx_delete_ast(&rootAst);
-            close(fds[0]);
-            close(fds[1]);
         }
         // printTokens(tokens);
         mx_clear_tokens(&tokens);

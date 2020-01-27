@@ -26,10 +26,12 @@ static void mx_skip_spaces (char *str, int *start, int end) {
 
 static int get_token_priority(char *str) {
     if (mx_strcmp(str, "||") == 0 || mx_strcmp(str, "&&") == 0)
-        return 4;
+        return 5;
     else if (str[0] == '|')
+        return 4;
+    else if (str[0] == '>')
         return 3;
-    else if (str[0] == '>' || str[0] == '<' )
+    else if (str[0] == '<' )
         return 2;
     else
         return 1;

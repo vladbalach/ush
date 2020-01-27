@@ -39,6 +39,10 @@ SRC = main.c \
 	mx_one_symbol.c \
 	mx_not_ascii.c \
 	bit_function.c \
+	mx_exec_less.c \
+	mx_exec_token.c \
+	mx_execute_proces.c \
+	mx_write_from_to.c \
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC))
 
