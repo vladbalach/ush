@@ -29,7 +29,7 @@ static char *direct(char *parsing) {
 
 static void add_comand(t_list **list_comand, char *parsing) {
     DIR *dir = 0;
-    static char *comand[] = {"history", "/", 0};
+    static char *comand[] = {"history", 0};
     char *temp = 0;
     struct dirent *entry;
     char *directori = direct(parsing);

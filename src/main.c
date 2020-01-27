@@ -105,7 +105,7 @@ int main(int argc, char *argv[], char **envp) {
     //     wait(0);
     // }
 
-    bool str = 1;
+    int str = 1;
     t_list *history = NULL;
     char    **commands  = NULL;
     int     i = 0;
@@ -113,8 +113,8 @@ int main(int argc, char *argv[], char **envp) {
     mx_ush_init();
 
     test();
-    while(str) {
-        if (history) {
+    while(str != 0) {
+        if (history && str == 1) {
             // mx_parsing(history->data, envp);
             commands = mx_strsplit(history->data, ';');
             mx_execute(commands);

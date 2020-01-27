@@ -6,9 +6,11 @@ int mx_handleEvents(char ch) {
     }
     if (ch == CTRL_I)
         return 9;
-    if (ch == CTRL_C || ch == CTRL_Z || ch == CTRL_D) {
+    if (ch == CTRL_Z || ch == CTRL_D) {
         return -1; // exit
     }
+    if (ch == CTRL_C)
+        return 2;
     if (ch == CTRL_R)
         return 18;
     return 0;
@@ -102,7 +104,7 @@ static void special_symbols(char **comands, int *table, unsigned int ch, char **
 
 
 
-bool mx_input(t_list **list) {
+int mx_input(t_list **list) {
     unsigned int ch = 0;
     char *chars = (char*)(&ch);
     int *table;
@@ -132,10 +134,16 @@ bool mx_input(t_list **list) {
         else { // 1 symbol
             if (ch < 32) {
                 special_symbols(comands, table, ch, &comand_tab);
-                if (table[4] == -1) { // CTRL_C | Z
+                if (table[4] == -1) { // CTRL_D | Z
                     free(table);
                     mx_del_strarr(&comands);
                     return 0;
+                }
+                if (table[4] == 2) {
+                    mx_clean_monitor_new(name, table[2], table[3], comands[table[0]]);
+                    free(table);
+                    mx_del_strarr(&comands);
+                    return 2;
                 }
                 if (table[4] == KEY_ENTER) {
                     mx_clean_monitor(comands[*table], table, comands[*table]);

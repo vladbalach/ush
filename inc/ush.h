@@ -136,7 +136,7 @@ void mx_one_symbol(char **str, char ch, int *count, int position);
 void mx_not_ascii(char *name, char *chars, int *table,  char **comands);
 int mx_bit_sumbol(char *str);
 int mx_len_symbol(int sum, char *str);
-bool mx_input(t_list **list_comands);
+int mx_input(t_list **list_comands);
 void mx_print_esc(char *s);
 void mx_clean_monitor(char *str, int *table, char *new_str);
 void mx_out_monitor_new(char *name, int table2, int pos,char *str);
