@@ -5,6 +5,7 @@ INC = inc/ush.h \
 	./libmx/libmx.a
 
 HEADTMP = ush.h\
+	libmx.h \
 
 OBJ_DIR = ./obj/
 SRC_DIR = ./src/

@@ -20,6 +20,9 @@
 // #define HISTORY_STRING "\x1b[38;2;2;2;2mu$h> \x1b[0m\x1b[33m"
 #define HISTORY_STRING "\x1b[38;5;243mu$h> \x1b[38;5;68m"
 #define MAIN_STRING "u$h> "
+#define PROGRAM_NAME "\x1b[34mu$h> \x1b[0m"
+#define SEARCH_NAME "\x1b[38;5;243mSearch > \x1b[38;5;68m"
+#define SEARCH_NAME_REMOVE "Search > "
 // VARIABLES
 
 typedef struct s_variable {
@@ -136,7 +139,7 @@ void mx_export(const char *str, char **envp);
 
 //
 void mx_one_symbol(char **str, char ch, int *count, int position);
-void mx_not_ascii(char *name, char *chars, int *table,  char **comands);
+void mx_not_ascii(char *chars, int *table,  char **comands);
 int mx_bit_sumbol(char *str);
 int mx_len_symbol(int sum, char *str);
 int mx_input(t_list **list_comands);
@@ -145,7 +148,7 @@ void mx_clean_monitor(char *str, int *table, char *new_str);
 void mx_out_monitor_new(char *name, int table2, int pos,char *str);
 void mx_clean_monitor_new(char *name, int table2, int pos,char *str);
 void mx_print_esc(char *s);
-void mx_key_delite(char *name, char **comands, int *table);
+void mx_key_delite(char **comands, int *table);
 char **mx_key_tab(char *parsing, int *table, char **str);
 void mx_key_duble_tab(char **str, char **comands, int *table);
 void mx_print_Tab_comands(t_list *list_comand);
