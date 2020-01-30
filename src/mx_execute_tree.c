@@ -1,7 +1,7 @@
 #include "ush.h"
 
 
-void mx_pipe_execute(t_tnode *root, int *fds, char operatorStatus) {
+void mx_pipe_execute(t_tnode *root, int *fds, char operatorStatus, t_info *processes) {
     int fdsBuff[2];
     int newFds[2];
     pipe(newFds);
@@ -11,23 +11,23 @@ void mx_pipe_execute(t_tnode *root, int *fds, char operatorStatus) {
         fdsBuff[1] = newFds[1];
         if ((operatorStatus & LEFT_VISITED) == 0) {
             operatorStatus &= 63;
-            mx_execute_tree(root->left, fdsBuff, operatorStatus | OP_PIPE_W);
+            mx_execute_tree(root->left, fdsBuff, operatorStatus | OP_PIPE_W, processes);
         }
         fdsBuff[0] = newFds[0];
         fdsBuff[1] = 1;
         if ((operatorStatus & RIGHT_VISITED) == 0) {
             operatorStatus &= 63;
-            mx_execute_tree(root->right, fdsBuff, operatorStatus | OP_PIPE_R);
+            mx_execute_tree(root->right, fdsBuff, operatorStatus | OP_PIPE_R, processes);
         }
     }
     if (operatorStatus & OP_PIPE_R) {
         operatorStatus &= 252;
         fdsBuff[0] = fds[0];
         fdsBuff[1] = newFds[1];
-        mx_execute_tree(root->left, fdsBuff, operatorStatus | OP_PIPE_RW);
+        mx_execute_tree(root->left, fdsBuff, operatorStatus | OP_PIPE_RW, processes);
         fdsBuff[0] = newFds[0];
         fdsBuff[1] = 1;
-        mx_execute_tree(root->right, fdsBuff, operatorStatus | OP_PIPE_R);
+        mx_execute_tree(root->right, fdsBuff, operatorStatus | OP_PIPE_R, processes);
     }
     close(newFds[0]);
     close(newFds[1]);
@@ -82,7 +82,7 @@ static void exec_buidin(t_token *token, int *fds, char operatorStatus, void (*fo
         }
 }
 
-static void exec_token_(t_token *token, int *fds, char operatorStatus) {
+static void exec_token_(t_token *token, int *fds, char operatorStatus, t_info *info) {
     void (*foo)(char *argv[]) = 0;
 
     if ((foo = mx_get_buildin(token->value[0]))) { // buildin
@@ -102,22 +102,42 @@ static void exec_token_(t_token *token, int *fds, char operatorStatus) {
             close(fds[1]);
         if (operatorStatus & OP_PIPE_R)
             close(fds[0]);
-        wait(0);
+        if (!(operatorStatus & OP_AMPERSAND)) {
+            wait(0);
+            }
+            else {
+                printf("id: %d\n", pid);
+                mx_push_front(&(info->processes), (void*)&pid);
+            }
         }
     }
 }
 
-void mx_execute_tree(t_tnode *root, int *fds, char operatorStatus) {
+void mx_execute_tree(t_tnode *root, int *fds, char operatorStatus, t_info *info) {
     if (root == 0)
         return;
     char *cmd = ((t_token*)root->data)->value[0];
+    if (mx_strcmp(((t_token*)root->data)->value[0], "fg") == 0) {
+       if (info->processes != 0) {
+            printf("get control to: %d\n", (int)info->processes->data);
+            pid_t pid = wait(0);
+            mx_pop_front(&(info->processes));
+       }
+        else {
+            mx_printerr("No fg processes\n");
+        }
+    }
     if (((t_token*)root->data)->type == TYPE_COMMAND) {
-        exec_token_(root->data, fds, operatorStatus);
+        exec_token_(root->data, fds, operatorStatus, info);
     }
     if (mx_strcmp(((t_token*)root->data)->value[0], "|") == 0) {
-        mx_pipe_execute(root, fds, operatorStatus);
+        mx_pipe_execute(root, fds, operatorStatus, info);
     }
     if (mx_strcmp(((t_token*)root->data)->value[0], ">") == 0) {
-        mx_exec_more(root, fds, operatorStatus);
+        mx_exec_more(root, fds, operatorStatus, info);
     }
+    if (mx_strcmp(((t_token*)root->data)->value[0], "&") == 0) {
+        exec_token_((t_token*)root->left->data, fds, operatorStatus | OP_AMPERSAND, info);
+    }
+    
 }

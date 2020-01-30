@@ -14,6 +14,10 @@ static void init_var() {
     // }
 }
 
-void mx_ush_init() {
+void mx_ush_init(t_info **info, char **env) {
+    t_info *newInfo = (t_info*) malloc(sizeof(t_info));
+    newInfo->env = env;
+    newInfo->processes = 0;
+    (*info) = newInfo;
     signal(SIGSEGV, mx_segfault);
 }

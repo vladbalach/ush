@@ -1,6 +1,6 @@
 #include "ush.h"
 
-void mx_exec_token(t_token* token, int *fds, char pipe_status) {
+void mx_exec_token(t_token* token, int *fds, char pipe_status, t_info *processes) {
    
     pid_t pid = fork();
 

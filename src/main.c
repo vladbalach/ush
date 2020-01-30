@@ -109,16 +109,19 @@ int main(int argc, char *argv[], char **envp) {
     t_list *history = NULL;
     char    **commands  = NULL;
     int     i = 0;
+    t_info *info = 0;
 
-    mx_ush_init();
+    mx_ush_init(&info, envp);
+    
+    
 
     test();
     while(str != 0) {
         if (history && str == 1) {
-            if (mx_replace_bquote((char**)&(history->data))) {
+            if (mx_replace_bquote((char**)&(history->data), info)) {
             // mx_parsing(history->data, envp);
                 commands = mx_strsplit(history->data, ';');
-                mx_execute(commands);
+                mx_execute(commands, info);
                 mx_del_strarr(&commands);
 
             // char *firstArgs[] =  {"/bin/cat", "1",0};

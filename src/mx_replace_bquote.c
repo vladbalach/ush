@@ -32,7 +32,7 @@ static char *read_to_delim(char *name, char delim) {
     return newStr;
 }
 
-static char* mx_do_bq(char **str, size_t start, size_t end) {
+static char* mx_do_bq(char **str, size_t start, size_t end, t_info *processes) {
     char *str_exec = mx_strndup(&(*str)[start], (end - start));
     char **commands = 0;
     char *str_out = 0;
@@ -43,7 +43,7 @@ static char* mx_do_bq(char **str, size_t start, size_t end) {
         fd = open("tmp.ush", O_RDWR | O_CREAT | O_TRUNC, S_IWRITE | S_IREAD);
         dup2(fd, 1);
         commands = mx_strsplit(str_exec, ';');
-        mx_execute(commands);
+        mx_execute(commands, processes);
         mx_del_strarr(&commands);
         exit(1);
     }
@@ -77,7 +77,7 @@ static void do_replace(char **str, size_t start, size_t end, char *str_new) {
     *str = newStr;
 }
 
-static void mx_find_replace(char **str) {
+static void mx_find_replace(char **str, t_info *processes) {
     int i = 0;
     size_t startI = -1;
     size_t endI = -1;
@@ -93,7 +93,7 @@ static void mx_find_replace(char **str) {
             endI = -1; 
         }
         if (startI != -1 && endI != -1) {
-            if ((str_out = mx_do_bq(str, startI, endI)))
+            if ((str_out = mx_do_bq(str, startI, endI, processes)))
                 do_replace(str, startI - 1, endI + 1, str_out);
             free(str_out);
             startI = -1;
@@ -103,7 +103,7 @@ static void mx_find_replace(char **str) {
     }
 }
 
-int mx_replace_bquote(char **str) {
+int mx_replace_bquote(char **str, t_info *processes) {
     char is_opened = check_closed_bq(*str);
 
     if (is_opened == 2){
@@ -111,7 +111,7 @@ int mx_replace_bquote(char **str) {
         return 0;
     }
     if (is_opened == 1) {
-        mx_find_replace(str);
+        mx_find_replace(str, processes);
     }
     return 1;
 }

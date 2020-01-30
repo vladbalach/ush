@@ -21,7 +21,7 @@ void printTokens(t_list *tokens) {
 }
 
 /* execute all commands ony by one*/
-void mx_execute(char **commands) {
+void mx_execute(char **commands, t_info *processes) {
     t_list  *tokens  = NULL;
     t_tnode *rootAst = 0;
     int     i        = 0;
@@ -30,7 +30,7 @@ void mx_execute(char **commands) {
         tokens = mx_lexer(commands[i]);
         if (mx_syntax_analyzer(tokens)) {
             rootAst = mx_create_ast(&tokens, 0);
-            mx_execute_tree(rootAst, 0, 0);
+            mx_execute_tree(rootAst, 0, 0, processes);
             mx_delete_ast(&rootAst);
         }
         printTokens(tokens);

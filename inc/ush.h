@@ -23,6 +23,13 @@
 #define PROGRAM_NAME "\x1b[38;5;76mu$h> \x1b[38;5;76m"
 #define SEARCH_NAME "\x1b[38;5;243mSearch > \x1b[38;5;68m"
 #define SEARCH_NAME_REMOVE "Search > "
+
+// PROCESES
+
+typedef struct s_process{
+    pid_t pid;
+} t_process;
+
 // VARIABLES
 
 typedef struct s_variable {
@@ -34,7 +41,7 @@ typedef struct s_tree_node {
     struct s_tree_node *left;
     struct s_tree_node *right;
     struct s_tree_node *parent;
-    
+
     void *data;
 } t_tnode;
 
@@ -52,11 +59,11 @@ enum e_operator_status {
     OP_DMORE = 8,
     OP_LESS = 16,
     LEFT_VISITED = 128,
-    RIGHT_VISITED = 64
+    RIGHT_VISITED = 64,
+    OP_AMPERSAND = 32
 };
 
 // AST
-
 enum e_type_of_token{
     TYPE_OPERATOR,
     TYPE_COMMAND,
@@ -74,6 +81,8 @@ typedef struct s_token{
 typedef struct s_programInfo {
     struct termios term_old;
     struct termios term_new;
+    t_list *processes;
+    char **env;
 } t_info;
 
 enum e_keys{
@@ -120,15 +129,15 @@ void mx_clear_tokens(t_list **tokens);
 t_token* mx_get_next_token(int *start, int end, char *str);
 char mx_get_token_type(char *str);
 // 
-void mx_ush_init();
-void mx_init();
+void mx_ush_init(t_info **info, char **env);
 void mx_parsing(char *str, char **envp);
 t_list *mx_lexer(char *str);
 bool mx_syntax_analyzer(t_list *tokens);
-void mx_execute(char **commands);
+void mx_execute(char **commands, t_info *processes);
 
 void mx_write_from_to(int from , int to, off_t start);
 typedef struct termios t_termios;
+
 //BUILT IN
 void mx_cd(char *str[]);
 void mx_printstr_env(char *str);
@@ -155,16 +164,16 @@ void mx_print_Tab_comands(t_list *list_comand);
 
 // lexer
 bool mx_is_char(char c);
-int mx_replace_bquote(char **str);
+int mx_replace_bquote(char **str, t_info *info);
 
 // AST
 t_tnode* mx_create_ast(t_list** tokens, t_tnode *prev);
 void mx_delete_ast(t_tnode **root);
 
 //exec
-void mx_execute_tree(t_tnode *root, int *fds, char pipeStatus);
-void mx_exec_more(t_tnode *root, int *fds, int operatorStatus);
-void mx_exec_token(t_token* token, int *fds, char pipe_status);
-void mx_exec_less(t_tnode *root, int *fds, char operatorStatus);
+void mx_execute_tree(t_tnode *root, int *fds, char pipeStatus, t_info *info);
+void mx_exec_more(t_tnode *root, int *fds, int operatorStatus, t_info *info);
+void mx_exec_token(t_token* token, int *fds, char pipe_status, t_info *info);
+void mx_exec_less(t_tnode *root, int *fds, char operatorStatus, t_info *info);
 void mx_execute_proces(t_token* token);
 #endif
