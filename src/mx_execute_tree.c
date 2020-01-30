@@ -105,14 +105,11 @@ static void exec_token_(t_token *token, int *fds, char operatorStatus) {
         wait(0);
         }
     }
-    
-    
 }
 
 void mx_execute_tree(t_tnode *root, int *fds, char operatorStatus) {
     if (root == 0)
         return;
-
     char *cmd = ((t_token*)root->data)->value[0];
     if (((t_token*)root->data)->type == TYPE_COMMAND) {
         exec_token_(root->data, fds, operatorStatus);
@@ -123,5 +120,4 @@ void mx_execute_tree(t_tnode *root, int *fds, char operatorStatus) {
     if (mx_strcmp(((t_token*)root->data)->value[0], ">") == 0) {
         mx_exec_more(root, fds, operatorStatus);
     }
-
 }

@@ -115,10 +115,11 @@ int main(int argc, char *argv[], char **envp) {
     test();
     while(str != 0) {
         if (history && str == 1) {
+            if (mx_replace_bquote((char**)&(history->data))) {
             // mx_parsing(history->data, envp);
-            commands = mx_strsplit(history->data, ';');
-            mx_execute(commands);
-            mx_del_strarr(&commands);
+                commands = mx_strsplit(history->data, ';');
+                mx_execute(commands);
+                mx_del_strarr(&commands);
 
             // char *firstArgs[] =  {"/bin/cat", "1",0};
             // char *secondArgs[] =  {"/bin/cat", 0};
@@ -143,12 +144,13 @@ int main(int argc, char *argv[], char **envp) {
             //     }
             // }
             // wait(0);
+            }
         }
         str = mx_input(&history);
     }
     del_list_sring(&history);
     mx_del_strarr(&commands);
-    // system("leaks ush");
+    system("leaks ush");
     return 0;
 }
 

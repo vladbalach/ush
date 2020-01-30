@@ -115,8 +115,10 @@ int mx_input(t_list **list) {
     while (1) {
         if (chars[2] != 10)
             mx_out_monitor_new(PROGRAM_NAME, table[2], table[3], comands[table[0]]);
-        if ((ch = mx_getchar()) == 0)
+        if ((ch = mx_getchar()) == 0) {
             mx_printerr("u$h: some troubeles with input!\n");
+            exit(2);
+        }
         if (table[4] == 9 && ch != 9)
             mx_del_strarr(&comand_tab);
         if (ch > 127) { // 2-4 symbols

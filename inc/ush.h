@@ -20,7 +20,7 @@
 // #define HISTORY_STRING "\x1b[38;2;2;2;2mu$h> \x1b[0m\x1b[33m"
 #define HISTORY_STRING "\x1b[38;5;243mu$h> \x1b[38;5;68m"
 #define MAIN_STRING "u$h> "
-#define PROGRAM_NAME "\x1b[34mu$h> \x1b[0m"
+#define PROGRAM_NAME "\x1b[38;5;76mu$h> \x1b[38;5;76m"
 #define SEARCH_NAME "\x1b[38;5;243mSearch > \x1b[38;5;68m"
 #define SEARCH_NAME_REMOVE "Search > "
 // VARIABLES
@@ -155,6 +155,7 @@ void mx_print_Tab_comands(t_list *list_comand);
 
 // lexer
 bool mx_is_char(char c);
+int mx_replace_bquote(char **str);
 
 // AST
 t_tnode* mx_create_ast(t_list** tokens, t_tnode *prev);

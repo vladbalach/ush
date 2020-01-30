@@ -33,7 +33,7 @@ void mx_execute(char **commands) {
             mx_execute_tree(rootAst, 0, 0);
             mx_delete_ast(&rootAst);
         }
-        // printTokens(tokens);
+        printTokens(tokens);
         mx_clear_tokens(&tokens);
         i++;
     }
