@@ -121,13 +121,13 @@ void mx_execute_tree(t_tnode *root, int *fds, char operatorStatus, t_info *info)
        if (info->processes != 0) {
             printf("get control to: %d\n", (int)info->processes->data);
             pid_t pid = wait(0);
-            mx_pop_front(&(info->processes));
+            // mx_pop_front(&(info->processes));
        }
         else {
             mx_printerr("No fg processes\n");
         }
     }
-    if (((t_token*)root->data)->type == TYPE_COMMAND) {
+    else if (((t_token*)root->data)->type == TYPE_COMMAND) {
         exec_token_(root->data, fds, operatorStatus, info);
     }
     if (mx_strcmp(((t_token*)root->data)->value[0], "|") == 0) {
