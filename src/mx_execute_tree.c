@@ -64,22 +64,22 @@ void *mx_get_buildin(char *name) {
 }
 
 static void exec_buidin(t_token *token, int *fds, char operatorStatus, void (*foo)(char *argv[])) {
-    pid_t pid = fork();
-    if (pid == 0) {
-        if (operatorStatus & 3) {
-            dup2(fds[1],1);
-            dup2(fds[0],0);
-        }
+    // pid_t pid = fork();
+    // if (pid == 0) {
+    //     if (operatorStatus & 3) {
+    //         dup2(fds[1],1);
+    //         dup2(fds[0],0);
+    //     }
         foo(token->value);
-        exit(1);
-        }
-        else {
-        if (operatorStatus & OP_PIPE_W)
-            close(fds[1]);
-        if (operatorStatus & OP_PIPE_R)
-            close(fds[0]);
-        wait(0);
-        }
+        // exit(1);
+        // }
+        // else {
+        // if (operatorStatus & OP_PIPE_W)
+        //     close(fds[1]);
+        // if (operatorStatus & OP_PIPE_R)
+        //     close(fds[0]);
+        // wait(0);
+        // }
 }
 
 static void exec_token_(t_token *token, int *fds, char operatorStatus, t_info *info) {

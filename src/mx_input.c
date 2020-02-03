@@ -56,22 +56,22 @@ static void mx_ctrl_R(char **comands, int *table){
 
     while (check) {
     if (index != table[1] + 1)
-        mx_out_monitor_new(PROGRAM_NAME, mx_strlen(comands[index]) + 1, 0, comands[index]);
+        mx_out_monitor_new(NAME, mx_strlen(comands[index]) + 1, 0, comands[index]);
     else
-        mx_out_monitor_new(PROGRAM_NAME, 1, 0, "");
+        mx_out_monitor_new(NAME, 1, 0, "");
     mx_printstr("\n");
-    mx_out_monitor_new(SEARCH_NAME, i, 0, temp);
+    mx_out_monitor_new(SEARCH, i, 0, temp);
     ch = mx_getchar();
-    mx_clean_monitor_new(SEARCH_NAME_REMOVE, i, 0, temp);
+    mx_clean_monitor_new(SEARCH, i, 0, temp);
     mx_print_esc("1A");
     if (ch > 31 && ch < 128)
         mx_one_symbol(&temp, ch, &i, 0);
     else
         check = 0;
     if (index != table[1] + 1) 
-        mx_clean_monitor_new(MAIN_STRING, mx_strlen(comands[index]) + 1, 0, comands[index]);
+        mx_clean_monitor_new(NAME, mx_strlen(comands[index]) + 1, 0, comands[index]);
     else
-        mx_clean_monitor_new(MAIN_STRING, 1, 0, "");
+        mx_clean_monitor_new(NAME, 1, 0, "");
     index = table[1] + 1;
     for (int y = 0; index == table[1] + 1 && comands[y]; y++)
         if (mx_strstr(comands[y], temp) != 0)
@@ -87,17 +87,17 @@ static void mx_ctrl_R(char **comands, int *table){
 
 static void special_symbols(char **comands, int *table, unsigned int ch, char ***comand_tab) {
     if (table[4] != 9 && ch == 9) {
-        mx_clean_monitor_new(MAIN_STRING, table[2], table[3], comands[table[0]]);
+        mx_clean_monitor_new(NAME, table[2], table[3], comands[table[0]]);
         *comand_tab = mx_key_tab(mx_strndup(comands[*table],table[2] - table[3] - 1), table, &comands[table[0]]);
         table[5] = 0;
     }
     if (table[4] == 9 && ch == 9) {
-        mx_clean_monitor_new(MAIN_STRING, table[2], table[3], comands[table[0]]);
+        mx_clean_monitor_new(NAME, table[2], table[3], comands[table[0]]);
         mx_key_duble_tab(&comands[table[0]], *comand_tab, table);
     }
         table[4] = mx_handleEvents(ch);
     if (table[4] == 18) {
-        mx_clean_monitor_new(MAIN_STRING, table[2], table[3], comands[table[0]]);
+        mx_clean_monitor_new(NAME, table[2], table[3], comands[table[0]]);
         mx_ctrl_R(comands, table);
     }
 }
@@ -114,7 +114,7 @@ int mx_input(t_list **list) {
 
     while (1) {
         if (chars[2] != 10)
-            mx_out_monitor_new(PROGRAM_NAME, table[2], table[3], comands[table[0]]);
+            mx_out_monitor_new(NAME, table[2], table[3], comands[table[0]]);
         if ((ch = mx_getchar()) == 0) {
             mx_printerr("u$h: some troubeles with input!\n");
             exit(2);
@@ -125,11 +125,11 @@ int mx_input(t_list **list) {
             if (chars[0] == 27)
                 mx_not_ascii(chars, table, comands);
             else {
-                mx_clean_monitor_new(MAIN_STRING, table[2], table[3], comands[table[0]]);
+                mx_clean_monitor_new(NAME, table[2], table[3], comands[table[0]]);
                 for (int i = 0; i < 4 && chars[i] != 0; i++) {
                     mx_one_symbol(&comands[table[0]], chars[i], &table[2], table[3]);
                 }
-                mx_out_monitor_new(PROGRAM_NAME, table[2], table[3], comands[table[0]]);
+                mx_out_monitor_new(NAME, table[2], table[3], comands[table[0]]);
                 chars[2] = 10;
             }
         }
@@ -142,7 +142,7 @@ int mx_input(t_list **list) {
                     return 0;
                 }
                 if (table[4] == 2) {
-                    mx_clean_monitor_new(MAIN_STRING, table[2], table[3], comands[table[0]]);
+                    mx_clean_monitor_new(NAME, table[2], table[3], comands[table[0]]);
                     free(table);
                     mx_del_strarr(&comands);
                     return 2;
@@ -159,7 +159,7 @@ int mx_input(t_list **list) {
                 }
             }
             else {
-                mx_clean_monitor_new(MAIN_STRING, table[2], table[3], comands[table[0]]);
+                mx_clean_monitor_new(NAME, table[2], table[3], comands[table[0]]);
                 mx_one_symbol(&comands[table[0]], ch, &table[2], table[3]);
             }
         }

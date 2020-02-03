@@ -19,10 +19,10 @@
 
 // #define HISTORY_STRING "\x1b[38;2;2;2;2mu$h> \x1b[0m\x1b[33m"
 #define HISTORY_STRING "\x1b[38;5;243mu$h> \x1b[38;5;68m"
-#define MAIN_STRING "u$h> "
-#define PROGRAM_NAME "\x1b[38;5;76mu$h> \x1b[38;5;76m"
-#define SEARCH_NAME "\x1b[38;5;243mSearch > \x1b[38;5;68m"
-#define SEARCH_NAME_REMOVE "Search > "
+// #define MAIN_STRING "\x4u$h> "
+#define NAME "\x4\x1b[38;5;76mu$h> \x1b[38;5;76m"
+#define SEARCH "\x8\x1b[38;5;243mSearch > \x1b[38;5;68m"
+// #define SEARCH_NAME_REMOVE "\x8Search > "
 
 // PROCESES
 
@@ -147,6 +147,7 @@ void mx_env(char *envp[]);
 void mx_export(const char *str, char **envp);
 
 //
+char **mx_create_comands(char *str);
 void mx_one_symbol(char **str, char ch, int *count, int position);
 void mx_not_ascii(char *chars, int *table,  char **comands);
 int mx_bit_sumbol(char *str);

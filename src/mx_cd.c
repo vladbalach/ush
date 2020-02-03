@@ -39,6 +39,7 @@ static int set_oldpwd() {
 
 void mx_cd(char *str[]) {
     char *str_ = str[1];
+
     if (str_ == NULL)
         str_ = getenv("HOME");
     if (mx_strcmp(str_, "-") == 0)
