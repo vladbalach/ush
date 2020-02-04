@@ -15,6 +15,11 @@ void mx_out_monitor_new(char *name, int table2, int pos, char *str) {
 
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
     
+    write(1,"%",1);
+    for(int i = 0; i < w.ws_col - 1; i++)
+        write(1," ",1);
+    write(1,"\r",1);
+    mx_print_esc("J");
     mx_printstr(&name[1]);
     mx_printstr(str);
     mx_printstr(" ");
@@ -28,8 +33,9 @@ void mx_out_monitor_new(char *name, int table2, int pos, char *str) {
             write(1, " ", 1);
         else
             write(1, &str[table2 - pos - 1], symbol);
-    write(1, "\b\x1b[0m", 1);
+    write(1, "\b", 1);
     }
+    mx_printstr("\x1b[0m");
 }
 
 void mx_clean_monitor_new(char *name, int table2, int pos, char *str) {

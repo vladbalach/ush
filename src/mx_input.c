@@ -137,6 +137,7 @@ int mx_input(t_list **list) {
             if (ch < 32) {
                 special_symbols(comands, table, ch, &comand_tab);
                 if (table[4] == -1) { // CTRL_D | Z
+                    mx_clean_monitor(comands[*table], table, "exit");
                     free(table);
                     mx_del_strarr(&comands);
                     return 0;
