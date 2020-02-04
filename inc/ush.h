@@ -154,6 +154,7 @@ int mx_bit_sumbol(char *str);
 int mx_len_symbol(int sum, char *str);
 int mx_input(t_list **list_comands);
 void mx_print_esc(char *s);
+void mx_check_outprogram_new_line(void);
 void mx_clean_monitor(char *str, int *table, char *new_str);
 void mx_out_monitor_new(char *name, int table2, int pos,char *str);
 void mx_clean_monitor_new(char *name, int table2, int pos,char *str);

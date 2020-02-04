@@ -125,7 +125,7 @@ int main(int argc, char *argv[], char **envp) {
                 commands = mx_strsplit(history->data, ';');
                 mx_execute(commands, info);
                 mx_del_strarr(&commands);
-
+                mx_check_outprogram_new_line();
             // char *firstArgs[] =  {"/bin/cat", "1",0};
             // char *secondArgs[] =  {"/bin/cat", 0};
             // int fds[2];
