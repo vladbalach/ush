@@ -17,6 +17,6 @@ void mx_execute_proces(t_token* token) {
         mx_printerr(token->value[0]);
         mx_printerr("\n");
         mx_del_strarr(&(token->value));
-        exit(11);
+        exit(1);
     }
 }

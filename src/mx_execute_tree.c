@@ -104,9 +104,10 @@ pid_t mx_give_max_index(pid_t *processes) {
 // }
 
 int mx_execute_tree(t_tnode *root, int *fds, char operatorStatus, t_info *info) {
-    int status = 1;
+    int status = 0;
     char *cmd = 0;
-    if (root == 0)
+    
+    if ((root == 0) || (info->isExit))
         return -1;
     cmd = ((t_token*)root->data)->value[0];
 
@@ -125,10 +126,21 @@ int mx_execute_tree(t_tnode *root, int *fds, char operatorStatus, t_info *info) 
     }
     if (mx_strcmp(((t_token*)root->data)->value[0], "exit") == 0) {
         int s = atoi(((t_token*)root->data)->value[1]);
-        return 22;
+        info->isExit = true;
+        info->exit_status = s;
+        return s;
+    }
+    if (mx_strcmp(((t_token*)root->data)->value[0], "cd") == 0) {
+        mx_cd(((t_token*)root->data)->value, info);
+    }
+    else if (mx_strcmp(((t_token*)root->data)->value[0], "pwd") == 0) {
+        mx_pwd(((t_token*)root->data)->value, info);
     }
     else if (mx_strcmp(((t_token*)root->data)->value[0], "stop") == 0) {
         mx_close_all_pr(info);
+    }
+    else if (mx_strcmp(((t_token*)root->data)->value[0], "which") == 0) {
+        mx_which(((t_token*)root->data)->value, info);
     }
     else if (((t_token*)root->data)->type == TYPE_COMMAND) {
         status = exec_token(root->data, fds, operatorStatus, info);
@@ -144,12 +156,12 @@ int mx_execute_tree(t_tnode *root, int *fds, char operatorStatus, t_info *info) 
     }
     if (mx_strcmp(((t_token*)root->data)->value[0], "||") == 0) {
         status = mx_execute_tree(root->left, fds, operatorStatus, info);
-        if (status == -1)
+        if (status != 0)
             status = mx_execute_tree(root->right, fds, operatorStatus, info);
     }
     if (mx_strcmp(((t_token*)root->data)->value[0], "&&") == 0) {
         status = mx_execute_tree(root->left, fds, operatorStatus, info);
-        if (status == 1)
+        if (status == 0)
             status = mx_execute_tree(root->right, fds, operatorStatus, info);
     }
     if (mx_strcmp(((t_token*)root->data)->value[0], "&") == 0) {

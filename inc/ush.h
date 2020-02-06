@@ -83,6 +83,14 @@ typedef struct s_programInfo {
     struct termios term_new;
     char **env;
     pid_t *processes;
+    bool isExit;
+    int exit_status;
+    char *pwd;
+    char *pwdL;
+    char *pwdP;
+    char *old_pwd;
+    char *path;
+    char *home;
 } t_info;
 
 enum e_keys{
@@ -133,19 +141,21 @@ void mx_ush_init(t_info **info, char **env);
 void mx_parsing(char *str, char **envp);
 t_list *mx_lexer(char *str);
 bool mx_syntax_analyzer(t_list *tokens);
-int mx_execute(char **commands, t_info *processes);
+void mx_execute(char **commands, t_info *processes);
 void mx_ush_close(t_info *info);
 
 void mx_write_from_to(int from , int to, off_t start);
 typedef struct termios t_termios;
 
 //BUILT IN
-void mx_cd(char *str[]);
+int mx_cd(char **argv, t_info *info);
 void mx_printstr_env(char *str);
-void mx_pwd(char *str);
+int mx_pwd(char **argv, t_info *info);
 void mx_echo(char **str);
 void mx_env(char *envp[]);
 void mx_export(const char *str, char **envp);
+void mx_which(char **argv, t_info *info);
+bool mx_is_buildin(char *str);
 
 //
 void mx_one_symbol(char **str, char ch, int *count, int position);

@@ -21,7 +21,7 @@ void printTokens(t_list *tokens) {
 }
 
 /* execute all commands ony by one*/
-int mx_execute(char **commands, t_info *processes) {
+void mx_execute(char **commands, t_info *processes) {
     t_list  *tokens  = NULL;
     t_tnode *rootAst = 0;
     int     i        = 0;

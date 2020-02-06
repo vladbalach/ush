@@ -58,8 +58,7 @@ int exec_token(t_token *token, int *fds, char operatorStatus, t_info *info) {
             if (!(operatorStatus & OP_AMPERSAND)) {
                 wait(&status);
                 status = WEXITSTATUS(status);
-                if (status == 11)
-                    return -1;
+                return status;
             }
             else {
                 if(mx_add_process(info->processes, pid) != -1)

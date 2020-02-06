@@ -62,99 +62,36 @@ void free_delete(t_tnode *ptr) {
     free(ptr);
 }
 
+
 int main(int argc, char *argv[], char **envp) {
-    // int fds[2];
-    // pipe(fds);
-    // pid_t pid = fork();
-
-    // if (pid == 0) {
-    //     write(fds[1], "Helloow", 8);
-    //     write(fds[1], " World", 7);
-    //     char buff[100];
-    //     int fd = open("1.txt", O_RDWR);
-    //     off_t lseek0 = lseek(fds[0], 0, SEEK_CUR);
-
-    //     printf("lseek0 = %lld\n", lseek0);
-    //     off_t lseek1 = lseek(0, 0, SEEK_CUR);
-    //     printf("lseek1 = %lld\n", lseek1);
-    //     // mx_printerr(strerror(errno));
-    //     int c = read(fds[0], buff, 2);
-
-    //     // mx_printerr(strerror(errno));
-    //     // if(fork() == 0) {
-    //     //     char buff[100];
-    //     //     int c = read(fds[0], buff, 2);
-    //     //     write(1, "1: ",4);
-    //     //     write(1, buff, c);
-    //     // }
-    //     // else 
-    //     // {
-    //     //     pid = fork();
-    //     //     if(pid == 0) {
-    //     //         char buff[100];
-    //     //         int c = read(fds[0], buff, 2);
-    //     //         write(1, "1: ",4);
-    //     //         write(1, buff, c);
-    //     //     }
-    //     //     else if (pid == -1) {
-    //     //         printf("Error!\n");
-    //     //     }
-    //     // }
-    // }
-    // else {
-    //     wait(0);
-    // }
-
     int str = 1;
     t_list *history = NULL;
     char    **commands  = NULL;
-    int     i = 0;
     t_info *info = 0;
 
     mx_ush_init(&info, envp);
-    
-    
-
     test();
     while(str != 0) {
         if (history && str == 1) {
             if (mx_replace_bquote((char**)&(history->data), info)) {
-            // mx_parsing(history->data, envp);
                 commands = mx_strsplit(history->data, ';');
                 mx_execute(commands, info);
                 mx_del_strarr(&commands);
-
-            // char *firstArgs[] =  {"/bin/cat", "1",0};
-            // char *secondArgs[] =  {"/bin/cat", 0};
-            // int fds[2];
-
-            // pipe(fds);
-            // pid_t pid = fork();
-            // if (pid == 0) {
-            //     close(1);
-            //     dup(fds[1]);
-            //     close(fds[1]);
-            //     execv("/bin/cat", firstArgs);
-            // }
-            // else {
-            //     wait(0);
-            //     close(fds[1]);
-            //     pid = fork();
-            //     if (pid == 0) { 
-            //         close(0);
-            //         dup(fds[0]);
-            //         execv("/bin/cat", secondArgs);
-            //     }
-            // }
-            // wait(0);
             }
         }
+        if (info->isExit)
+            break;
         str = mx_input(&history);
     }
+    // DIR *dir = opendir("..");
+    // struct dirent *dn = readdir(dir);
+    // while (dn) {
+    //     printf("%s\n", dn->d_name);
+    // }
     del_list_sring(&history);
     mx_del_strarr(&commands);
     mx_ush_close(info);
     system("leaks ush");
-    return 12;
+    return info->exit_status;
 }
 
