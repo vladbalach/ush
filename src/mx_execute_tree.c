@@ -66,6 +66,10 @@ pid_t mx_give_max_index(pid_t *processes) {
     return maxId;
 }
 
+// static void exec_buidin(t_token *token, int *fds, char operatorStatus, void (*foo)(char *argv[])) {
+
+// }
+
 
 // static void exec_token_(t_token *token, int *fds, char operatorStatus, t_info *info) {
 //     void (*foo)(char *argv[]) = 0;

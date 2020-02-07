@@ -20,11 +20,17 @@
 
 // #define HISTORY_STRING "\x1b[38;2;2;2;2mu$h> \x1b[0m\x1b[33m"
 #define HISTORY_STRING "\x1b[38;5;243mu$h> \x1b[38;5;68m"
+// <<<<<<< HEAD
 #define MAIN_STRING "u$h> "
 #define PROGRAM_NAME "\x1b[38;5;76mu$h> \x1b[38;5;76m"
 #define SEARCH_NAME "\x1b[38;5;243mSearch > \x1b[38;5;68m"
 #define SEARCH_NAME_REMOVE "Search > "
 #define MAX_PROC_COUNT 10
+// =======
+// #define MAIN_STRING "\x4u$h> "
+#define NAME "\x4\x1b[38;5;76mu$h> \x1b[38;5;76m"
+#define SEARCH "\x8\x1b[38;5;243mSearch > \x1b[38;5;68m"
+// #define SEARCH_NAME_REMOVE "\x8Search > "
 // PROCESES
 
 typedef struct s_process{
@@ -158,12 +164,14 @@ void mx_which(char **argv, t_info *info);
 bool mx_is_buildin(char *str);
 
 //
+char **mx_create_comands(char *str);
 void mx_one_symbol(char **str, char ch, int *count, int position);
 void mx_not_ascii(char *chars, int *table,  char **comands);
 int mx_bit_sumbol(char *str);
 int mx_len_symbol(int sum, char *str);
 int mx_input(t_list **list_comands);
 void mx_print_esc(char *s);
+void mx_check_outprogram_new_line(void);
 void mx_clean_monitor(char *str, int *table, char *new_str);
 void mx_out_monitor_new(char *name, int table2, int pos,char *str);
 void mx_clean_monitor_new(char *name, int table2, int pos,char *str);

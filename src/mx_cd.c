@@ -120,8 +120,6 @@ static bool is_home_or_error(char **argv, int flags, t_info *info) {
     return false;
 }
 
-
-
 int mx_cd(char **argv, t_info *info) {
     int i = 0;
     int flags = get_flags(argv, &i);
@@ -132,10 +130,9 @@ int mx_cd(char **argv, t_info *info) {
     // printf("i = %d\n", i);
     if (is_home_or_error(&argv[i], flags, info))
         return 1;
-    if (is_link(argv[i]) && (flags & 1)) {
+    if (is_link(argv[i]) && (flags & 1)) 
         // fprintf(stderr, "cd: not a directory: %s\n", argv[i]);
         return 1;
-    }
     // printf("1\n");
     mx_chdir(argv[i], info, isP);
     // printf("pwd = %s\noldpwd = %s\n", info->pwd, info->old_pwd);
@@ -144,3 +141,4 @@ int mx_cd(char **argv, t_info *info) {
     // }
     return 0;
 }
+
