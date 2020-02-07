@@ -16,14 +16,15 @@
 #include "libmx.h"
 #include <time.h>
 #include <signal.h>
+#include <sys/wait.h>
 
 // #define HISTORY_STRING "\x1b[38;2;2;2;2mu$h> \x1b[0m\x1b[33m"
+#define MAX_PROC_COUNT 10
 #define HISTORY_STRING "\x1b[38;5;243mu$h> \x1b[38;5;68m"
 // #define MAIN_STRING "\x4u$h> "
 #define NAME "\x4\x1b[38;5;76mu$h> \x1b[38;5;76m"
 #define SEARCH "\x8\x1b[38;5;243mSearch > \x1b[38;5;68m"
 // #define SEARCH_NAME_REMOVE "\x8Search > "
-
 // PROCESES
 
 typedef struct s_process{
@@ -41,7 +42,6 @@ typedef struct s_tree_node {
     struct s_tree_node *left;
     struct s_tree_node *right;
     struct s_tree_node *parent;
-
     void *data;
 } t_tnode;
 
@@ -81,8 +81,16 @@ typedef struct s_token{
 typedef struct s_programInfo {
     struct termios term_old;
     struct termios term_new;
-    t_list *processes;
     char **env;
+    pid_t *processes;
+    bool isExit;
+    int exit_status;
+    char *pwd;
+    char *pwdL;
+    char *pwdP;
+    char *old_pwd;
+    char *path;
+    char *home;
 } t_info;
 
 enum e_keys{
@@ -134,17 +142,20 @@ void mx_parsing(char *str);
 t_list *mx_lexer(char *str);
 bool mx_syntax_analyzer(t_list *tokens);
 void mx_execute(char **commands, t_info *processes);
+void mx_ush_close(t_info *info);
 
 void mx_write_from_to(int from , int to, off_t start);
 typedef struct termios t_termios;
 
 //BUILT IN
-void mx_cd(char *str[]);
+int mx_cd(char **argv, t_info *info);
 void mx_printstr_env(char *str);
-void mx_pwd(char *str);
+int mx_pwd(char **argv, t_info *info);
 void mx_echo(char **str);
 void mx_env(char *envp[]);
 void mx_export(const char *str, char **envp);
+void mx_which(char **argv, t_info *info);
+bool mx_is_buildin(char *str);
 
 //
 char **mx_create_comands(char *str);
@@ -163,6 +174,8 @@ void mx_key_delite(char **comands, int *table);
 char **mx_key_tab(char *parsing, int *table, char **str);
 void mx_key_duble_tab(char **str, char **comands, int *table);
 void mx_print_Tab_comands(t_list *list_comand);
+t_info* mx_get_info(t_info *info);
+
 
 // lexer
 bool mx_is_char(char c);
@@ -173,9 +186,14 @@ t_tnode* mx_create_ast(t_list** tokens, t_tnode *prev);
 void mx_delete_ast(t_tnode **root);
 
 //exec
-void mx_execute_tree(t_tnode *root, int *fds, char pipeStatus, t_info *info);
-void mx_exec_more(t_tnode *root, int *fds, int operatorStatus, t_info *info);
-void mx_exec_token(t_token* token, int *fds, char pipe_status, t_info *info);
+int mx_execute_tree(t_tnode *root, int *fds, char operatorStatus, t_info *info);
+int mx_exec_more(t_tnode *root, int *fds, int operatorStatus, t_info *info);
+int exec_token(t_token *token, int *fds, char operatorStatus, t_info *info);
 void mx_exec_less(t_tnode *root, int *fds, char operatorStatus, t_info *info);
 void mx_execute_proces(t_token* token);
+void mx_close_all_pr(t_info *info);
+
+// processes
+int mx_add_process(pid_t *processes, pid_t pid);
+int mx_get_pr_index(pid_t *processes, pid_t pid);
 #endif

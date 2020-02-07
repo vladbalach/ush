@@ -3,10 +3,11 @@
 static t_list* find_max_priority(t_list* tokens) {
     t_list *tmp = tokens;
     t_list* maxNode = tmp;
+    int maxPriority = 0;
 
     if (tmp == 0)
         return 0;
-    int maxPriority = ((t_token*)tmp->data)->priority;
+    maxPriority = ((t_token*)tmp->data)->priority;
     while (tmp) {
         if (((t_token*)tmp->data)->priority > maxPriority) {
             maxPriority = ((t_token*)tmp->data)->priority;
@@ -44,30 +45,13 @@ t_list* del_token(t_list **tokens, t_list *max) {
 
 t_tnode* mx_create_ast(t_list** tokens, t_tnode *prev) {
     t_list *max = find_max_priority(*tokens);
-    t_list *tmp = *tokens;
     t_tnode *root = mx_create_tnode(max->data);
     t_list *next = del_token(tokens, max);
 
     root->parent = prev;
-    
-    while (tmp) {
-        // printf("TOK = %s\n", ((t_token*)tmp->data)->value[0]);
-        tmp = tmp->next;
-    }
-
-    tmp = next;
-    while (tmp) {
-        // printf("NEXT = %s\n", ((t_token*)tmp->data)->value[0]);
-        tmp = tmp->next;
-    }
-
-    if (next != 0) {
-        //  printf("right ");
+    if (next != 0)
         root->right = mx_create_ast(&next, root);
-    }
-    if (*tokens != 0) {
-        // printf("left ");
+    if (*tokens != 0)
         root->left = mx_create_ast(tokens, root);
-    }
     return root;
 }

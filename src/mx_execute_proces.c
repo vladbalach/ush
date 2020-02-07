@@ -10,6 +10,7 @@ void mx_execute_proces(t_token* token) {
         mx_add_to_strarr(&argv, token->value[i]);
         i++;
     }
+
     mx_add_to_strarr(&argv, token->value[i]);
     if (execvp(argv[0], argv) == -1) {
         mx_printerr("u$h: command not found: ");

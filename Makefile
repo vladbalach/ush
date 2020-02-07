@@ -47,6 +47,13 @@ SRC = main.c \
 	mx_print_Tab_comands.c \
 	mx_key_delite.c \
 	mx_replace_bquote.c \
+	mx_get_info.c \
+	mx_ush_close.c \
+	mx_close_all_pr.c \
+	mx_add_process.c \
+	mx_get_pr_index.c \
+	mx_which.c \
+	mx_is_buildin.c \
 	mx_create_comands.c \
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC))

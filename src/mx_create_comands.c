@@ -47,10 +47,5 @@ char **mx_create_comands(char *str) {
             comands[i] = 0;
         str_spli_comands(&comands, str, len_str);
     }
-    for (int i = 0; comands[i] != 0; i++) {
-        mx_printstr("\n\n|");
-        mx_printstr(comands[i]);
-        mx_printstr("|\n\n");
-    }
     return comands;
 }

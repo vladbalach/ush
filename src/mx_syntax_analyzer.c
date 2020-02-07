@@ -79,9 +79,6 @@ bool mx_syntax_analyzer(t_list *tokens) {
             return false;
         if (is_double_less(tmp))
             return false;
-        // if (mx_is_ampersand(tmp)) {
-        //     return false;
-        // }
         tmp = tmp->next;
     }
     if (is_operator((t_token*)tmp->data))

@@ -158,7 +158,7 @@ char **mx_key_tab(char *parsing, int *table, char **str) {
             mx_one_symbol(str, ' ', &table[2], table[3]);
             table[3]++;
         }
-        mx_pop_front(&list_comand);
+        mx_pop_front_free_data(&list_comand);
     }
     else {
         write(1,"\a", 1);
