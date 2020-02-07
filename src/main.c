@@ -120,8 +120,8 @@ int main(int argc, char *argv[], char **envp) {
     while(str != 0) {
         if (history && str == 1) {
             if (mx_replace_bquote((char**)&(history->data), info)) {
-            // mx_parsing(history->data, envp);
-                commands = mx_create_comands(history->data);
+            // mx_parsing(history->data);
+                // commands = mx_create_comands(history->data);
                 commands = mx_strsplit(history->data, ';');
                 mx_execute(commands, info);
                 mx_del_strarr(&commands);
@@ -155,7 +155,7 @@ int main(int argc, char *argv[], char **envp) {
     }
     del_list_sring(&history);
     mx_del_strarr(&commands);
-    // system("leaks ush");
+    system("leaks ush");
     return 0;
 }
 

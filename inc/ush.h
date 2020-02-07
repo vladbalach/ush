@@ -130,7 +130,7 @@ t_token* mx_get_next_token(int *start, int end, char *str);
 char mx_get_token_type(char *str);
 // 
 void mx_ush_init(t_info **info, char **env);
-void mx_parsing(char *str, char **envp);
+void mx_parsing(char *str);
 t_list *mx_lexer(char *str);
 bool mx_syntax_analyzer(t_list *tokens);
 void mx_execute(char **commands, t_info *processes);
