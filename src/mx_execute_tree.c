@@ -66,6 +66,25 @@ pid_t mx_give_max_index(pid_t *processes) {
     return maxId;
 }
 
+static void exec_buidin(t_token *token, int *fds, char operatorStatus, void (*foo)(char *argv[])) {
+    // pid_t pid = fork();
+    // if (pid == 0) {
+    //     if (operatorStatus & 3) {
+    //         dup2(fds[1],1);
+    //         dup2(fds[0],0);
+    //     }
+        foo(token->value);
+        // exit(1);
+        // }
+        // else {
+        // if (operatorStatus & OP_PIPE_W)
+        //     close(fds[1]);
+        // if (operatorStatus & OP_PIPE_R)
+        //     close(fds[0]);
+        // wait(0);
+        // }
+}
+
 // static void exec_buidin(t_token *token, int *fds, char operatorStatus, void (*foo)(char *argv[])) {
 
 // }

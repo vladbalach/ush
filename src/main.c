@@ -75,6 +75,7 @@ int main(int argc, char *argv[], char **envp) {
     while(str != 0) {
         if (history && str == 1) {
             if (mx_replace_bquote((char**)&(history->data), info)) {
+            // mx_parsing(history->data, envp);
                 commands = mx_create_comands(history->data);
                 commands = mx_strsplit(history->data, ';');
                 mx_execute(commands, info);
