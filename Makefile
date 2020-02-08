@@ -56,6 +56,7 @@ SRC = main.c \
 	mx_is_buildin.c \
 	mx_check_symbol.c \
 	mx_end_flag.c \
+	mx_parsing_input.c \
 	mx_create_comands.c \
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC))
