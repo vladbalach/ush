@@ -158,7 +158,9 @@ void mx_which(char **argv, t_info *info);
 bool mx_is_buildin(char *str);
 
 //
-char **mx_create_comands(char *str);
+bool mx_check_symbol(char *str, int position, char symbol);
+int mx_end_flag(char *str, int *position, int end, int flag);
+char **mx_create_comands(char *str, int end);
 void mx_one_symbol(char **str, char ch, int *count, int position);
 void mx_not_ascii(char *chars, int *table,  char **comands);
 int mx_bit_sumbol(char *str);

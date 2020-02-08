@@ -74,17 +74,17 @@ int main(int argc, char *argv[], char **envp) {
     test();
     while(str != 0) {
         if (history && str == 1) {
-            if (mx_replace_bquote((char**)&(history->data), info)) {
-            // mx_parsing(history->data);
+            // if (mx_replace_bquote((char**)&(history->data), info)) {
+            mx_parsing(history->data);
                 // commands = mx_create_comands(history->data);
-                commands = mx_strsplit(history->data, ';');
-                mx_execute(commands, info);
-                mx_del_strarr(&commands);
-                mx_check_outprogram_new_line();
-            }
+                // commands = mx_strsplit(history->data, ';');
+                // mx_execute(commands, info);
+                // mx_del_strarr(&commands);
+                // mx_check_outprogram_new_line();
+            // }
         }
-        if (info->isExit)
-            break;
+        // if (info->isExit)
+        //     break;
         str = mx_input(&history);
     }
     // DIR *dir = opendir("..");
@@ -92,10 +92,10 @@ int main(int argc, char *argv[], char **envp) {
     // while (dn) {
     //     printf("%s\n", dn->d_name);
     // }
-    del_list_sring(&history);
-    mx_del_strarr(&commands);
-    mx_ush_close(info);
-    system("leaks ush");
-    return info->exit_status;
+    // del_list_sring(&history);
+    // mx_del_strarr(&commands);
+    // mx_ush_close(info);
+    // system("leaks ush");
+    // return info->exit_status;
 }
 

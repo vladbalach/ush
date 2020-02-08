@@ -3,3 +3,7 @@
 void mx_printerr(const char *s) {
     write(2, s, mx_strlen(s));
 }
+
+void mx_printcharerr(char c) {
+    write(1, &c, 1);
+}

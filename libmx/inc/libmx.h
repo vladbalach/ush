@@ -78,7 +78,7 @@ t_list *mx_sort_list(t_list *lst, bool (*cmp)(void *, void *));
 int mx_read_line(char **lineptr, int buf_size, char delim, const int fd);
 void mx_add_to_strarr(char ***strs, char *str);
 void mx_pop_front_free_data(t_list **head);
-
+void mx_printcharerr(char c);
 char *mx_get_user_home();
 char *mx_get_user_name();
 unsigned int mx_getchar();
