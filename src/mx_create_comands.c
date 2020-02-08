@@ -30,7 +30,7 @@ char **mx_create_comands(char *str, int end) {
         comands[i] = create_comand(&str[position], &position);
     }
     comands[sum] = 0;
-
+    mx_strdel(&str);
     // mx_printstr("\n");
     // for (int i = 0; comands[i]; i++) {
     //     mx_printstr(comands[i]);

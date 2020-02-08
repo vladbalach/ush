@@ -24,7 +24,7 @@ void printTokens(t_list *tokens) {
 void mx_execute(char **commands, t_info *processes) {
     t_list  *tokens  = NULL;
     t_tnode *rootAst = 0;
-    int     i        = 0;
+    int i = 0;
 
     while(commands[i]) {
         tokens = mx_lexer(commands[i]);
