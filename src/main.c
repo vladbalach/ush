@@ -109,8 +109,8 @@ int main(int argc, char *argv[], char **envp) {
     // }
     del_list_sring(&history);
     mx_del_strarr(&commands);
-    mx_ush_close(info);
-    system("leaks ush");
+    // mx_ush_close(info);
+   system("leaks ush");
     return info->exit_status;
 
 }

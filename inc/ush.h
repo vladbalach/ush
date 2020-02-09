@@ -92,7 +92,7 @@ typedef struct s_programInfo {
     char *old_pwd;
     char *path;
     char *home;
-    t_tnode *tree;
+    t_tnode *var_tree;
 } t_info;
 
 enum e_keys{

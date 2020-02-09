@@ -52,11 +52,11 @@ static void delete_tnode_2ch(t_tnode **root, void *data, int (*cmp)(void*, void*
 
 void mx_delete_tnode(t_tnode **root, void *data, int (*cmp)(void*, void*), void (*free_tnode)(t_tnode *tnode)) {
     t_tnode *finded = mx_find_tnode(*root, data,  cmp);
-    
     if (finded == 0) {
         return;
     }
     if (finded == *root) {
+        printf("ROOTTT\n");
         free_tnode(finded);
     }
     if (finded == 0) { // no value
