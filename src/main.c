@@ -64,6 +64,21 @@ void free_delete(t_tnode *ptr) {
 
 
 int main(int argc, char *argv[], char **envp) {
+
+    // char *argv2[] = {"4sec",0};
+    // pid_t pid = 0;
+    // if(fork() == 0) {
+    //     if(fork() == 0) {
+    //         execv("4sec", argv2);
+    //     }
+    //     else
+    //         execv("10sec", argv2);
+    // }
+    // else {
+    //     wait(0);
+    //     printf("DONE!\n");
+    // }
+
     int str = 1;
     t_list *history = NULL;
     char    **commands  = NULL;
@@ -97,5 +112,6 @@ int main(int argc, char *argv[], char **envp) {
     mx_ush_close(info);
     system("leaks ush");
     return info->exit_status;
+
 }
 

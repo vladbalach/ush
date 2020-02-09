@@ -147,6 +147,11 @@ int mx_execute_tree(t_tnode *root, int *fds, char operatorStatus, t_info *info) 
             mx_printerr("No fg processes\n");
         }
     }
+    if (mx_strcmp(((t_token*)root->data)->value[0], "export") == 0) {
+        // free(str);
+        // mx_export(((t_token*)root->data)->value, info);
+        return status;
+    }
     if (mx_strcmp(((t_token*)root->data)->value[0], "exit") == 0) {
         int s = atoi(((t_token*)root->data)->value[1]);
         info->isExit = true;
