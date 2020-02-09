@@ -36,6 +36,7 @@ typedef struct s_process{
 typedef struct s_variable {
     char* name;
     char* value;
+    bool is_env;
 } t_variable;
 
 typedef struct s_tree_node {

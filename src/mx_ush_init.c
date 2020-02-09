@@ -25,6 +25,7 @@ static void init_var() {
     // }
 }
 
+
 void mx_ush_init(t_info **info, char **env) {
     t_info *newInfo = (t_info*) malloc(sizeof(t_info));
     newInfo->env = env;
@@ -36,10 +37,10 @@ void mx_ush_init(t_info **info, char **env) {
     newInfo->isExit = false;
     newInfo->exit_status = 0;
     newInfo->path = mx_strdup(getenv("PATH"));
-    newInfo->pwd = mx_strdup(getenv("PWD"));
-    newInfo->pwdP = mx_strdup(getenv("PWD"));
-    newInfo->pwdL = mx_strdup(getenv("PWD"));
-    newInfo->old_pwd = mx_strdup(getenv("OLDPWD"));
+    newInfo->pwd = getcwd(NULL, 0);
+    newInfo->pwdP = getcwd(NULL, 0);
+    newInfo->pwdL = getcwd(NULL, 0);
+    newInfo->old_pwd = getcwd(NULL, 0);
     //  printf("pwd = %s\n", newInfo->old_pwd);
     newInfo->home = mx_strdup(getenv("HOME"));
     (*info) = newInfo;
