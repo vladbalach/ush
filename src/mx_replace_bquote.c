@@ -105,7 +105,6 @@ static void mx_find_replace(char **str, t_info *processes) {
 
 int mx_replace_bquote(char **str, t_info *processes) {
     char is_opened = check_closed_bq(*str);
-
     if (is_opened == 2){
         mx_printerr("Not closed bquote!\n");
         return 0;

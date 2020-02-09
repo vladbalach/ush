@@ -269,3 +269,4 @@ int mx_cd(char **argv, t_info *info) {
         mx_chdir_L(path, info);
     return 0;
 }
+

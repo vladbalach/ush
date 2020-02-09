@@ -29,13 +29,13 @@ static char *direct(char *parsing) {
 
 static void add_comand(t_list **list_comand, char *parsing) {
     DIR *dir = 0;
-    static char *comand[] = {"history", 0};
+    static char *comand[] = {"history", "./", "../", 0};
     char *temp = 0;
     struct dirent *entry;
     char *directori = direct(parsing);
     int i = 1;
 
-    if (mx_strcmp2("./", directori) == 0)
+    if (mx_strcmp2("./", directori) == 0 && mx_strcmp2(&parsing[1], "./") != 0)
         i = 1;
     else
         i = mx_strlen(directori) + 1;
@@ -90,7 +90,7 @@ static bool name_comand(char temp) {
 
     if ((temp > 47 && temp < 58) || (temp > 64 && temp <91))
         return 1;
-    if ((temp > 96 && temp < 123) || temp == 46 || temp == '/')
+    if ((temp > 96 && temp < 123) || temp == 46 || temp == '/' || temp == '.')
         return 1;
     if (check != 0)
         return 1;
@@ -117,6 +117,8 @@ static char *mini_parser(char *parsing) {
         comands[0] = '\r';
     else
         comands[0] = parsing[temp];
+    if (mx_strstr(comands, "/"))
+        comands[0] = '1';
     return comands;
 }
 
@@ -156,7 +158,7 @@ char **mx_key_tab(char *parsing, int *table, char **str) {
             mx_one_symbol(str, ' ', &table[2], table[3]);
             table[3]++;
         }
-        mx_pop_front(&list_comand);
+        mx_pop_front_free_data(&list_comand);
     }
     else {
         write(1,"\a", 1);

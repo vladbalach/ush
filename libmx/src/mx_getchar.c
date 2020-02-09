@@ -5,7 +5,7 @@ static void setTerminalSettings() {
     tcgetattr(STDIN_FILENO, &newTerm);
     newTerm.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP
                 | INLCR | IGNCR | ICRNL | IXON);
-    newTerm.c_oflag &= ~OPOST;
+    // newTerm.c_oflag &= ~OPOST;
     newTerm.c_lflag &= ~(ECHO | ECHONL | ICANON | ISIG | IEXTEN);
     newTerm.c_cflag &= ~(CSIZE | PARENB);
     newTerm.c_cflag |= CS8;

@@ -4,7 +4,7 @@ void mx_key_delite(char **comands, int *table) {
     int i;
     int sum = mx_bit_sumbol(&comands[*table][table[2] - table[3] - 1]);
 
-    mx_clean_monitor_new(MAIN_STRING, table[2], table[3], comands[table[0]]);
+    mx_clean_monitor_new(NAME, table[2], table[3], comands[table[0]]);
     for (;sum > 0; sum--) {
         i = table[3];
         table[3]--;
