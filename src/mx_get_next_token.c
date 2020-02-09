@@ -39,12 +39,19 @@ static int get_token_priority(char *str) {
         return 10;
 }
 
+static bool if_symbol(char test) {
+    if (test == 34 || test == 39 || test == 96)
+        return 1;
+    return 0;
+}
 
 t_token* mx_get_next_token(int *currPos, int end, char *str, t_info *processes) {
     int tokenStart = *currPos;
     // int tokenEnd = *currPos;
     t_token *newToken = 0;
     char *newValue = 0;
+    int pos = 0;
+    char *temp = 0;
 
     if (*currPos >= end)
         return 0;
@@ -53,12 +60,24 @@ t_token* mx_get_next_token(int *currPos, int end, char *str, t_info *processes) 
     if (mx_is_char(str[tokenStart])) {
         while (mx_is_char(str[tokenStart])) {
             while (mx_is_char(str[*currPos])) {
-                (*currPos)++;
+                if (if_symbol(str[*currPos]) && mx_check_symbol(str, *currPos, str[*currPos])) {
+                    // mx_printchar(str[*currPos]);
+                    pos = (*currPos);
+                    (*currPos)++;
+                    mx_end_flag(str, currPos, end, str[pos]);
+                    // mx_printint(*currPos);
+                    // mx_printstr("\n");
+                }
+                else
+                    (*currPos)++;
+                // mx_printint(*currPos);
             }
             newValue = mx_strndup(&str[tokenStart], *currPos - tokenStart);
+            temp = mx_audit_str(newValue, processes);
+            mx_strdel(&newValue);
             mx_skip_spaces(str, currPos, end);
             tokenStart = *currPos;
-            mx_add_to_strarr(&newToken->value, newValue);
+            mx_add_to_strarr(&newToken->value, temp);
         }
     }
 
@@ -67,6 +86,7 @@ t_token* mx_get_next_token(int *currPos, int end, char *str, t_info *processes) 
         newValue = mx_strndup(&str[tokenStart], *currPos - tokenStart);
         mx_add_to_strarr(&newToken->value, newValue);
     }
+
     //---------------------------------------------------------------------------------------------------
     newToken->type = mx_get_token_type(newToken->value[0]);
     newToken->priority = get_token_priority(newToken->value[0]);

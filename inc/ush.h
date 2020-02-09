@@ -34,8 +34,9 @@ typedef struct s_process{
 // VARIABLES
 
 typedef struct s_variable {
-    char* name;
-    char* value;
+    char *name;
+    char *value;
+    bool ifEnv;
 } t_variable;
 
 typedef struct s_tree_node {
@@ -91,6 +92,7 @@ typedef struct s_programInfo {
     char *old_pwd;
     char *path;
     char *home;
+    t_tnode *tree;
 } t_info;
 
 enum e_keys{
@@ -161,6 +163,9 @@ bool mx_is_buildin(char *str);
 bool mx_check_symbol(char *str, int position, char symbol);
 int mx_end_flag(char *str, int *position, int end, int flag);
 char *mx_parsing_input(char *str);
+char mx_if_isspace(char s);
+char *mx_audit_str(char *str, t_info *processes);
+char *mx_str_bquote(char **str, t_info *processes);
 char **mx_create_comands(char *str, int end);
 void mx_one_symbol(char **str, char ch, int *count, int position);
 void mx_not_ascii(char *chars, int *table,  char **comands);

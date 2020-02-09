@@ -29,14 +29,16 @@ void create_parameter(char *str, int *start, int end, t_info *processes) {
     int pos = pos_parametr(str, start);
     char *name = mx_strndup(&str[*start], pos - *start);
     char *value = NULL;
+    char *temp = NULL;
 
     *start = ++pos;
 
     mx_end_flag(str, &pos, end, ' ');
     // mx_printint(pos);
-    value = mx_strndup(&str[*start], pos - *start);
+    temp = mx_strndup(&str[*start], pos - *start);
     *start = pos;
-    // mx_audit_str(char *str, t_info *processes);
+    value = mx_audit_str(temp, processes);
+
     // for (int i = 0, pos = 0; value[i]; i++, pos = i) {
     //     if (!(is_not_operator(value[i]))) {
     //         mx_end_flag(value, &pos, mx_strlen(value), value[i]);
@@ -44,14 +46,16 @@ void create_parameter(char *str, int *start, int end, t_info *processes) {
     //     }
         
     // }
-    mx_printstr(name);
+
+    mx_strdel(&temp);
+    // mx_printstr(name);
     mx_strdel(&name);
-    mx_printstr("|\n");
+    // mx_printstr("|\n");
     mx_printstr(value);
     mx_strdel(&value);
     mx_printstr("|\n");
     pos = get_start_index(&str[*start]);
-    if (pos != -1)
+    if (pos != -1) 
         *start += pos;
     mx_if_new_parameter(str, start, end, processes);
 }

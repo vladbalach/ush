@@ -1,4 +1,5 @@
 #include "ush.h"
+
 static bool if_symbol(char test) {
     if (test == 34 || test == 39 || test == 96)
         return 1;

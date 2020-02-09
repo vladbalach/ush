@@ -59,6 +59,9 @@ SRC = main.c \
 	mx_parsing_input.c \
 	mx_if_new_parameter.c \
 	mx_create_comands.c \
+	mx_audit_str.c \
+	mx_str_bquote.c \
+	mx_if_isspace.c \
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC))
 
