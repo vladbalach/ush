@@ -40,7 +40,7 @@ static int get_token_priority(char *str) {
 }
 
 
-t_token* mx_get_next_token(int *currPos, int end, char *str) {
+t_token* mx_get_next_token(int *currPos, int end, char *str, t_info *processes) {
     int tokenStart = *currPos;
     // int tokenEnd = *currPos;
     t_token *newToken = 0;
@@ -49,6 +49,7 @@ t_token* mx_get_next_token(int *currPos, int end, char *str) {
     if (*currPos >= end)
         return 0;
     newToken = mx_create_token(0,0,0);
+    //--------------------------------------------------------------------------------------------------
     if (mx_is_char(str[tokenStart])) {
         while (mx_is_char(str[tokenStart])) {
             while (mx_is_char(str[*currPos])) {
@@ -66,6 +67,7 @@ t_token* mx_get_next_token(int *currPos, int end, char *str) {
         newValue = mx_strndup(&str[tokenStart], *currPos - tokenStart);
         mx_add_to_strarr(&newToken->value, newValue);
     }
+    //---------------------------------------------------------------------------------------------------
     newToken->type = mx_get_token_type(newToken->value[0]);
     newToken->priority = get_token_priority(newToken->value[0]);
     mx_skip_spaces(str, currPos, end);

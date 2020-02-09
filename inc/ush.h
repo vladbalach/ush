@@ -131,15 +131,15 @@ t_tnode* mx_get_min_tnode(t_tnode *root);
 t_tnode *mx_create_tnode(void *data);
 void mx_delete_tnode(t_tnode **root, void *data, int (*cmp)(void*, void*), void (*free_tnode)(t_tnode *tnode));
 t_tnode *mx_find_tnode(t_tnode *root, void *data, int (*cmp)(void*, void*));
-
+void mx_if_new_parameter(char *str, int *start, int end, t_info *processes);
 t_token *mx_create_token(char type, char **value, int priority);
 void mx_clear_tokens(t_list **tokens);
-t_token* mx_get_next_token(int *start, int end, char *str);
+t_token* mx_get_next_token(int *start, int end, char *str, t_info *processes);
 char mx_get_token_type(char *str);
 // 
 void mx_ush_init(t_info **info, char **env);
 void mx_parsing(char *str, t_info *info);
-t_list *mx_lexer(char *str);
+t_list *mx_lexer(char *str, t_info *processes);
 bool mx_syntax_analyzer(t_list *tokens);
 void mx_execute(char **commands, t_info *processes);
 void mx_ush_close(t_info *info);

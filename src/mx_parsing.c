@@ -12,6 +12,11 @@ void mx_parsing(char *str, t_info *info) {
     if (temp == 0) {
         return;
     }
+    if (mx_check_symbol(str, end -1, '\\')) {
+        mx_strdel(&temp);
+        mx_printerr("u$h: parse error near | \\ |\n");
+        return;
+    }
     comands = mx_create_comands(temp, end);
     // mx_printstr("\n");
     // for(int i = 0;  comands[i]; i++) {

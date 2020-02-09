@@ -182,6 +182,10 @@ static int get_start_index(char *str) {
 static int get_end_index(char *str) {
     int i = mx_strlen(str) - 1;
 
+    // if (mx_check_symbol(str, i, 92)) {
+    //     mx_printerr("u$h: parse error near \'\\\'\n");
+    //     return 0;
+    // }
     while(i >= 0) {
         if (str[i] != ' ') {
             return i + 1;
@@ -191,23 +195,23 @@ static int get_end_index(char *str) {
     return i + 1;
 }
 
-t_list *mx_create_tokens(char *str) {
+t_list *mx_create_tokens(char *str, t_info *processes) {
     int start   = get_start_index(str);
     int end     = get_end_index(str);
     t_token *newToken = 0;
     t_list *tokens = 0;
 
-    while((newToken = mx_get_next_token(&start, end, str))) {
+    mx_if_new_parameter(str, &start, end, processes);
+    while((newToken = mx_get_next_token(&start, end, str, processes))) {
         mx_push_back(&tokens, newToken);
     }
     return tokens;
 }
 
-t_list *mx_lexer(char *str) {
+t_list *mx_lexer(char *str, t_info *processes) {
     t_list *tokens = 0;
     if (str == 0)
         return 0;
-    tokens = mx_create_tokens(str);
-    
+    tokens = mx_create_tokens(str, processes);
     return tokens;
 }

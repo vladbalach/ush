@@ -1,9 +1,10 @@
 #include "ush.h"
+
 static int sum_comands(char *str, int end) {
     int sum = 0;
 
     for(int i = 0; i <= end; i ++) {
-        if (end == 1 && sum == 0)
+        if (end == 1 && str[0] == 0 && sum == 0)
             sum--;
         if (str[i] == 0 && i != 0 && i != end -1)
             sum++;

@@ -1,0 +1,1 @@
+mx_audit_str(char *str, t_info *processes);

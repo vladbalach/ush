@@ -11,12 +11,24 @@ static void printerrflag(char flag) {
     mx_printerr(" |\n");
 }
 
+static bool flag_operator(char *str, int *pos, int flag) {
+    if (flag != ' ')
+        return 0;
+    if (str[*pos] == '|' || str[*pos] == '<'
+        || str[*pos] == '>' || str[*pos] == '&')
+        if (mx_check_symbol(str, *pos, str[*pos])) {
+            (*pos)--;
+            return 1;
+        }
+    return 0;
+}
+
 static int flang_Comand(char *str, int *pos, int end, int flag) {
     int check_flag = flag;
 
     while (*pos < end) {
         check_flag = str[*pos];
-        if (mx_check_symbol(str, *pos, flag))
+        if (mx_check_symbol(str, *pos, flag) || flag_operator(str, pos, flag))
             return 0;
         else if (if_symbol(str[*pos]) 
                  && mx_check_symbol(str, *pos, str[*pos]) && (*pos)++) {
@@ -30,7 +42,8 @@ static int flang_Comand(char *str, int *pos, int end, int flag) {
         else
             (*pos)++;
     }
-    printerrflag(flag);
+    if (flag != ' ')
+        printerrflag(flag);
     return flag;
 }
 
