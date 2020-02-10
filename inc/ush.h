@@ -34,9 +34,10 @@ typedef struct s_process{
 // VARIABLES
 
 typedef struct s_variable {
-    char* name;
-    char* value;
+    char *name;
+    char *value;
     bool is_env;
+    char *mem;
 } t_variable;
 
 typedef struct s_tree_node {
@@ -92,7 +93,7 @@ typedef struct s_programInfo {
     char *old_pwd;
     char *path;
     char *home;
-    t_tnode *tree;
+    t_list *var_tree;
 } t_info;
 
 enum e_keys{
@@ -134,10 +135,12 @@ t_tnode *mx_create_tnode(void *data);
 void mx_delete_tnode(t_tnode **root, void *data, int (*cmp)(void*, void*), void (*free_tnode)(t_tnode *tnode));
 t_tnode *mx_find_tnode(t_tnode *root, void *data, int (*cmp)(void*, void*));
 void mx_if_new_parameter(char *str, int *start, int end, t_info *processes);
+void mx_serch_list(t_list **var_tree, char *name, char *value);
 t_token *mx_create_token(char type, char **value, int priority);
 void mx_clear_tokens(t_list **tokens);
 t_token* mx_get_next_token(int *start, int end, char *str, t_info *processes);
 char mx_get_token_type(char *str);
+
 // 
 void mx_ush_init(t_info **info, char **env);
 void mx_parsing(char *str, t_info *info);
@@ -154,8 +157,9 @@ int mx_cd(char **argv, t_info *info);
 void mx_printstr_env(char *str);
 int mx_pwd(char **argv, t_info *info);
 void mx_echo(char **str);
-void mx_env(char *envp[]);
-void mx_export(const char *str, char **envp);
+void mx_env(char **argv, t_list *var_tree);
+void mx_export(char **argv, t_list **var_tree);
+void mx_unset(char **argv, t_list **var_tree);
 void mx_which(char **argv, t_info *info);
 bool mx_is_buildin(char *str);
 

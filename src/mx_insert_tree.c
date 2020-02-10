@@ -29,6 +29,8 @@ void mx_insert_tree(t_tnode **root, t_tnode *new,
     }
     else { // equal
         free_((*root)->data);
+        
         (*root)->data = new->data;
+        free(new);
     }
 }

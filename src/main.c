@@ -86,7 +86,7 @@ int main(int argc, char *argv[], char **envp) {
     t_tnode *change = 0;
 
     mx_ush_init(&info, envp);
-    test();
+    // test();
     while(str != 0) {
         if (history && str == 1) {
             // if (mx_replace_bquote((char**)&(history->data), info)) {
@@ -109,8 +109,8 @@ int main(int argc, char *argv[], char **envp) {
     // }
     del_list_sring(&history);
     mx_del_strarr(&commands);
-    mx_ush_close(info);
-    system("leaks ush");
+    // mx_ush_close(info);
+   system("leaks ush");
     return info->exit_status;
 
 }
