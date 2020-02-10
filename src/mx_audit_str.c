@@ -130,6 +130,21 @@ static void do_replace(char **str, size_t start, size_t end, char *str_new) {
     // mx_printstr("||\n");
 }
 
+static bool is_not_operator(char c) {
+    if (c == '|' || c == '&' || c == '>' || c == '<'|| c == '$' || c == ' ')
+        return false;
+    if (c == '='|| c == 92 || c == 34 || c == 39 || c== 96 || c == 0)
+        return false;
+    return true;
+}
+
+static int end_parametr(char *str, int i) {
+    int temp = i + 1;
+
+    while (is_not_operator(str[temp]))
+        temp++;
+    return temp;
+}
 
 char *mx_audit_str(char *str, t_info *processes) {
     char *new_str = mx_strdup(str);
@@ -153,8 +168,17 @@ char *mx_audit_str(char *str, t_info *processes) {
             do_replace(&new_str, i, pos, temp);
             if (temp) {
                 i = i + mx_strlen(temp);
-            mx_strdel(&temp);
+                mx_strdel(&temp);
             }
+            i--;
+        }
+        if (mx_check_symbol(new_str, i ,'$')) {
+            flag = end_parametr(new_str, i);
+            temp = mx_strndup(&new_str[i + 1], flag - i);
+            temp = mx_return_value(&temp, &(processes->var_tree));
+            do_replace(&new_str, i, flag, temp);
+            if (temp)
+                i = i + mx_strlen(temp);
             i--;
         }
     }
