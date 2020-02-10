@@ -64,6 +64,7 @@ SRC = main.c \
 	mx_if_isspace.c \
 	mx_serch_list.c \
 	mx_unset.c \
+	mx_return_value.c \
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC))
 

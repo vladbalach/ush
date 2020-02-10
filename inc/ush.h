@@ -135,6 +135,7 @@ t_tnode *mx_create_tnode(void *data);
 void mx_delete_tnode(t_tnode **root, void *data, int (*cmp)(void*, void*), void (*free_tnode)(t_tnode *tnode));
 t_tnode *mx_find_tnode(t_tnode *root, void *data, int (*cmp)(void*, void*));
 void mx_if_new_parameter(char *str, int *start, int end, t_info *processes);
+char *mx_return_value(char **str, t_list **var_tree);
 void mx_serch_list(t_list **var_tree, char *name, char *value);
 t_token *mx_create_token(char type, char **value, int priority);
 void mx_clear_tokens(t_list **tokens);

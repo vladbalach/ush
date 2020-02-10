@@ -73,6 +73,7 @@ void mx_push_front(t_list **list, void *data);
 void mx_push_back(t_list **list, void *data);
 void mx_pop_front(t_list **head);
 void mx_pop_back(t_list **head);
+void mx_pop_list(t_list **head, void *data, bool(*if_list)(void *, void *), void(*del_data)(void *));
 int mx_list_size(t_list *list);
 t_list *mx_sort_list(t_list *lst, bool (*cmp)(void *, void *));
 int mx_read_line(char **lineptr, int buf_size, char delim, const int fd);
