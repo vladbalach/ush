@@ -7,6 +7,8 @@ INC = inc/ush.h \
 HEADTMP = ush.h\
 	libmx.h \
 
+LIBS = libmx.a \
+
 OBJ_DIR = ./obj/
 SRC_DIR = ./src/
 
@@ -71,7 +73,7 @@ OBJ_D = $(addprefix $(OBJ_DIR), $(OBJ))
 
 CFLSGS = -std=c11 #-Wall -Wextra -Wpedantic -Werror 
 
-all: install clean
+all: install
 
 install:
 	@make install -C ./libmx
@@ -79,12 +81,12 @@ install:
 	@clang $(CFLSGS) -c  $(SRC)
 	@mkdir -p obj
 	@mv $(OBJ) ./obj
-	@clang $(CFLSGS) $(OBJ_D) libmx.a -o $(NAME)
-	@make uninstall -C ./libmx
+	@clang $(CFLSGS) $(OBJ_D) $(LIBS) -o $(NAME)
 uninstall:
 	@make clean
 	@rm -rf $(NAME)
+	@make uninstall -C ./libmx
 clean: 
-	@rm -rf $(OBJ_D) $(SRC) $(HEADTMP) libmx.a
+	@rm -rf $(OBJ_D) $(SRC) $(HEADTMP) $(LIBS)
 	@rm -rf ./obj
 reinstall: uninstall install
