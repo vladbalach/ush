@@ -147,11 +147,6 @@ int mx_execute_tree(t_tnode *root, int *fds, char operatorStatus, t_info *info) 
             mx_printerr("No fg processes\n");
         }
     }
-    if (mx_strcmp(((t_token*)root->data)->value[0], "export") == 0) {
-        // free(str);
-        // mx_export(((t_token*)root->data)->value, info);
-        return status;
-    }
     if (mx_strcmp(((t_token*)root->data)->value[0], "exit") == 0) {
         int s = atoi(((t_token*)root->data)->value[1]);
         info->isExit = true;
@@ -161,11 +156,20 @@ int mx_execute_tree(t_tnode *root, int *fds, char operatorStatus, t_info *info) 
     if (mx_strcmp(((t_token*)root->data)->value[0], "cd") == 0) {
         mx_cd(((t_token*)root->data)->value, info);
     }
+    else if (mx_strcmp(((t_token*)root->data)->value[0], "export") == 0) {
+        mx_export(((t_token*)root->data)->value, &(info->var_tree));
+    }
+    else if (mx_strcmp(((t_token*)root->data)->value[0], "unset") == 0) {
+        mx_unset(((t_token*)root->data)->value, &(info->var_tree));
+    }
     else if (mx_strcmp(((t_token*)root->data)->value[0], "pwd") == 0) {
         mx_pwd(((t_token*)root->data)->value, info);
     }
     else if (mx_strcmp(((t_token*)root->data)->value[0], "stop") == 0) {
         mx_close_all_pr(info);
+    }
+    else if (mx_strcmp(((t_token*)root->data)->value[0], "env") == 0) {
+        mx_env(((t_token*)root->data)->value, info->var_tree);
     }
     else if (mx_strcmp(((t_token*)root->data)->value[0], "which") == 0) {
         mx_which(((t_token*)root->data)->value, info);

@@ -39,21 +39,14 @@ void create_parameter(char *str, int *start, int end, t_info *processes) {
     *start = pos;
     value = mx_audit_str(temp, processes);
 
-    // for (int i = 0, pos = 0; value[i]; i++, pos = i) {
-    //     if (!(is_not_operator(value[i]))) {
-    //         mx_end_flag(value, &pos, mx_strlen(value), value[i]);
-    //         // char *
-    //     }
-        
-    // }
-
     mx_strdel(&temp);
     // mx_printstr(name);
-    mx_strdel(&name);
+    // mx_strdel(&name);
     // mx_printstr("|\n");
-    mx_printstr(value);
-    mx_strdel(&value);
-    mx_printstr("|\n");
+    // mx_printstr(value);
+    // mx_strdel(&value);
+    mx_serch_list(&(processes->var_tree), name, value);
+    // mx_printstr("|\n");
     pos = get_start_index(&str[*start]);
     if (pos != -1) 
         *start += pos;
