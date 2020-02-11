@@ -37,7 +37,7 @@ void create_parameter(char *str, int *start, int end, t_info *processes) {
     // mx_printint(pos);
     temp = mx_strndup(&str[*start], pos - *start);
     *start = pos;
-    value = mx_audit_str(temp, processes);
+    value = mx_audit_str(temp, processes, 0);
 
     mx_strdel(&temp);
     // mx_printstr(name);

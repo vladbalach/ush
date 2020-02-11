@@ -169,7 +169,7 @@ bool mx_check_symbol(char *str, int position, char symbol);
 int mx_end_flag(char *str, int *position, int end, int flag);
 char *mx_parsing_input(char *str);
 char mx_if_isspace(char s);
-char *mx_audit_str(char *str, t_info *processes);
+char *mx_audit_str(char *str, t_info *processes, bool dqute);
 char *mx_str_bquote(char **str, t_info *processes);
 char **mx_create_comands(char *str, int end);
 void mx_one_symbol(char **str, char ch, int *count, int position);

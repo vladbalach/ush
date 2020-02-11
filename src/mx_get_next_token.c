@@ -73,11 +73,16 @@ t_token* mx_get_next_token(int *currPos, int end, char *str, t_info *processes) 
                 // mx_printint(*currPos);
             }
             newValue = mx_strndup(&str[tokenStart], *currPos - tokenStart);
-            temp = mx_audit_str(newValue, processes);
+            temp = mx_audit_str(newValue, processes, 0);
             mx_strdel(&newValue);
             mx_skip_spaces(str, currPos, end);
             tokenStart = *currPos;
-            mx_add_to_strarr(&newToken->value, temp);
+            // mx_printstr(temp);
+            // mx_printstr("\n\n");
+            if (temp)
+                mx_add_to_strarr(&newToken->value, temp);
+            // if (temp && mx_strlen(temp) == 0)
+                // mx_strdel(&temp);
         }
     }
 
