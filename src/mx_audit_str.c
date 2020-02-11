@@ -68,9 +68,7 @@ static void del_backslash_and_$(char **str, t_info *processes) {
     temp[1] = 0;
     while (str[0][i] != 0) {
         if (str[0][i] == 92)
-            temp[0] = mx_if_isspace(str[0][++i]);
-        else
-            temp[0] = str[0][i];
+            temp[0] = str[0][++i];
         new_str = mx_strjoin2(new_str, temp);
         i++;
     }
@@ -78,7 +76,7 @@ static void del_backslash_and_$(char **str, t_info *processes) {
     *str = new_str;
 }
 
-static void editor_str(char **str, t_info *processes) {
+static void editor_str(char **str, t_info *processes, bool dqute) {
     char *temp = 0;
     char *temp2 = 0;
     int i = 1;
@@ -91,14 +89,14 @@ static void editor_str(char **str, t_info *processes) {
         *str = temp;
     }
     else if (str[0][0] == 96 || str[0][0] == '$') {
-        // del_backslash_and_$(&temp, processes);
-        temp = mx_str_bquote(&temp, processes);
         mx_strdel(str);
+        temp2 = mx_audit_str(temp, processes, dqute);
+        mx_strdel(&temp);
+        temp = mx_str_bquote(&temp2, processes);
         *str = temp;
     }
     else if (str[0][0] == 34) {
         temp2 = mx_audit_str(temp, processes, 1);
-        // del_backslash_and_$(&temp2, processes);
         mx_strdel(str);
         mx_strdel(&temp);
         *str = temp2;
@@ -114,7 +112,7 @@ static void do_replace(char **str, size_t start, size_t end, char *str_new) {
     if (str_new)
         sum = mx_strlen(str_new);
     if (!(sum ==  0 && i == end - start))
-    newStr = (char*) malloc (i - (end - start) + sum);
+    newStr = (char*) malloc (i - (end - start) + sum + 1);
     if (newStr) {
         for (i = 0; i < start; i++) {
             newStr[i] = (*str)[i];
@@ -150,6 +148,8 @@ static int end_parametr(char *str, int i) {
 }
 
 char *mx_audit_str(char *str, t_info *processes, bool dqute) {
+    if (str == 0)
+        return 0;
     char *new_str = mx_strdup(str);
     char *temp = NULL;
     int pos = 0;
@@ -168,7 +168,7 @@ char *mx_audit_str(char *str, t_info *processes, bool dqute) {
                 flag = new_str[i];
             mx_end_flag(new_str, &pos, mx_strlen(new_str), flag);
             temp = mx_strndup(&new_str[i], pos - i);
-            editor_str(&temp, processes);
+            editor_str(&temp, processes, dqute);
             do_replace(&new_str, i, pos, temp);
             if (temp) {
                 i = i + mx_strlen(temp);
@@ -178,7 +178,7 @@ char *mx_audit_str(char *str, t_info *processes, bool dqute) {
         }
         else if (mx_check_symbol(new_str, i ,'$')) {
             flag = end_parametr(new_str, i);
-            temp = mx_strndup(&new_str[i + 1], flag - i);
+            temp = mx_strndup(&new_str[i + 1], flag - i - 1);
             temp = mx_return_value(&temp, &(processes->var_tree));
             do_replace(&new_str, i, flag, temp);
             if (temp)
@@ -189,6 +189,5 @@ char *mx_audit_str(char *str, t_info *processes, bool dqute) {
             do_replace(&new_str, i, i + 1, 0);
         }
     }
-    // mx_printstr(new_str);
     return new_str;
 }
