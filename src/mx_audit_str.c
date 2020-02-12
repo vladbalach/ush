@@ -111,7 +111,7 @@ static void do_replace(char **str, size_t start, size_t end, char *str_new) {
 
     if (str_new)
         sum = mx_strlen(str_new);
-    if (!(sum ==  0 && i == end - start))
+    // if (!(sum ==  0 && i == end - start))
     newStr = (char*) malloc (i - (end - start) + sum + 1);
     if (newStr) {
         for (i = 0; i < start; i++) {
