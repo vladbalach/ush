@@ -75,7 +75,7 @@ static void del_backslash_and_$(char **str, t_info *processes) {
     mx_strdel(str);
     *str = new_str;
 }
-
+static void do_replace(char **str, size_t start, size_t end, char *str_new);
 static void editor_str(char **str, t_info *processes, bool dqute) {
     char *temp = 0;
     char *temp2 = 0;
@@ -90,9 +90,13 @@ static void editor_str(char **str, t_info *processes, bool dqute) {
     }
     else if (str[0][0] == 96 || str[0][0] == '$') {
         mx_strdel(str);
-        temp2 = mx_audit_str(temp, processes, dqute);
-        mx_strdel(&temp);
-        temp = mx_str_bquote(&temp2, processes);
+        for (int i = 0; temp[i]; i++) 
+            if (temp[i] == '\\') 
+                do_replace(&temp, i, i + 1, 0);
+        // temp2 = mx_audit_str(temp, processes, dqute);
+        // mx_strdel(&temp);
+        temp = mx_str_bquote(&temp, processes);
+            // temp2 = mx_audit_str(temp
         *str = temp;
     }
     else if (str[0][0] == 34) {
