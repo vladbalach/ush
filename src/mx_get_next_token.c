@@ -52,6 +52,7 @@ t_token* mx_get_next_token(int *currPos, int end, char *str, t_info *processes) 
     char *newValue = 0;
     int pos = 0;
     char *temp = 0;
+    int i ;
 
     if (*currPos >= end)
         return 0;
@@ -79,7 +80,7 @@ t_token* mx_get_next_token(int *currPos, int end, char *str, t_info *processes) 
             tokenStart = *currPos;
             char **test = mx_strsplit(temp, '\n');
             mx_strdel(&temp);
-            int i = 0;
+            i = 0;
             // mx_printstr(temp);
             // mx_printstr("\n22\n");
             while (test[i])
@@ -88,6 +89,7 @@ t_token* mx_get_next_token(int *currPos, int end, char *str, t_info *processes) 
             // mx_printerr("\n7\n");
             if (test)
                 free(test);
+            test = 0;
             // if (temp && mx_strlen(temp) == 0)
                 // mx_strdel(&temp);
             // mx_printerr("\n8\n");
@@ -103,10 +105,15 @@ t_token* mx_get_next_token(int *currPos, int end, char *str, t_info *processes) 
     //---------------------------------------------------------------------------------------------------
     // mx_printerr("\n9\n");
     if (newToken->value == 0)
-        newToken->type = 0;
+        newToken->type = 2;
     else {
     newToken->type = mx_get_token_type(newToken->value[0]);
-    // mx_printerr("\n10\n");
+    // i = 0;
+    // while (newToken->value[i]) {
+    // // mx_printint(newToken->type);
+    // mx_printerr(newToken->value[i++]);
+    // mx_printerr("\n");
+    // }
     newToken->priority = get_token_priority(newToken->value[0]);
     }
     // mx_printerr("\n11\n");
