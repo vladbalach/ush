@@ -66,6 +66,7 @@ SRC = main.c \
 	mx_serch_list.c \
 	mx_unset.c \
 	mx_pipe_execute.c \
+	mx_return_value.c \
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC))
 

@@ -52,10 +52,11 @@ t_token* mx_get_next_token(int *currPos, int end, char *str, t_info *processes) 
     char *newValue = 0;
     int pos = 0;
     char *temp = 0;
+    int i ;
 
     if (*currPos >= end)
         return 0;
-    newToken = mx_create_token(0,0,0);
+    newToken = mx_create_token(2,0,0);
     //--------------------------------------------------------------------------------------------------
     if (mx_is_char(str[tokenStart])) {
         while (mx_is_char(str[tokenStart])) {
@@ -73,11 +74,32 @@ t_token* mx_get_next_token(int *currPos, int end, char *str, t_info *processes) 
                 // mx_printint(*currPos);
             }
             newValue = mx_strndup(&str[tokenStart], *currPos - tokenStart);
-            temp = mx_audit_str(newValue, processes);
+            // mx_printerr(newValue);
+            // mx_printerr("|do auditor\n");
+            temp = mx_audit_str(newValue, processes, 0);
+            //             mx_printerr(temp);
+            // mx_printerr("|posle audit\n");
             mx_strdel(&newValue);
             mx_skip_spaces(str, currPos, end);
             tokenStart = *currPos;
-            mx_add_to_strarr(&newToken->value, temp);
+            char **test = mx_strsplit(temp, '\n');
+            mx_strdel(&temp);
+            i = 0;
+            // mx_printstr(temp);
+            // mx_printstr("\n22\n");
+            while (test[i]) {
+                mx_add_to_strarr(&newToken->value, test[i++]);
+                newToken->type = 1;
+                newToken->priority = 10;
+            }
+            //  mx_printstr("\n22\n");
+            // mx_printerr("\n7\n");
+            if (test)
+                free(test);
+            test = 0;
+            // if (temp && mx_strlen(temp) == 0)
+                // mx_strdel(&temp);
+            // mx_printerr("\n8\n");
         }
     }
 
@@ -85,12 +107,30 @@ t_token* mx_get_next_token(int *currPos, int end, char *str, t_info *processes) 
         set_current_pos(currPos, str[tokenStart], str);
         newValue = mx_strndup(&str[tokenStart], *currPos - tokenStart);
         mx_add_to_strarr(&newToken->value, newValue);
+        newToken->type = mx_get_token_type(newToken->value[0]);
+        newToken->priority = get_token_priority(newToken->value[0]);
     }
 
     //---------------------------------------------------------------------------------------------------
-    newToken->type = mx_get_token_type(newToken->value[0]);
-    newToken->priority = get_token_priority(newToken->value[0]);
+    // mx_printerr("\n9\n");
+    // if (newToken->value == 0)
+    //     newToken->type = 2;
+    // else {
+    // newToken->type = mx_get_token_type(newToken->value[0]);
+    // if (newToken->value != 0) {
+    // i = 0;
+    // while (newToken->value[i]) {
+    // // mx_printint(newToken->type);
+    // mx_printerr(newToken->value[i++]);
+    // mx_printerr("\n");
+    // }
+    // mx_printerr("\n");
+    // }
+    // newToken->priority = get_token_priority(newToken->value[0]);
+    // }
+    // mx_printerr("\n11\n");
     mx_skip_spaces(str, currPos, end);
+    // mx_printerr("\n12\n");
     return newToken;
 }
 
