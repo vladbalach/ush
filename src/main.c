@@ -65,20 +65,6 @@ void free_delete(t_tnode *ptr) {
 
 int main(int argc, char *argv[], char **envp) {
 
-    // char *argv2[] = {"4sec",0};
-    // pid_t pid = 0;
-    // if(fork() == 0) {
-    //     if(fork() == 0) {
-    //         execv("4sec", argv2);
-    //     }
-    //     else
-    //         execv("10sec", argv2);
-    // }
-    // else {
-    //     wait(0);
-    //     printf("DONE!\n");
-    // }
-
     int str = 1;
     t_list *history = NULL;
     char    **commands  = NULL;
@@ -86,10 +72,8 @@ int main(int argc, char *argv[], char **envp) {
     t_tnode *change = 0;
 
     mx_ush_init(&info, envp);
-    // test();
     while(str != 0) {
         if (history && str == 1) {
-            // if (mx_replace_bquote((char**)&(history->data), info)) {
             mx_parsing(history->data, info);
                 // commands = mx_create_comands(history->data);
                 // commands = mx_strsplit(history->data, ';');
@@ -114,4 +98,23 @@ int main(int argc, char *argv[], char **envp) {
     return info->exit_status;
 
 }
+
+// void add(t_info *info) {
+//     t_process *pr = (t_process*) malloc (sizeof(t_process));
+//     pr->index = 1;
+//     pr->pid = 554;
+
+//     mx_push_front(&(info->processes), pr);
+
+    
+// }
+
+
+// int main(int argc, char *argv[], char **envp) {
+//     t_info *info;
+//     info = (t_info*) malloc (sizeof(t_info));
+//     add(info);
+//     printf("%d\n", ((t_process*)info->processes->data)->pid);
+//     return 0;
+// }
 

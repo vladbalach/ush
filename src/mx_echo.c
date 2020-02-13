@@ -6,6 +6,7 @@ void mx_echo(char **str) {
 
     while (str[i]) {
         mx_printstr(str[i]);
+        i++;
     }
     
 }

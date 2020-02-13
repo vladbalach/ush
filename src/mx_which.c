@@ -63,6 +63,7 @@ static bool check_command(char *command, char** pathes, int flags) {
         if ((flags & 2) == 2)
             return true;
         printf("%s: shell built-in command\n", command);
+        finded = true;
         if ((flags & 1) == 0)
             return true;
     }
@@ -139,8 +140,10 @@ void mx_which(char **argv, t_info *info) {
     int flags = get_flags(&iArgs, argv);
     int finded = false;
 
-    if (flags == -1)
+    if (flags == -1){
+        mx_del_strarr(&pathes);
         return;
+    }
     finded = check_commands(argv, pathes, iArgs, flags);
 
     mx_del_strarr(&pathes);

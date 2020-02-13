@@ -1,69 +1,37 @@
 #include "ush.h"
 
-static void *mx_get_buildin(char *name) {
-    if (mx_strcmp(name, "pwd") == 0)
-        return &mx_pwd;
-    if (mx_strcmp(name, "cd") == 0)
-        return &mx_cd;
-    if (mx_strcmp(name, "env") == 0) 
-        return &mx_env;
-    return 0;
-}
-
-static void exec_buidin(t_token *token, int *fds, char operatorStatus, void (*foo)(char *argv[])) {
+int exec_token(t_token *token, int *fds, char operatorStatus, t_info *info) {
+    int status = 0;
+    int exitStatus = 0;
+    pid_t pr = 0;
     pid_t pid = fork();
     if (pid == 0) {
-        if (operatorStatus & 3) {
+        if (operatorStatus & 23) {
             dup2(fds[1],1);
             dup2(fds[0],0);
         }
-        foo(token->value);
-        exit(1);
-        }
-        else {
-        if (operatorStatus & OP_PIPE_W)
+        mx_execute_proces(token);
+    }
+    else {
+        if ((operatorStatus & OP_PIPE_W) || (operatorStatus & OP_MORE))
             close(fds[1]);
         if (operatorStatus & OP_PIPE_R)
             close(fds[0]);
-        wait(0);
-        }
-}
-
-int exec_token(t_token *token, int *fds, char operatorStatus, t_info *info) {
-    int status = 0;
-    void (*foo)(char *argv[]) = 0;
-
-    if ((foo = mx_get_buildin(token->value[0]))) { // buildin
-        exec_buidin(token, fds, operatorStatus, foo);
-    }
-    else { // exec program
-        pid_t pid = fork();
-        if (pid == 0) {
-            if (operatorStatus & 23) {
-                dup2(fds[1],1);
-                dup2(fds[0],0);
+        if (!(operatorStatus & OP_AMPERSAND)) {
+            pr = waitpid(-1, &status, WUNTRACED);
+            if (!WIFEXITED(status)) {
+                printf("STOPPED\n");
+                mx_add_process(&(info->processes), pr);
             }
-            if(mx_get_pr_index(info->processes, pid) != -1) 
-                mx_execute_proces(token);
             else {
-                printf("Maximum count of background processes - 10\n");
-                exit(1);
+                info->lastStatus = WEXITSTATUS(status);
             }
+            return exitStatus;
         }
         else {
-            if ((operatorStatus & OP_PIPE_W) || (operatorStatus & OP_MORE))
-                close(fds[1]);
-            if (operatorStatus & OP_PIPE_R)
-                close(fds[0]);
-            if (!(operatorStatus & OP_AMPERSAND)) {
-                wait(&status);
-                status = WEXITSTATUS(status);
-                return status;
-            }
-            else {
-                if(mx_add_process(info->processes, pid) != -1)
-                    printf("Process [%d] created\n", pid);
-            }
+            if(mx_add_process(&(info->processes), pid) != -1)
+                printf("Process [%d] created\n", pid);
+            printf("pr = %d\n", ((t_process*)info->processes->data)->pid);
         }
     }
     return 1;

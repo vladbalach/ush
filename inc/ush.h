@@ -19,17 +19,12 @@
 #include <sys/wait.h>
 
 // #define HISTORY_STRING "\x1b[38;2;2;2;2mu$h> \x1b[0m\x1b[33m"
-#define MAX_PROC_COUNT 10
+#define MAX_PROC_COUNT 500
 #define HISTORY_STRING "\x1b[38;5;243mu$h> \x1b[38;5;68m"
 // #define MAIN_STRING "\x4u$h> "
 #define NAME "\x4\x1b[38;5;76mu$h> \x1b[38;5;76m"
 #define SEARCH "\x8\x1b[38;5;243mSearch > \x1b[38;5;68m"
 // #define SEARCH_NAME_REMOVE "\x8Search > "
-// PROCESES
-
-typedef struct s_process{
-    pid_t pid;
-} t_process;
 
 // VARIABLES
 
@@ -80,11 +75,16 @@ typedef struct s_token{
     int priority;
 } t_token;
 
+typedef struct s_process {
+    pid_t pid;
+    int index;
+} t_process;
+
 typedef struct s_programInfo {
     struct termios term_old;
     struct termios term_new;
     char **env;
-    pid_t *processes;
+    t_list *processes;
     bool isExit;
     int exit_status;
     char *pwd;
@@ -94,6 +94,7 @@ typedef struct s_programInfo {
     char *path;
     char *home;
     t_list *var_tree;
+    int lastStatus;
 } t_info;
 
 enum e_keys{
@@ -204,8 +205,9 @@ int exec_token(t_token *token, int *fds, char operatorStatus, t_info *info);
 void mx_exec_less(t_tnode *root, int *fds, char operatorStatus, t_info *info);
 void mx_execute_proces(t_token* token);
 void mx_close_all_pr(t_info *info);
+int mx_pipe_execute(t_tnode *root, int *fds, char operatorStatus, t_info *processes);
 
 // processes
-int mx_add_process(pid_t *processes, pid_t pid);
-int mx_get_pr_index(pid_t *processes, pid_t pid);
+int mx_add_process(t_list **processes, pid_t pid);
+
 #endif

@@ -53,7 +53,6 @@ SRC = main.c \
 	mx_ush_close.c \
 	mx_close_all_pr.c \
 	mx_add_process.c \
-	mx_get_pr_index.c \
 	mx_which.c \
 	mx_is_buildin.c \
 	mx_check_symbol.c \
@@ -66,6 +65,7 @@ SRC = main.c \
 	mx_if_isspace.c \
 	mx_serch_list.c \
 	mx_unset.c \
+	mx_pipe_execute.c \
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC))
 
@@ -75,7 +75,7 @@ OBJ_D = $(addprefix $(OBJ_DIR), $(OBJ))
 
 CFLSGS = -std=c11 #-Wall -Wextra -Wpedantic -Werror 
 
-all: install
+all: install clean
 
 install:
 	@make install -C ./libmx
