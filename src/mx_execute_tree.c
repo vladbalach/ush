@@ -34,6 +34,8 @@ static int buildin_list(t_token *token, t_info *info) {
         status = mx_cd(token->value, info);
     if (mx_strcmp(token->value[0], "pwd") == 0) 
         status = mx_pwd(token->value, info);
+    if (mx_strcmp(token->value[0], "echo") == 0) 
+        mx_echo(token->value);
     if (mx_strcmp(token->value[0], "exit") == 0) {
         int s = atoi(token->value[1]);
         info->isExit = true;
