@@ -134,7 +134,7 @@ static char *mini_parser(char *parsing, t_info *info) {
     return comands;
 }
 
-char **mx_key_tab(char *parsing, int *table, char **str, t_info *info) {
+char **mx_key_tab(char *parsing, char **str, t_info *info) {
     char *path = mini_parser(parsing, info);
     t_list *list_comand;
     char **creat_list_comands = NULL;
@@ -144,7 +144,7 @@ char **mx_key_tab(char *parsing, int *table, char **str, t_info *info) {
     list_comand = read_comand(path);
     list_comand = mx_sort_list(list_comand, &cmp_str_min_max);
     if (!((temp = mx_list_size(list_comand)) == 0 || temp == 1)) {
-        mx_clean_monitor("", table, *str);
+        mx_clean_monitor("", info, *str);
         mx_print_Tab_comands(list_comand);
         creat_list_comands = (char **)malloc((mx_list_size(list_comand) + 1) * sizeof(char *));
         for (temp = mx_strlen(path) - 1; temp != 0 && path[temp] != '/'; temp--);
@@ -165,10 +165,10 @@ char **mx_key_tab(char *parsing, int *table, char **str, t_info *info) {
         free(parsing);
         path = list_comand->data;
         for (i = temp - 1; path[i]; i++)
-            mx_one_symbol(str, path[i], &table[2], table[3]);
-        if (table[3] != 0) {
-            mx_one_symbol(str, ' ', &table[2], table[3]);
-            table[3]++;
+            mx_one_symbol(str, path[i], &(MX_STR_LEN), MX_STR_POS);
+        if (MX_STR_POS != 0) {
+            mx_one_symbol(str, ' ', &(MX_STR_LEN), MX_STR_POS);
+            (MX_STR_POS)++;
         }
         mx_pop_front_free_data(&list_comand);
     }
@@ -180,29 +180,29 @@ char **mx_key_tab(char *parsing, int *table, char **str, t_info *info) {
     return creat_list_comands;
 }
 
-void mx_key_duble_tab(char **str, char **comands, int *table) {
+void mx_key_duble_tab(char **str, char **comands, t_info *info) {
     if (comands != 0 && comands[0] != 0) {
-        if (table[5] == 0 && comands[0] != 0) {
+        if (MX_ID_TAB_KEY == 0 && comands[0] != 0) {
             for (int i = 0; comands[0][i]; i++)
-                mx_one_symbol(str, comands[0][i], &table[2], table[3]);
-            if (table[3] != 0) {
-                mx_one_symbol(str, ' ', &table[2], table[3]);
-                table[3]++;
+                mx_one_symbol(str, comands[0][i], &(MX_STR_LEN), MX_STR_POS);
+            if (MX_STR_POS != 0) {
+                mx_one_symbol(str, ' ', &(MX_STR_LEN), MX_STR_POS);
+                MX_STR_POS++;
             }
-            table[5]++;
+            MX_ID_TAB_KEY++;
         }
         else {
-            for (int i = 0; comands[table[5] - 1][i]; i++)
-                mx_one_symbol(str, 127, &table[2], table[3]);
-            if (comands[table[5]] != 0) {
-                for (int i = 0; comands[table[5]][i]; i++)
-                    mx_one_symbol(str, comands[table[5]][i], &table[2], table[3]);
-                table[5]++;
+            for (int i = 0; comands[MX_ID_TAB_KEY - 1][i]; i++)
+                mx_one_symbol(str, 127, &(MX_STR_LEN), MX_STR_POS);
+            if (comands[MX_ID_TAB_KEY] != 0) {
+                for (int i = 0; comands[MX_ID_TAB_KEY][i]; i++)
+                    mx_one_symbol(str, comands[MX_ID_TAB_KEY][i], &(MX_STR_LEN), MX_STR_POS);
+                MX_ID_TAB_KEY++;
             }
             else {
                 for (int i = 0; comands[0][i]; i++)
-                    mx_one_symbol(str, comands[0][i], &table[2], table[3]);
-                table[5] = 1;
+                    mx_one_symbol(str, comands[0][i], &(MX_STR_LEN), MX_STR_POS);
+                MX_ID_TAB_KEY = 1;
             }
         }
     }

@@ -57,12 +57,12 @@ void mx_clean_monitor_new(char *name, int table2, int pos, char *str) {
     mx_print_esc("J");
 }
 
-void mx_clean_monitor(char *str, int *table, char *new_str) {
+void mx_clean_monitor(char *str, t_info *info, char *new_str) {
     struct winsize w;
     int temp;
 
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-    temp = (mx_len_symbol(table[2] - table[3], str) + 4) / w.ws_col;
+    temp = (mx_len_symbol(MX_STR_LEN - MX_STR_POS, str) + 4) / w.ws_col;
     for (int i = temp; i > 0; i--) {
         mx_print_esc("1F");
     }
