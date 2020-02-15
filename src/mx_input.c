@@ -86,86 +86,122 @@ static void mx_ctrl_R(char **comands, int *table){
         table[3] = 0;
         table[2] = mx_strlen(comands[table[0]]) + 1;
     }
+    mx_strdel(&temp);
 }
 
 
-static void special_symbols(char **comands, int *table, unsigned int ch, char ***comand_tab) {
+static void special_symbols(char **comands, int *table, unsigned int ch, t_info *info) {
+    // char **s =0;
     if (table[4] != 9 && ch == 9) {
         mx_clean_monitor_new(NAME, table[2], table[3], comands[table[0]]);
-        *comand_tab = mx_key_tab(mx_strndup(comands[*table],table[2] - table[3] - 1), table, &comands[table[0]]);
+        info->input->comand_tab = mx_key_tab(mx_strndup(comands[*table],table[2] - table[3] - 1), table, &comands[table[0]], info);
         table[5] = 0;
     }
     if (table[4] == 9 && ch == 9) {
         mx_clean_monitor_new(NAME, table[2], table[3], comands[table[0]]);
-        mx_key_duble_tab(&comands[table[0]], *comand_tab, table);
+        mx_key_duble_tab(&comands[table[0]], info->input->comand_tab, table);
     }
-        table[4] = mx_handleEvents(ch);
+    table[4] = mx_handleEvents(ch);
     if (table[4] == 18) {
         mx_clean_monitor_new(NAME, table[2], table[3], comands[table[0]]);
         mx_ctrl_R(comands, table);
     }
 }
 
+static t_input *create_input(t_info *info, int **table) {
+    t_input *input = (t_input *) malloc(sizeof(t_input *));
+
+    input->comands = creat_comands(&info->history, &mx_strdup, table);
+    // input->id = 0;
+    // input->max_comand = mx_list_size(info->history);
+    // input->str_len = 1;
+    // input->pos_tab = 0;
+    // input->end_posit = 0;
+    // input->if_ = 0;
+    return input;
+}
 
 
-int mx_input(t_list **list) {
+void mx_out_monitor(char *name, int table2, int pos, char *str) {
+    struct winsize w;
+    int symbol = mx_bit_sumbol(&str[table2 - pos - 1]);
+    int len = (int) name[0];// mx_strlen(name) - 1;
+
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+    mx_printstr(&name[1]);
+    mx_printstr(str);
+    mx_printstr(" ");
+    for (int i = (mx_len_symbol(table2, str) + len) / w.ws_col; i > 0; i--)
+        mx_print_esc("1F");
+    write(1,"\r",1);
+    mx_printstr(&name[1]);
+    write(1, str, table2 - pos - 1);
+    if ((mx_len_symbol(table2 - pos, str) + len) % w.ws_col == 0) {
+        if (pos == 0)
+            write(1, " ", 1);
+        else
+            write(1, &str[table2 - pos - 1], symbol);
+    write(1, "\b", 1);
+    }
+    mx_printstr("\x1b[0m");
+}
+
+
+int mx_input(t_info *info) {
     unsigned int ch = 0;
     char *chars = (char*)(&ch);
     int *table;
-    char **comands = creat_comands(list, &mx_strdup, &table);
-    char **comand_tab = NULL; 
-    // char *name = MAIN_STRING;
+    info->input = create_input(info, &table);
+    // info->input = (t_input *) malloc(sizeof(t_input *));
+    // info->input->comands = creat_comands(&info->history, &mx_strdup, &table);
 
     while (1) {
         if (chars[2] != 10)
-            mx_out_monitor_new(NAME, table[2], table[3], comands[table[0]]);
+            mx_out_monitor_new(NAME, table[2], table[3], info->input->comands[table[0]]);
         if ((ch = mx_getchar()) == 0) {
             mx_printerr("u$h: some troubeles with input!\n");
             exit(2);
         }
         if (table[4] == 9 && ch != 9)
-            mx_del_strarr(&comand_tab);
+            mx_del_strarr(&info->input->comand_tab);
         if (ch > 127) { // 2-4 symbols
             if (chars[0] == 27)
-                mx_not_ascii(chars, table, comands);
+                mx_not_ascii(chars, table, info->input->comands);
             else {
-                mx_clean_monitor_new(NAME, table[2], table[3], comands[table[0]]);
-                for (int i = 0; i < 4 && chars[i] != 0; i++) {
-                    mx_one_symbol(&comands[table[0]], chars[i], &table[2], table[3]);
-                }
-                mx_out_monitor_new(NAME, table[2], table[3], comands[table[0]]);
-                chars[2] = 10;
+                mx_clean_monitor_new(NAME, table[2], table[3], info->input->comands[table[0]]);
+                for (int i = 0; i < 4 && chars[i] != 0; i++)
+                    mx_one_symbol(&info->input->comands[table[0]], chars[i], &table[2], table[3]);
             }
         }
         else { // 1 symbol
             if (ch < 32) {
-                special_symbols(comands, table, ch, &comand_tab);
+                special_symbols(info->input->comands, table, ch, info);
                 if (table[4] == -1) { // CTRL_D | Z
-                    mx_clean_monitor(comands[*table], table, "exit");
+                    mx_clean_monitor(info->input->comands[*table], table, "exit");
                     free(table);
-                    mx_del_strarr(&comands);
+                    mx_del_strarr(&info->input->comands);
                     return 0;
                 }
                 if (table[4] == 2) {
-                    mx_clean_monitor_new(NAME, table[2], table[3], comands[table[0]]);
+                    mx_clean_monitor_new(NAME, table[2], table[3], info->input->comands[table[0]]);
                     free(table);
-                    mx_del_strarr(&comands);
+                    mx_del_strarr(&info->input->comands);
                     return 2;
                 }
                 if (table[4] == KEY_ENTER) {
-                    mx_clean_monitor(comands[*table], table, comands[*table]);
-                    if (mx_strlen(comands[table[0]]) != 0) {
-                        if (*list == NULL || mx_strcmp(comands[*table], (*list)->data) != 0)
-                            mx_push_front(list, mx_strdup(comands[*table]));
+                    mx_clean_monitor(info->input->comands[*table], table, info->input->comands[*table]);
+                    if (mx_strlen(info->input->comands[table[0]]) != 0) {
+                        if (info->history == NULL || mx_strcmp(info->input->comands[*table], info->history->data) != 0)
+                            mx_push_front(&info->history, mx_strdup(info->input->comands[*table]));
                         free(table);
-                        mx_del_strarr(&comands);
+                        mx_del_strarr(&info->input->comands);
                         return 1;
                     }
                 }
             }
             else {
-                mx_clean_monitor_new(NAME, table[2], table[3], comands[table[0]]);
-                mx_one_symbol(&comands[table[0]], ch, &table[2], table[3]);
+                mx_clean_monitor_new(NAME, table[2], table[3], info->input->comands[table[0]]);
+                mx_one_symbol(&info->input->comands[table[0]], ch, &table[2], table[3]);
             }
         }
         table[4] = chars[0];

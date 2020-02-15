@@ -88,9 +88,9 @@ static t_list *read_comand(char *parsing) {
 static bool name_comand(char temp) {
     char check = temp >> 7;
 
-    if ((temp > 47 && temp < 58) || (temp > 64 && temp <91))
+    if ((temp > 47 && temp < 58) || (temp > 64 && temp <91) || temp == '~' || temp == '_')
         return 1;
-    if ((temp > 96 && temp < 123) || temp == 46 || temp == '/' || temp == '.')
+    if ((temp > 96 && temp < 123) || temp == 46 || temp == '/' || temp == '.' || temp == '+' || temp == '-')
         return 1;
     if (check != 0)
         return 1;
@@ -98,9 +98,11 @@ static bool name_comand(char temp) {
         return 0;
 }
 
-static char *mini_parser(char *parsing) {
+static char *mini_parser(char *parsing, t_info *info) {
     int temp;
     char *comands = NULL;
+    char *test;
+    char a;
 
     if (parsing == 0)
         return mx_strnew(0);
@@ -119,11 +121,21 @@ static char *mini_parser(char *parsing) {
         comands[0] = parsing[temp];
     if (mx_strstr(comands, "/"))
         comands[0] = '1';
+    if (comands[1] == '~') {
+        temp = 0;
+        test = mx_strdup(&comands[1]);
+        a = comands[0];
+        mx_strdel(&comands);
+        mx_HOME(&test, &temp, info);
+        comands = mx_strjoin("\r", test);
+        mx_strdel(&test);
+        comands[0] = a;
+    }
     return comands;
 }
 
-char **mx_key_tab(char *parsing, int *table, char **str) {
-    char *path = mini_parser(parsing);
+char **mx_key_tab(char *parsing, int *table, char **str, t_info *info) {
+    char *path = mini_parser(parsing, info);
     t_list *list_comand;
     char **creat_list_comands = NULL;
     int i = 0;

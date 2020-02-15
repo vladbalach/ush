@@ -91,10 +91,12 @@ static void editor_str(char **str, t_info *processes, bool dqute) {
     else if (str[0][0] == 96 || str[0][0] == '$') {
         mx_strdel(str);
         for (int i = 0; temp[i]; i++) 
-            if (temp[i] == '\\') 
+            if (temp[i] == '\\' && (temp[i + 1] == '`' || temp[i + 1] == '\\'))
                 do_replace(&temp, i, i + 1, 0);
         // temp2 = mx_audit_str(temp, processes, dqute);
         // mx_strdel(&temp);
+        // mx_printerr(temp);
+        // mx_printerr("\n");
         temp = mx_str_bquote(&temp, processes);
             // temp2 = mx_audit_str(temp
         *str = temp;
@@ -158,11 +160,16 @@ char *mx_audit_str(char *str, t_info *processes, bool dqute) {
     char *temp = NULL;
     int pos = 0;
     int flag = 0;
-
-    // mx_printstr();
+    // mx_printerr(str);
+    //         mx_printerr("\n");
+    // // mx_printstr();
     for (int i = 0, pos = 0; new_str && new_str[i]; i++, pos = i) {
-        if ((if_symbol(new_str[i]) && mx_check_symbol(new_str, i, new_str[i]))
-            || (new_str[i + 1] == '(' && mx_check_symbol(new_str, i, '$'))) {
+            // mx_printerr(new_str);
+        if (new_str[i] == '~' && !dqute)
+            mx_HOME(&new_str, &i, processes);
+            // mx_printerr("\n");
+        else if ((if_symbol(new_str[i]) && (i == 0 || new_str[i - 1] != '\'' || !mx_check_symbol(new_str, i, new_str[i])))
+            || (new_str[i + 1] == '(' && (i == 0 ||new_str[i - 1] != '\''  || !mx_check_symbol(new_str, i, '$')))) {
             pos++;
             if (new_str[i] == '$') {
                 pos++;
@@ -172,6 +179,8 @@ char *mx_audit_str(char *str, t_info *processes, bool dqute) {
                 flag = new_str[i];
             mx_end_flag(new_str, &pos, mx_strlen(new_str), flag);
             temp = mx_strndup(&new_str[i], pos - i);
+            // mx_printerr(temp);
+            // mx_printerr("\n");
             editor_str(&temp, processes, dqute);
             do_replace(&new_str, i, pos, temp);
             if (temp) {
@@ -190,8 +199,12 @@ char *mx_audit_str(char *str, t_info *processes, bool dqute) {
             i--;
         }
         else if (new_str[i] == '\\' && (!dqute || (dqute && (new_str[i + 1] == '\\')))) {
+            //  mx_printerr(new_str);
+            // mx_printerr("\n");
             do_replace(&new_str, i, i + 1, 0);
         }
+            //                 mx_printerr(new_str);
+            // mx_printerr("\n");
     }
     return new_str;
 }
