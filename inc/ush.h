@@ -3,6 +3,7 @@
 
 #include <unistd.h>
 #include <stdlib.h>
+#include <xlocale.h>
 #include <string.h>
 #include <errno.h>
 #include <sys/stat.h>
