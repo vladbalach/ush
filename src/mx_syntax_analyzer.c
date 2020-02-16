@@ -56,13 +56,13 @@ static bool is_double_less(t_list *tmp) {
     return false;
 }
 
-static bool mx_is_ampersand(t_list *tmp) {
-    if (mx_strcmp(((t_token*)tmp->data)->value[0], "&") == 0) {
-        mx_printerr("\033[1;31m\'&\' - not allowed in this version!\033[0m\n");
-        return true;
-    }
-    return false;
-}
+// static bool mx_is_ampersand(t_list *tmp) {
+//     if (mx_strcmp(((t_token*)tmp->data)->value[0], "&") == 0) {
+//         mx_printerr("\033[1;31m\'&\' - not allowed in this version!\033[0m\n");
+//         return true;
+//     }
+//     return false;
+// }
 
 bool mx_syntax_analyzer(t_list *tokens) {
     t_list *tmp = tokens;

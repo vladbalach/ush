@@ -60,23 +60,23 @@ static bool if_symbol(char test) {
 //     return temp;
 // }
 
-static void del_backslash_and_$(char **str, t_info *processes) {
-    char *new_str = 0;
-    char temp[2];
-    int i = 0;
+// static void del_backslash_and(char **str) {
+//     char *new_str = 0;
+//     char temp[2];
+//     int i = 0;
 
-    temp[1] = 0;
-    while (str[0][i] != 0) {
-        if (str[0][i] == 92)
-            temp[0] = str[0][++i];
-        new_str = mx_strjoin2(new_str, temp);
-        i++;
-    }
-    mx_strdel(str);
-    *str = new_str;
-}
+//     temp[1] = 0;
+//     while (str[0][i] != 0) {
+//         if (str[0][i] == 92)
+//             temp[0] = str[0][++i];
+//         new_str = mx_strjoin2(new_str, temp);
+//         i++;
+//     }
+//     mx_strdel(str);
+//     *str = new_str;
+// }
 static void do_replace(char **str, size_t start, size_t end, char *str_new);
-static void editor_str(char **str, t_info *processes, bool dqute) {
+static void editor_str(char **str, t_info *processes) {
     char *temp = 0;
     char *temp2 = 0;
     int i = 1;
@@ -111,7 +111,7 @@ static void editor_str(char **str, t_info *processes, bool dqute) {
 
 static void do_replace(char **str, size_t start, size_t end, char *str_new) {
     char *newStr = NULL;;
-    int i = mx_strlen(*str);
+    size_t i = mx_strlen(*str);
     int j = end;
     int sum = 0;
 
@@ -140,7 +140,7 @@ static void do_replace(char **str, size_t start, size_t end, char *str_new) {
 static bool is_not_operator(char c) {
     if (c == '|' || c == '&' || c == '>' || c == '<'|| c == '$' || c == ' ')
         return false;
-    if (c == '='|| c == 92 || c == 34 || c == 39 || c== 96 || c == 0)
+    if (c == '='|| c == 92 || c == 34 || c == 39 || c== 96 || c == 0 || c== '?')
         return false;
     return true;
 }
@@ -150,6 +150,8 @@ static int end_parametr(char *str, int i) {
 
     while (is_not_operator(str[temp]))
         temp++;
+    if (str[temp] == '?')
+        temp++;
     return temp;
 }
 
@@ -158,7 +160,7 @@ char *mx_audit_str(char *str, t_info *processes, bool dqute) {
         return 0;
     char *new_str = mx_strdup(str);
     char *temp = NULL;
-    int pos = 0;
+    // int pos = 0;
     int flag = 0;
     // mx_printerr(str);
     //         mx_printerr("\n");
@@ -169,7 +171,7 @@ char *mx_audit_str(char *str, t_info *processes, bool dqute) {
             mx_HOME(&new_str, &i, processes);
             // mx_printerr("\n");
         else if ((if_symbol(new_str[i]) && (i == 0 || new_str[i - 1] != '\'' || !mx_check_symbol(new_str, i, new_str[i])))
-            || (new_str[i + 1] == '(' && (i == 0 ||new_str[i - 1] != '\''  || !mx_check_symbol(new_str, i, '$')))) {
+            || (new_str[i + 1] == '(' && (i == 0 || new_str[i - 1] != '\''  || !mx_check_symbol(new_str, i, '$')))) {
             pos++;
             if (new_str[i] == '$') {
                 pos++;
@@ -179,9 +181,7 @@ char *mx_audit_str(char *str, t_info *processes, bool dqute) {
                 flag = new_str[i];
             mx_end_flag(new_str, &pos, mx_strlen(new_str), flag);
             temp = mx_strndup(&new_str[i], pos - i);
-            // mx_printerr(temp);
-            // mx_printerr("\n");
-            editor_str(&temp, processes, dqute);
+            editor_str(&temp, processes);
             do_replace(&new_str, i, pos, temp);
             if (temp) {
                 i = i + mx_strlen(temp);
@@ -192,7 +192,12 @@ char *mx_audit_str(char *str, t_info *processes, bool dqute) {
         else if (mx_check_symbol(new_str, i ,'$')) {
             flag = end_parametr(new_str, i);
             temp = mx_strndup(&new_str[i + 1], flag - i - 1);
-            temp = mx_return_value(&temp, &(processes->var_tree));
+            if (temp[0] == '?') {
+                mx_strdel(&temp);
+                temp = mx_itoa(processes->lastStatus);
+            }
+            else
+                temp = mx_return_value(&temp, &(processes->var_tree));
             do_replace(&new_str, i, flag, temp);
             if (temp)
                 i = i + mx_strlen(temp);

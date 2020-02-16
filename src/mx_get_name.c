@@ -1,7 +1,6 @@
 #include "ush.h"
 
 char **mx_get_name(t_info *info, int numb) {
-    int i = -1;
     t_list *head_pr = info->processes;
 
     while (head_pr) {

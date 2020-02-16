@@ -1,6 +1,5 @@
 #include "ush.h"
 
-
 /* execute all commands ony by one*/
 void mx_execute(char **commands, t_info *processes) {
     t_list  *tokens  = NULL;

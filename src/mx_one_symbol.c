@@ -25,7 +25,7 @@ static void del_one_symbol(char **str, int *count, int position) {
 
 void mx_one_symbol(char **str, char ch, int *count, int position) {
     int i = 0;
-    char check;
+    // char check;
 
     if (ch == 127)
         del_one_symbol(str, count, position);

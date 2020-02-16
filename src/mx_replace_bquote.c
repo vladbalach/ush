@@ -16,7 +16,7 @@ static char check_closed_bq(char *str) {
     }
     return is_opened;
 }
-static char *read_to_delim(char *name, char delim) {
+static char *read_to_delim(char delim) {
     int fd = open("tmp.ush", O_RDWR | O_CREAT);
     int count = 1;
     char buff[2];
@@ -35,7 +35,7 @@ static char *read_to_delim(char *name, char delim) {
 static char* mx_do_bq(char **str, size_t start, size_t end, t_info *processes) {
     char *str_exec = mx_strndup(&(*str)[start], (end - start));
     char **commands = 0;
-    char *str_out = 0;
+    // char *str_out = 0;
     int fd = 0;
     pid_t pid = fork();
 
@@ -54,18 +54,18 @@ static char* mx_do_bq(char **str, size_t start, size_t end, t_info *processes) {
     else
         wait(0);
         free(str_exec);
-    return read_to_delim("temp.ush", '\n');
+    return read_to_delim('\n');
 }
 
 static void do_replace(char **str, size_t start, size_t end, char *str_new) {
     char *newStr = (char*) malloc (mx_strlen(*str) - (end - start) + mx_strlen(str_new));
-    int i = 0;
-    int j = 0;
+    size_t i = 0;
+    size_t j = 0;
 
     for(i = 0; i < start; i++) {
         newStr[i] = (*str)[i];
     }
-    while(str_new[i - start]) {
+    while (str_new[i - start]) {
         newStr[i] = str_new[i - start];
         i++;
     }
@@ -79,8 +79,8 @@ static void do_replace(char **str, size_t start, size_t end, char *str_new) {
 
 static void mx_find_replace(char **str, t_info *processes) {
     int i = 0;
-    size_t startI = -1;
-    size_t endI = -1;
+    int startI = -1;
+    int endI = -1;
     char *str_out = 0;
 
     while ((*str)[i]) {
@@ -105,6 +105,7 @@ static void mx_find_replace(char **str, t_info *processes) {
 
 int mx_replace_bquote(char **str, t_info *processes) {
     char is_opened = check_closed_bq(*str);
+
     if (is_opened == 2){
         mx_printerr("Not closed bquote!\n");
         return 0;

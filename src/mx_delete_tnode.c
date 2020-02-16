@@ -43,7 +43,7 @@ static void delete_tnode_1ch(t_tnode **root, void *data, int (*cmp)(void*, void*
     }
 }
 
-static void delete_tnode_2ch(t_tnode **root, void *data, int (*cmp)(void*, void*), t_tnode *finded, void (*free_tnode)(t_tnode *tnode)) {
+static void delete_tnode_2ch(t_tnode **root, int (*cmp)(void*, void*), t_tnode *finded, void (*free_tnode)(t_tnode *tnode)) {
     
     t_tnode *min = mx_get_min_tnode(finded->right);
     mx_delete_tnode(root, min->data, cmp, free_tnode);
@@ -75,6 +75,6 @@ void mx_delete_tnode(t_tnode **root, void *data, int (*cmp)(void*, void*), void 
     }
     else
     if ((finded->right != 0) && (finded->left !=0)) {
-        delete_tnode_2ch(root, data, cmp, finded, free_tnode);
+        delete_tnode_2ch(root, cmp, finded, free_tnode);
     }
 }

@@ -4,13 +4,11 @@ void mx_segfault() {
     mx_printerr("OOPS! SEGMENT FAULT\n");
     exit(1);
 }
+
 void mx_ctrl_c() {
 }
 
 static void mx_ctrl_z() {
-}
-
-static void init_var() {
 }
 
 static void shlvl_new(char **s) {
@@ -64,8 +62,8 @@ static void start_program(t_list **var_tree, char **env) {
 void mx_ush_init(t_info **info, char **env) {
     t_info *newInfo = (t_info*) malloc(sizeof(t_info));
     newInfo->env = env;
-    char *buff = 0;
-    int i = 0;
+    // char *buff = 0;
+    // int i = 0;
 
     newInfo->processes = 0; // empty
     newInfo->isExit = false;

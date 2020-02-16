@@ -50,7 +50,7 @@ static int print_echo_e(char *str) {
             else if (control(i, str, "015") && (i += 3) > 0)
                 buf = '\r';
             else if (control(i, str, "033") && (i += 3) > 0)
-                buf = '\e';
+                buf = '\033';
             else if (control(i, str, "x00") && (i += 3) > 0)
                 buf = '\0';
             else if (control(i, str, "x07") && (i += 3) > 0)
@@ -68,7 +68,7 @@ static int print_echo_e(char *str) {
             else if (control(i, str, "x0d") && (i += 3) > 0)
                 buf = '\r';
             else if (control(i, str, "x1b") && (i += 3) > 0)
-                buf = '\e';
+                buf = '\033';
             else
                 flag = 1;
         }
@@ -92,7 +92,7 @@ static int print_echo_e(char *str) {
             else if (str[i] == '\\' && str[i + 1] == 'r' && ++i > 0)
                 buf = '\r';
             else if (str[i] == '\\' && str[i + 1] == 'e' && ++i > 0)
-                buf = '\e';
+                buf = '\033';
             else if (str[i] == '\\' && str[i + 1] == 'c' && ++i > 0)
                 return 0;
             else
@@ -129,7 +129,7 @@ static char *checkflags(char **str, int *counter) {
 void mx_echo(char **str) {
     int i = 0;
     char *flags = checkflags(str, &i);
-    int error = 0;
+    int error = 1;
 
     if (flags[1] == 'E') {
         for (i = i + 1; str[i]; i++) {
