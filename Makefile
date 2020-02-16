@@ -73,7 +73,12 @@ SRC = main.c \
 	mx_fg.c \
 	mx_exit.c \
 	mx_wait_process.c \
-
+	mx_is_link.c \
+	mx_chdir_P.c \
+	mx_add_one_rank.c \
+	mx_del_last_rank.c \
+	mx_chdir_L.c \
+	
 INCLUDE = -I $(LBMXD) \
 	-I $(INCD) \
 

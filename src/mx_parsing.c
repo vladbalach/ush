@@ -1,9 +1,5 @@
 #include "ush.h"
 
-// static int syntax_analiz(char *temp, int *position, int end) {
-
-// }
-
 void mx_parsing(char *str, t_info *info) {
     int end = mx_strlen(str);
     char *temp = mx_parsing_input(str);
@@ -18,11 +14,6 @@ void mx_parsing(char *str, t_info *info) {
         return;
     }
     comands = mx_create_comands(temp, end);
-    // mx_printstr("\n");
-    // for(int i = 0;  comands[i]; i++) {
-    //     mx_printstr(comands[i]);
-    //     mx_printstr("\n");
-    // }
     mx_execute(comands, info);
     mx_del_strarr(&comands);
 }

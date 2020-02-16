@@ -9,20 +9,23 @@ static void del_desc(char operatorStatus, int *fds) {
         close(fds[0]);
 }
 
-int exec_token(t_token *token, int *fds, char operatorStatus, t_info *info) {
-    int exitStatus = 0;
-    pid_t pid = fork();
-
-    if (pid == 0) {
-        if (operatorStatus & 23) {
+static void child(t_token *token, char operatorStatus, int *fds) {
+    if (operatorStatus & 23) {
             dup2(fds[1],1);
             dup2(fds[0],0);
         }
         mx_execute_proces(token);
-    }
+}
+
+int exec_token(t_token *token, int *fds, char operatorStatus, t_info *info) {
+    int exitStatus = 0;
+    pid_t pid = fork();
+
+    if (pid == 0)
+        child(token, operatorStatus, fds);
     else {
         del_desc(operatorStatus, fds);
-        if (!(operatorStatus & OP_AMPERSAND)) {
+        if (!(operatorStatus & OP_AMP)) {
             mx_wait_process(info, token->value);
             return exitStatus;
         }

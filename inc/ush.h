@@ -71,7 +71,7 @@ enum e_operator_status {
     OP_LESS = 16,
     LEFT_VISITED = 128,
     RIGHT_VISITED = 64,
-    OP_AMPERSAND = 32
+    OP_AMP = 32
 };
 
 // AST
@@ -196,6 +196,12 @@ void mx_jobs(t_info *info);
 void mx_fg(t_info *info);
 void mx_exit(t_token *token, t_info *info);
 
+//CD 
+int mx_chdir_P(char *path, t_info *info, char flags);
+char* mx_add_one_rank(char *path, char *new_part);
+char* mx_del_last_rank(char *path);
+int mx_chdir_L(char *path, t_info *info, char flags);
+
 //
 bool mx_check_symbol(char *str, int position, char symbol);
 int mx_end_flag(char *str, int *position, int end, int flag);
@@ -220,7 +226,7 @@ char **mx_key_tab(char *parsing, char **str, t_info *info);
 void mx_key_duble_tab(char **str, char **comands, t_info *info);
 void mx_print_Tab_comands(t_list *list_comand);
 t_info* mx_get_info(t_info *info);
-
+bool mx_is_link(char *file);
 
 // lexer
 bool mx_is_char(char c);
