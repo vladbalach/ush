@@ -271,7 +271,7 @@ int mx_cd(char **argv, t_info *info) {
     int i = 0;
     int flags = get_flags(argv, &i);
     char *path = (flags & 4) ? info->old_pwd : (argv[i] ? argv[i] : info->home);
-    t_variable *temp = 0;
+    // t_variable *temp = 0;
     int status  = 0;
 
     if (is_link(path) && (flags & 1) && (flags & 2) == 0) {

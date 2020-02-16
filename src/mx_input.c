@@ -59,7 +59,7 @@ static void mx_ctrl_R(t_info *info){
 }
 
 
-static void special_symbols(char **comands, unsigned int ch, t_info *info) {
+static void special_symbols(unsigned int ch, t_info *info) {
     // char **s =0;
     if (MX_SYMBOL != 9 && ch == 9) {
         mx_clean_monitor_new(NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
@@ -161,7 +161,7 @@ int mx_input(t_info *info) {
         }
         else { // 1 symbol
             if (ch < 32) {
-                special_symbols(info->input->comands, ch, info);
+                special_symbols(ch, info);
                 if (MX_SYMBOL == -1) { // CTRL_D | Z
                     mx_clean_monitor(MX_STR, info, "exit");
                     del_input(info);
