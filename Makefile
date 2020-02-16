@@ -83,7 +83,9 @@ SRC = main.c \
 	mx_key_duble_tab.c \
 	mx_mini_parser_tab.c \
 	mx_read_comand.c \
-	
+	mx_is_operator.c \
+	mx_signals.c \
+
 INCLUDE = -I $(LBMXD) \
 	-I $(INCD) \
 

@@ -1,7 +1,5 @@
 #include "ush.h"
 
-
-
 static void del_desc(char operatorStatus, int *fds) {
     if ((operatorStatus & OP_PIPE_W) || (operatorStatus & OP_MORE))
         close(fds[1]);

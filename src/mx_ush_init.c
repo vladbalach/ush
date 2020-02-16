@@ -1,16 +1,5 @@
 #include "ush.h"
 
-void mx_segfault() {
-    mx_printerr("OOPS! SEGMENT FAULT\n");
-    exit(1);
-}
-
-void mx_ctrl_c() {
-}
-
-static void mx_ctrl_z() {
-}
-
 static void shlvl_new(char **s) {
     int a = 0;
     char *temp = 0;
@@ -22,7 +11,6 @@ static void shlvl_new(char **s) {
     temp = mx_itoa(++a);
     *s = temp;
 }
-
 
 static void start_program(t_list **var_tree, char **env) {
     int i = -1;
@@ -62,8 +50,6 @@ static void start_program(t_list **var_tree, char **env) {
 void mx_ush_init(t_info **info, char **env) {
     t_info *newInfo = (t_info*) malloc(sizeof(t_info));
     newInfo->env = env;
-    // char *buff = 0;
-    // int i = 0;
 
     newInfo->processes = 0; // empty
     newInfo->isExit = false;
