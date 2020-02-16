@@ -48,7 +48,6 @@ SRC = main.c \
 	mx_write_from_to.c \
 	mx_print_Tab_comands.c \
 	mx_key_delite.c \
-	mx_replace_bquote.c \
 	mx_get_info.c \
 	mx_ush_close.c \
 	mx_close_all_pr.c \
@@ -62,13 +61,16 @@ SRC = main.c \
 	mx_create_comands.c \
 	mx_audit_str.c \
 	mx_str_bquote.c \
-	mx_if_isspace.c \
 	mx_serch_list.c \
 	mx_unset.c \
 	mx_pipe_execute.c \
 	mx_return_value.c \
 	mx_HOME.c \
 	mx_do_replace.c \
+	mx_ctrl_v_and_not_ascii.c \
+	mx_ascii.c \
+	mx_ctrl_R.c \
+	mx_print_esc.c \
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC))
 

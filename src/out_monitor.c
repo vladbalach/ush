@@ -1,13 +1,5 @@
 #include "ush.h"
 
-void mx_print_esc(char *s) {
-    char temp = 27;
-
-    write(1, &temp, 1);
-    write(1, "[", 1);
-    mx_printstr(s);
-}
-
 void mx_check_outprogram_new_line(void) {
     struct winsize w;
 
@@ -19,14 +11,18 @@ void mx_check_outprogram_new_line(void) {
     mx_print_esc("J");
 }
 
+static void print_two_str(char *str1, char *str2) {
+    mx_printstr(str1);
+    mx_printstr(str2);
+}
+
 void mx_out_monitor_new(char *name, int table2, int pos, char *str) {
     struct winsize w;
     int symbol = mx_bit_sumbol(&str[table2 - pos - 1]);
     int len = (int) name[0];// mx_strlen(name) - 1;
 
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-    mx_printstr(&name[1]);
-    mx_printstr(str);
+    print_two_str(&name[1], str);
     mx_printstr(" ");
     for (int i = (mx_len_symbol(table2, str) + len) / w.ws_col; i > 0; i--)
         mx_print_esc("1F");

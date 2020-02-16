@@ -9,15 +9,7 @@ static char *read_to_delim(int des) {
     while((count = read(des, buff, 1))) {
         newStr = mx_strjoin2(newStr, buff);
     }
-    // if (newStr && (mx_strlen(newStr) - 1) != -1)
-    //     newStr[mx_strlen(newStr) - 1] = 0;
     close(des);
-    // mx_printstr("1");
-    // mx_printstr(newStr);
-    // mx_printstr("2");
-    // if (mx_strlen(newStr) == 0) {
-    //     mx_strdel(&newStr);
-    // }
     return newStr;
 }
 
