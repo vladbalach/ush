@@ -21,7 +21,7 @@ static void buildin_list_2(t_token *token, t_info *info) {
     else if (mx_strcmp(token->value[0], "stop") == 0)
         mx_close_all_pr(info);
     else if (mx_strcmp(token->value[0], "env") == 0)
-        mx_env(token->value, info->var_tree);
+        mx_env(token->value, info);
     else if (mx_strcmp(token->value[0], "which") == 0)
         mx_which(token->value, info);
     else if (mx_strcmp(token->value[0], "jobs") == 0)

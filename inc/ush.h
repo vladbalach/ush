@@ -187,7 +187,7 @@ int mx_cd(char **argv, t_info *info);
 void mx_printstr_env(char *str);
 int mx_pwd(char **argv, t_info *info);
 void mx_echo(char **str);
-void mx_env(char **argv, t_list *var_tree);
+void mx_env(char **argv, t_info *info);
 void mx_export(char **argv, t_list **var_tree);
 void mx_unset(char **argv, t_list **var_tree);
 void mx_which(char **argv, t_info *info);
