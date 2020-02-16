@@ -80,7 +80,9 @@ SRC = main.c \
 	mx_add_one_rank.c \
 	mx_del_last_rank.c \
 	mx_chdir_L.c \
-	
+	mx_is_operator.c \
+	mx_signals.c \
+
 INCLUDE = -I $(LBMXD) \
 	-I $(INCD) \
 

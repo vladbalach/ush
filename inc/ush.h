@@ -33,6 +33,9 @@
 // #define MAIN_STRING "\x4u$h> "
 #define NAME "\x4\x1b[38;5;76mu$h> \x1b[38;5;76m"
 #define SEARCH "\x8\x1b[38;5;243mSearch > \x1b[38;5;68m"
+#define MX_PATH ((t_token*)tmp->next->next->data)->value[0]
+
+#define MX_GET_PATH (argv[i] ? argv[i] : info->home)
 // #define SEARCH_NAME_REMOVE "\x8Search > "
 
 // VARIABLES
@@ -236,6 +239,7 @@ bool mx_is_link(char *file);
 bool mx_is_char(char c);
 void mx_HOME(char **str, int *i, t_info *processes);
 void mx_do_replace(char **str, size_t start, size_t end, char *str_new);
+bool mx_is_operator(t_token *token);
 
 // AST
 t_tnode* mx_create_ast(t_list** tokens, t_tnode *prev);
@@ -255,6 +259,9 @@ int mx_buildin_list(t_token *token, t_info *info);
 int mx_add_process(t_list **processes, pid_t pid, char **name);
 void mx_del_top_process(t_info *info);
 void mx_wait_process(t_info *info, char **argv);
+void mx_segfault();
+void mx_ctrl_c();
+void mx_ctrl_z();
 
 //print
 void mx_print_susp(char **mas_name);

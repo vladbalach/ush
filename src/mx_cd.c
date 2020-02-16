@@ -1,7 +1,5 @@
 #include "ush.h"
 
-#define GET_PATH (argv[i] ? argv[i] : info->home)
-
 /* 
 * -1 - not flagline
 */
@@ -57,7 +55,7 @@ static void export_pwd_oldpwd(t_info *info) {
 int mx_cd(char **argv, t_info *info) {
     int i = 0;
     int flags = get_flags(argv, &i);
-    char *path = (flags & 4) ? info->old_pwd : GET_PATH;
+    char *path = (flags & 4) ? info->old_pwd : MX_GET_PATH;
     int status  = 0;
 
     if (mx_is_link(path) && (flags & 1) && (flags & 2) == 0) {
