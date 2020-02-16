@@ -2,9 +2,9 @@
 
 void mx_execute_proces(t_token* token) {
     char **argv = 0;
-    char *newArg = 0;
+    // char *newArg = 0;
     int i = 0;
-    int status = 0;
+    // int status = 0;
 
     while (token->value[i]) {
         mx_add_to_strarr(&argv, token->value[i]);

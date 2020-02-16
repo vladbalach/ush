@@ -33,17 +33,17 @@ unsigned int mx_mix_atoi(char *s){
     return a;
 }
 
-static void test() {
-    char *str = getenv("SHLVL");
-    int i = 0;
-    char *temp = 0;
+// static void test() {
+//     char *str = getenv("SHLVL");
+//     int i = 0;
+//     char *temp = 0;
 
-    i = mx_mix_atoi(str);
-    temp = mx_itoa(++i);
-    str = mx_strjoin("SHLVL=", temp);
-    putenv(str);
-    free(temp);
-}
+//     i = mx_mix_atoi(str);
+//     temp = mx_itoa(++i);
+//     str = mx_strjoin("SHLVL=", temp);
+//     putenv(str);
+//     free(temp);
+// }
 
 void free_insert(void *ptr) {
     free(ptr);
@@ -67,9 +67,11 @@ int main(int argc, char *argv[], char **envp) {
 
     int str = 1;
     t_list *history = NULL;
-    char    **commands  = NULL;
+    char **commands  = NULL;
     t_info *info = 0;
-    t_tnode *change = 0;
+    // t_tnode *change = 0;
+    argv++;
+    argc++;
 
     mx_ush_init(&info, envp);
     while(str != 0) {

@@ -10,6 +10,7 @@
 #include <fcntl.h>
 #include <term.h>
 #include <sys/types.h>
+#include <regex.h> 
 #include <pwd.h>
 #include <stdio.h>
 #include <sys/ioctl.h>
@@ -28,6 +29,12 @@
 // #define SEARCH_NAME_REMOVE "\x8Search > "
 
 // VARIABLES
+
+typedef struct s_var {
+    char *value;
+    bool flag;
+    struct s_var *next;
+} t_var;
 
 typedef struct s_variable {
     char *name;
@@ -153,7 +160,7 @@ void mx_execute(char **commands, t_info *processes);
 void mx_ush_close(t_info *info);
 
 void mx_write_from_to(int from , int to, off_t start);
-typedef struct termios t_termios;
+// typedef struct termios t_termios;
 
 //BUILT IN
 int mx_cd(char **argv, t_info *info);

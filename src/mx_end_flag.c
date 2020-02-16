@@ -35,7 +35,7 @@ static int flang_Comand(char *str, int *pos, int end, int flag) {
                  && mx_check_symbol(str, *pos, str[*pos]) && (*pos)++) {
             check_flag = mx_end_flag(str, pos, end, check_flag);
         }
-        else if (pos > 0 && str[*pos] == 40 
+        else if ((int)pos > 0 && str[*pos] == 40 
                 && mx_check_symbol(str, *pos - 1, '$')) {
             (*pos)++;
             check_flag = mx_end_flag(str, pos, end, ')');
