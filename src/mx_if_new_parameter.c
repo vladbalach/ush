@@ -60,3 +60,4 @@ void mx_if_new_parameter(char *str, int *start, int end, t_info *processes) {
         create_parameter(str, start, end, processes);
     }
 }
+

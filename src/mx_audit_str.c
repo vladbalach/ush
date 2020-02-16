@@ -6,24 +6,24 @@ static bool if_symbol(char test) {
     return 0;
 }
 
-static void del_backslash_and_$(char **str, t_info *processes) {
-    char *new_str = 0;
-    char temp[2];
-    int i = 0;
+// static void del_backslash_and_(char **str, t_info *processes) {
+//     char *new_str = 0;
+//     char temp[2];
+//     int i = 0;
 
-    temp[1] = 0;
-    while (str[0][i] != 0) {
-        if (str[0][i] == 92)
-            temp[0] = str[0][++i];
-        new_str = mx_strjoin2(new_str, temp);
-        i++;
-    }
-    mx_strdel(str);
-    *str = new_str;
-}
+//     temp[1] = 0;
+//     while (str[0][i] != 0) {
+//         if (str[0][i] == 92)
+//             temp[0] = str[0][++i];
+//         new_str = mx_strjoin2(new_str, temp);
+//         i++;
+//     }
+//     mx_strdel(str);
+//     *str = new_str;
+// }
 
 static void do_replace(char **str, size_t start, size_t end, char *str_new);
-static void editor_str(char **str, t_info *processes, bool dqute) {
+static void editor_str(char **str, t_info *processes) {
     char *temp = 0;
     char *temp2 = 0;
     int i = 1;
@@ -58,7 +58,7 @@ static void editor_str(char **str, t_info *processes, bool dqute) {
 
 static void do_replace(char **str, size_t start, size_t end, char *str_new) {
     char *newStr = NULL;;
-    int i = mx_strlen(*str);
+    size_t i = mx_strlen(*str);
     int j = end;
     int sum = 0;
 
@@ -107,7 +107,7 @@ char *mx_audit_str(char *str, t_info *processes, bool dqute) {
         return 0;
     char *new_str = mx_strdup(str);
     char *temp = NULL;
-    int pos = 0;
+    // int pos = 0;
     int flag = 0;
     // mx_printerr(str);
     //         mx_printerr("\n");
@@ -128,9 +128,7 @@ char *mx_audit_str(char *str, t_info *processes, bool dqute) {
                 flag = new_str[i];
             mx_end_flag(new_str, &pos, mx_strlen(new_str), flag);
             temp = mx_strndup(&new_str[i], pos - i);
-            // mx_printerr(temp);
-            // mx_printerr("\n");
-            editor_str(&temp, processes, dqute);
+            editor_str(&temp, processes);
             do_replace(&new_str, i, pos, temp);
             if (temp) {
                 i = i + mx_strlen(temp);

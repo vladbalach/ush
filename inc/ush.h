@@ -10,6 +10,7 @@
 #include <fcntl.h>
 #include <term.h>
 #include <sys/types.h>
+#include <regex.h> 
 #include <pwd.h>
 #include <stdio.h>
 #include <sys/ioctl.h>
@@ -35,6 +36,12 @@
 // #define SEARCH_NAME_REMOVE "\x8Search > "
 
 // VARIABLES
+
+typedef struct s_var {
+    char *value;
+    bool flag;
+    struct s_var *next;
+} t_var;
 
 typedef struct s_variable {
     char *name;
@@ -84,6 +91,7 @@ typedef struct s_token{
 } t_token;
 
 typedef struct s_process {
+    char **name;
     pid_t pid;
     int index;
 } t_process;
@@ -173,18 +181,21 @@ void mx_execute(char **commands, t_info *processes);
 void mx_ush_close(t_info *info);
 
 void mx_write_from_to(int from , int to, off_t start);
-typedef struct termios t_termios;
+// typedef struct termios t_termios;
 
 //BUILT IN
 int mx_cd(char **argv, t_info *info);
 void mx_printstr_env(char *str);
 int mx_pwd(char **argv, t_info *info);
 void mx_echo(char **str);
-void mx_env(char **argv, t_list *var_tree);
+void mx_env(char **argv, t_info *info);
 void mx_export(char **argv, t_list **var_tree);
 void mx_unset(char **argv, t_list **var_tree);
 void mx_which(char **argv, t_info *info);
 bool mx_is_buildin(char *str);
+void mx_jobs(t_info *info);
+void mx_fg(t_info *info);
+void mx_exit(t_token *token, t_info *info);
 
 //
 bool mx_check_symbol(char *str, int position, char symbol);
@@ -232,8 +243,16 @@ void mx_exec_less(t_tnode *root, int *fds, char operatorStatus, t_info *info);
 void mx_execute_proces(t_token* token);
 void mx_close_all_pr(t_info *info);
 int mx_pipe_execute(t_tnode *root, int *fds, char operatorStatus, t_info *processes);
+int mx_buildin_list(t_token *token, t_info *info);
 
 // processes
-int mx_add_process(t_list **processes, pid_t pid);
+int mx_add_process(t_list **processes, pid_t pid, char **name);
+void mx_del_top_process(t_info *info);
+void mx_wait_process(t_info *info, char **argv);
+
+//print
+void mx_print_susp(char **mas_name);
+void mx_print_cont(char **mas_name, int pid);
+char **mx_get_name(t_info *info, int numb);
 
 #endif

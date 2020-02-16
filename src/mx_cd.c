@@ -1,98 +1,6 @@
 #include "ush.h"
 
-
-
-
-
-
-// static char* join_pwd(char *pwd, char *str) {
-//     int start = 0;
-//     int len = mx_strlen(str);
-//     char *buf = 0;
-//     if (str[0] == '/')
-//         start = 1;
-//     if (str[len - 1] == '/') {
-//         return mx_strjoin(pwd, &str[start]);
-//     }
-//     else {
-//         buf = mx_strjoin(pwd, "/");
-//         return mx_strjoin2(buf, &str[start]);
-//     }
-// }
-
-// bool mx_chdir(char* path, t_info *info, bool isP) {
-//     char *cwd = 0;
-//     bool isLink = is_link(path);
-    
-//     if (chdir(path) == -1) {
-//         mx_printerr("ush: ");
-//         mx_printerr(strerror(errno));
-//         mx_printerr("\n");
-//         return false;
-//     }
-//     free(info->old_pwd);
-//     info->old_pwd = mx_strdup(info->pwd);
-    
-//     if((cwd = getcwd(NULL, 0)) == NULL) {
-//         mx_printerr(strerror(errno));
-//         return false;
-//     }
-//     free(info->pwdP);
-//     info->pwdP = mx_strdup(cwd);
-//     free(info->pwdL);
-//     if (isLink)
-//         info->pwdL = join_pwd(info->old_pwd, path);
-//     else
-//         info->pwdL = mx_strdup(cwd);
-//     free(info->pwd);
-//     if(isP) 
-//         info->pwd = mx_strdup(info->pwdP);
-//     else 
-//         info->pwd = mx_strdup(info->pwdL);
-//     free(cwd);
-//     return true;
-// }
-
-// static bool is_home_or_error(char **argv, int flags, t_info *info) {
-//     bool isP = true ? (flags & 2) : false;
-//     if ((argv[0] == 0) && (!(flags & 4))) {
-//         mx_chdir(info->home, info, isP);
-//         return true;
-//     }
-//     if ((argv[0] != 0) && ((flags & 4) || (argv[1] != 0)))
-//         return true;
-//     if ((argv[0] == 0) && (flags & 4) && info->old_pwd != 0) {
-//             mx_chdir(info->old_pwd, info, isP);
-//         return true;
-//     }
-//     return false;
-// }
-
-
-
-// int mx_cd(char **argv, t_info *info) {
-//     int i = 0;
-//     int flags = get_flags(argv, &i);
-//     bool isP = true ? (flags & 2) : false;
-//     // char *naem =0;
-//     // get_path(argv[i], &naem);
-//     // printf("flags = %d\n", flags);
-//     // printf("i = %d\n", i);
-//     if (is_home_or_error(&argv[i], flags, info))
-//         return 1;
-//     if (is_link(argv[i]) && (flags & 1)) {
-//         // fprintf(stderr, "cd: not a directory: %s\n", argv[i]);
-//         return 1;
-//     }
-//     // printf("1\n");
-//     mx_chdir(argv[i], info, isP);
-//     // printf("pwd = %s\noldpwd = %s\n", info->pwd, info->old_pwd);
-//     // while(++i) {
-
-//     // }
-//     return 0;
-// }
-
+#define GET_PATH (argv[i] ? argv[i] : info->home)
 /* 
 * -1 - not flagline
 */
@@ -147,21 +55,22 @@ static bool is_link(char *file) {
     return false;
 }
 
-static char* mx_get_link_path(char *link) {
-    char *linkpath = malloc(2048);
-    int len = 0;
-    if((len = readlink(link, linkpath, sizeof(linkpath)-1)) == -1) {
-        mx_printerr(strerror(errno));
-        return 0;
-    }
-    else
-        linkpath[len] = 0;
-    return linkpath;
-}
+// static char* mx_get_link_path(char *link) {
+//     char *linkpath = malloc(2048);
+//     int len = 0;
+//     if((len = readlink(link, linkpath, sizeof(linkpath)-1)) == -1) {
+//         mx_printerr(strerror(errno));
+//         return 0;
+//     }
+//     else
+//         linkpath[len] = 0;
+//     return linkpath;
+// }
 
-int mx_chdir_P(char *path, t_info *info) {
+int mx_chdir_P(char *path, t_info *info, char flags) {
     if(chdir(path) == -1) {
-        fprintf(stderr, "cd: %s: %s\n", strerror(errno), path);
+        if ((flags & 1) == 0)
+            fprintf(stderr, "cd: %s: %s\n", strerror(errno), path);
         return 1;
     }
     free(info->old_pwd);
@@ -236,11 +145,11 @@ char *get_new_pwd(char *path, t_info *info) {
     return res;
 }
 
-int mx_chdir_L(char *path, t_info *info) {
+int mx_chdir_L(char *path, t_info *info, char flags) {
     char *new_pwd = get_new_pwd(path, info);
     if (chdir(new_pwd) == -1) {
-        mx_printerr(strerror(errno));
-        write(2, "\n", 1);
+        if ((flags & 1) == 0)
+        fprintf(stderr, "cd: %s: %s\n", strerror(errno) ,new_pwd);
         free(new_pwd);
         return 1;
     }
@@ -270,8 +179,7 @@ static void export_pwd_oldpwd(t_info *info) {
 int mx_cd(char **argv, t_info *info) {
     int i = 0;
     int flags = get_flags(argv, &i);
-    char *path = (flags & 4) ? info->old_pwd : (argv[i] ? argv[i] : info->home);
-    t_variable *temp = 0;
+    char *path = (flags & 4) ? info->old_pwd : GET_PATH;
     int status  = 0;
 
     if (is_link(path) && (flags & 1) && (flags & 2) == 0) {
@@ -279,16 +187,14 @@ int mx_cd(char **argv, t_info *info) {
         return 1;
     }
     if (flags & 2) {
-        status = mx_chdir_P(path, info);
+        status = mx_chdir_P(path, info, flags);
     }
     else
-        status = mx_chdir_L(path, info);
+        status = mx_chdir_L(path, info, flags);
     if (status == 0) {
         export_pwd_oldpwd(info);
-        // temp = mx_return_list(info->var_tree, "OLDPWD", if_argv);
-        // if ()info->old_pwd;
-
     }
+    info->lastStatus = status;
     return status;
 }
 

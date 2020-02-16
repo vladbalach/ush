@@ -19,7 +19,7 @@ static int mx_handleEvents(char ch) {
     return 0;
 }
 
-static void special_symbols(char **comands, unsigned int ch, t_info *info) {
+static void special_symbols(unsigned int ch, t_info *info) {
     int str_pos = MX_STR_LEN - MX_STR_POS - 1;
     char *str_tab = 0;
 
@@ -65,7 +65,7 @@ int mx_ascii(t_info *info, char *chars, unsigned int ch) {
     int spec_symbol = 3;
 
     if (ch < 32) {
-        special_symbols(info->input->comands, ch, info);
+        special_symbols(ch, info);
         if (MX_SYMBOL == -1 || MX_SYMBOL == 2 || MX_SYMBOL == 13)
             spec_symbol = ctrl_Enter_D_C(info);
         else

@@ -9,4 +9,3 @@ void mx_ctrl_v_and_not_ascii(t_info *info, char *chars) {
             mx_one_symbol(&(MX_STR), chars[i], &(MX_STR_LEN), MX_STR_POS);
     }
 }
-    

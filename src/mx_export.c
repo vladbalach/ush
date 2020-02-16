@@ -3,7 +3,7 @@
 static void check_parametr(t_list **var_tree, char *name, char *value, char *mem) {
     t_list *var_tree_temp = *var_tree;
     t_variable *var = 0;
-    char *temp = 0;
+    char *temp = NULL;
     int check = 1;
 
     while (check == 1 && var_tree_temp) {
@@ -49,7 +49,7 @@ static void check_parametr(t_list **var_tree, char *name, char *value, char *mem
 
 
 void mx_export(char **argv, t_list **var_tree) {
-    char *temp = 0;
+    // char *temp = 0;
     char **parametr = 0;
 
     for (int i = 1; argv[i]; i++) {
