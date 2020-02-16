@@ -19,7 +19,13 @@
 #include <time.h>
 #include <signal.h>
 #include <sys/wait.h>
-
+#define MX_STR info->input->comands[info->input->id]
+#define MX_ID info->input->id
+#define MX_STR_LEN info->input->str_len
+#define MX_STR_POS info->input->end_posit
+#define MX_MAX_COMAND info->input->max_comand
+#define MX_SYMBOL info->input->if_
+#define MX_ID_TAB_KEY info->input->pos_tab
 // #define HISTORY_STRING "\x1b[38;2;2;2;2mu$h> \x1b[0m\x1b[33m"
 #define MAX_PROC_COUNT 500
 #define HISTORY_STRING "\x1b[38;5;243mu$h> \x1b[38;5;68m"
@@ -88,10 +94,23 @@ typedef struct s_process {
     int index;
 } t_process;
 
+typedef struct s_input {
+    char **comands;
+    char **comand_tab;
+    int id;
+    int max_comand;
+    int str_len;
+    int end_posit;
+    int if_;
+    int pos_tab;
+} t_input;
+
 typedef struct s_programInfo {
     struct termios term_old;
     struct termios term_new;
     char **env;
+    t_list *history;
+    t_input *input;
     t_list *processes;
     bool isExit;
     int exit_status;
@@ -182,19 +201,19 @@ char *mx_audit_str(char *str, t_info *processes, bool dqute);
 char *mx_str_bquote(char **str, t_info *processes);
 char **mx_create_comands(char *str, int end);
 void mx_one_symbol(char **str, char ch, int *count, int position);
-void mx_not_ascii(char *chars, int *table,  char **comands);
+void mx_not_ascii(char *chars, t_info *info);
 int mx_bit_sumbol(char *str);
 int mx_len_symbol(int sum, char *str);
-int mx_input(t_list **list_comands);
+int mx_input(t_info *info);
 void mx_print_esc(char *s);
 void mx_check_outprogram_new_line(void);
-void mx_clean_monitor(char *str, int *table, char *new_str);
+void mx_clean_monitor(char *str, t_info *info, char *new_str);
 void mx_out_monitor_new(char *name, int table2, int pos,char *str);
 void mx_clean_monitor_new(char *name, int table2, int pos,char *str);
 void mx_print_esc(char *s);
-void mx_key_delite(char **comands, int *table);
-char **mx_key_tab(char *parsing, int *table, char **str);
-void mx_key_duble_tab(char **str, char **comands, int *table);
+void mx_key_delite(t_info *info);
+char **mx_key_tab(char *parsing, char **str, t_info *info);
+void mx_key_duble_tab(char **str, char **comands, t_info *info);
 void mx_print_Tab_comands(t_list *list_comand);
 t_info* mx_get_info(t_info *info);
 
@@ -202,6 +221,8 @@ t_info* mx_get_info(t_info *info);
 // lexer
 bool mx_is_char(char c);
 int mx_replace_bquote(char **str, t_info *info);
+void mx_HOME(char **str, int *i, t_info *processes);
+void mx_do_replace(char **str, size_t start, size_t end, char *str_new);
 
 // AST
 t_tnode* mx_create_ast(t_list** tokens, t_tnode *prev);

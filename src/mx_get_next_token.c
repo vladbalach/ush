@@ -40,7 +40,7 @@ static int get_token_priority(char *str) {
 }
 
 static bool if_symbol(char test) {
-    if (test == 34 || test == 39 || test == 96)
+    if (test == 34 || test == 39 || test == 96) 
         return 1;
     return 0;
 }
@@ -62,12 +62,14 @@ t_token* mx_get_next_token(int *currPos, int end, char *str, t_info *processes) 
         while (mx_is_char(str[tokenStart])) {
             while (mx_is_char(str[*currPos])) {
                 if (if_symbol(str[*currPos]) && mx_check_symbol(str, *currPos, str[*currPos])) {
-                    // mx_printchar(str[*currPos]);
                     pos = (*currPos);
                     (*currPos)++;
                     mx_end_flag(str, currPos, end, str[pos]);
-                    // mx_printint(*currPos);
-                    // mx_printstr("\n");
+                }
+                else if(str[*currPos] == '$' && str[(*currPos) + 1] == '(') {
+                    pos = (*currPos);
+                    *currPos += 2;
+                    mx_end_flag(str, currPos, end, ')');
                 }
                 else
                     (*currPos)++;

@@ -62,6 +62,8 @@ SRC = main.c \
 	mx_unset.c \
 	mx_pipe_execute.c \
 	mx_return_value.c \
+	mx_HOME.c \
+	mx_do_replace.c \
 
 INCLUDE = -I $(LBMXD) \
 	-I $(INCD) \
