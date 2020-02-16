@@ -2,7 +2,7 @@
 
 void mx_do_replace(char **str, size_t start, size_t end, char *str_new) {
     char *newStr = NULL;;
-    int i = mx_strlen(*str);
+    size_t i = mx_strlen(*str);
     int sum = 0;
 
     if (str_new)
