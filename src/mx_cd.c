@@ -147,17 +147,17 @@ static bool is_link(char *file) {
     return false;
 }
 
-static char* mx_get_link_path(char *link) {
-    char *linkpath = malloc(2048);
-    int len = 0;
-    if((len = readlink(link, linkpath, sizeof(linkpath)-1)) == -1) {
-        mx_printerr(strerror(errno));
-        return 0;
-    }
-    else
-        linkpath[len] = 0;
-    return linkpath;
-}
+// static char* mx_get_link_path(char *link) {
+//     char *linkpath = malloc(2048);
+//     int len = 0;
+//     if((len = readlink(link, linkpath, sizeof(linkpath)-1)) == -1) {
+//         mx_printerr(strerror(errno));
+//         return 0;
+//     }
+//     else
+//         linkpath[len] = 0;
+//     return linkpath;
+// }
 
 int mx_chdir_P(char *path, t_info *info) {
     if(chdir(path) == -1) {

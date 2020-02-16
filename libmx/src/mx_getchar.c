@@ -1,7 +1,9 @@
 #include "libmx.h"
+#include <termios.h>
 
 static void setTerminalSettings() {
-    t_termios newTerm;
+    struct termios newTerm;
+
     tcgetattr(STDIN_FILENO, &newTerm);
     newTerm.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP
                 | INLCR | IGNCR | ICRNL | IXON);
@@ -20,14 +22,14 @@ static void setTerminalSettings() {
     tcsetattr(STDIN_FILENO, 0, &newTerm);
 }
 
-static void disableTerminal(t_termios oldTerm) {
+static void disableTerminal(struct termios oldTerm) {
     tcsetattr(STDIN_FILENO, 0, &oldTerm);
 }
 
 // get char immediately
 unsigned int mx_getchar() {
     unsigned int ch = 0;
-    t_termios oldTerm;
+    struct termios oldTerm;
 
     tcgetattr(STDIN_FILENO, &oldTerm);
     setTerminalSettings();
