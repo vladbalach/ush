@@ -24,7 +24,7 @@ static int pos_parametr(char *str, int *start) {
         return 0;
 }
 
-void create_parameter(char *str, int *start, int end, t_info *processes) {
+static void create_parameter(char *str, int *start, int end, t_info *processes) {
     int pos = pos_parametr(str, start);
     char *name = mx_strndup(&str[*start], pos - *start);
     char *value = NULL;

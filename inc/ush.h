@@ -20,6 +20,7 @@
 #include <signal.h>
 #include <sys/wait.h>
 #define MX_STR info->input->comands[info->input->id]
+#define MX_COMMAND info->input->comands
 #define MX_ID info->input->id
 #define MX_STR_LEN info->input->str_len
 #define MX_STR_POS info->input->end_posit
@@ -204,9 +205,11 @@ int mx_chdir_L(char *path, t_info *info, char flags);
 
 //
 bool mx_check_symbol(char *str, int position, char symbol);
+void mx_ctrl_v_and_not_ascii(t_info *info, char *chars);
+void mx_ctrl_R(t_info *info);
+int mx_ascii(t_info *info, char *chars, unsigned int ch);
 int mx_end_flag(char *str, int *position, int end, int flag);
 char *mx_parsing_input(char *str);
-char mx_if_isspace(char s);
 char *mx_audit_str(char *str, t_info *processes, bool dqute);
 char *mx_str_bquote(char **str, t_info *processes);
 char **mx_create_comands(char *str, int end);
@@ -218,6 +221,7 @@ int mx_input(t_info *info);
 void mx_print_esc(char *s);
 void mx_check_outprogram_new_line(void);
 void mx_clean_monitor(char *str, t_info *info, char *new_str);
+void mx_print_esc(char *s);
 void mx_out_monitor_new(char *name, int table2, int pos,char *str);
 void mx_clean_monitor_new(char *name, int table2, int pos,char *str);
 void mx_print_esc(char *s);
@@ -230,7 +234,6 @@ bool mx_is_link(char *file);
 
 // lexer
 bool mx_is_char(char c);
-int mx_replace_bquote(char **str, t_info *info);
 void mx_HOME(char **str, int *i, t_info *processes);
 void mx_do_replace(char **str, size_t start, size_t end, char *str_new);
 

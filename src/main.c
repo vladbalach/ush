@@ -1,14 +1,11 @@
 #include "ush.h"
 
 int main(int argc, char *argv[], char **envp) {
-
     int str = 1;
-    // t_list *history = NULL;
-    // char **commands  = NULL;
     t_info *info = 0;
+
     argv++;
     argc++;
-
     mx_ush_init(&info, envp);
     while(str != 0) {
         if (info->history && str == 1) {
