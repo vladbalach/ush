@@ -69,7 +69,15 @@ SRC = main.c \
 	mx_return_value.c \
 	mx_HOME.c \
 	mx_do_replace.c \
-
+	mx_print_cont.c \
+	mx_print_susp.c \
+	mx_get_name.c \
+	mx_del_top_process.c \
+	mx_jobs.c \
+	mx_buildin_list.c \
+	mx_fg.c \
+	mx_exit.c \
+	
 SRCS = $(addprefix $(SRC_DIR), $(SRC))
 
 OBJ = $(SRC:.c=.o)

@@ -5,27 +5,12 @@ void mx_segfault() {
     exit(1);
 }
 void mx_ctrl_c() {
-    // t_info *info = mx_get_info(0);
-    // t_list *tmp = info->processes;
-    // pid_t pid = 0;
-    // while(tmp) {
-    //     pid = (pid_t) tmp->data;
-    //     kill(pid, SIGKILL);
-    // }
-    // printf("CTRL+C\n");
 }
 
 static void mx_ctrl_z() {
-    printf("CTRL+Z\n");
 }
 
 static void init_var() {
-    // int initCount = 10;
-    
-    // *variables = (t_variable **) malloc (sizeof(t_variable*) * initCount); // initCount -vars
-    // for (int i = 0; i < initCount; i++) {
-    //     (*variables)[i] = (t_variable *) malloc (sizeof(t_variable));
-    // }
 }
 
 static void shlvl_new(char **s) {
@@ -91,11 +76,9 @@ void mx_ush_init(t_info **info, char **env) {
     newInfo->pwdL = getcwd(NULL, 0);
     newInfo->old_pwd = getcwd(NULL, 0);
     newInfo->lastStatus = 0;
-    //  printf("pwd = %s\n", newInfo->old_pwd);
     newInfo->home = mx_strdup(getenv("HOME"));
     (*info) = newInfo;
     start_program(&(newInfo->var_tree), env);
-    // mx_get_info(*info);
     signal(SIGSEGV, mx_segfault);
     signal(SIGINT, mx_ctrl_c);
     signal(SIGTSTP, mx_ctrl_z);

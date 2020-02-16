@@ -83,6 +83,7 @@ typedef struct s_token{
 } t_token;
 
 typedef struct s_process {
+    char **name;
     pid_t pid;
     int index;
 } t_process;
@@ -184,6 +185,9 @@ void mx_export(char **argv, t_list **var_tree);
 void mx_unset(char **argv, t_list **var_tree);
 void mx_which(char **argv, t_info *info);
 bool mx_is_buildin(char *str);
+void mx_jobs(t_info *info);
+void mx_fg(t_info *info);
+void mx_exit(t_token *token, t_info *info);
 
 //
 bool mx_check_symbol(char *str, int position, char symbol);
@@ -229,8 +233,15 @@ void mx_exec_less(t_tnode *root, int *fds, char operatorStatus, t_info *info);
 void mx_execute_proces(t_token* token);
 void mx_close_all_pr(t_info *info);
 int mx_pipe_execute(t_tnode *root, int *fds, char operatorStatus, t_info *processes);
+int mx_buildin_list(t_token *token, t_info *info);
 
 // processes
-int mx_add_process(t_list **processes, pid_t pid);
+int mx_add_process(t_list **processes, pid_t pid, char **name);
+void mx_del_top_process(t_info *info);
+
+//print
+void mx_print_susp(char **mas_name);
+void mx_print_cont(char **mas_name, int pid);
+char **mx_get_name(t_info *info, int numb);
 
 #endif
