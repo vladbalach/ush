@@ -9,7 +9,7 @@
 //     exit(1);
 // }
 
-// static void flags(char **argv, t_list *var_tree) {
+// static void flags(char **argv, t_list *var_tree, t_info *info) {
 //     pid_t childpid = fork();
 
 //     if (childpid == -1) {
@@ -31,7 +31,7 @@
 //         }
 //     }
 //     else {
-//         wait();
+//         mx_wait_process(info, argv);
 //     }
 //     exit(EXIT_SUCCESS);
 // }
@@ -72,10 +72,11 @@ static bool reg(char *str, char *regular) {
 //     return save;
 // }
 
-void mx_env(char **argv, t_list *var_tree) {
+void mx_env(char **argv, t_info *info) {
     // t_list *var_tree_temp = var_tree;
     // t_var *var = var_tree_to_var(var_tree);
     // char *path = NULL;
+    t_list *var_tree = info->var_tree;
     char *regular_verenv = "^.+=.*$";
     char *regular_i = "^-i+$";
     char *regular_u = "^-u+.*$";

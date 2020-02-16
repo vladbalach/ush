@@ -245,6 +245,7 @@ int mx_buildin_list(t_token *token, t_info *info);
 // processes
 int mx_add_process(t_list **processes, pid_t pid, char **name);
 void mx_del_top_process(t_info *info);
+void mx_wait_process(t_info *info, char **argv);
 
 //print
 void mx_print_susp(char **mas_name);

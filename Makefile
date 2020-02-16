@@ -72,6 +72,7 @@ SRC = main.c \
 	mx_buildin_list.c \
 	mx_fg.c \
 	mx_exit.c \
+	mx_wait_process.c \
 
 INCLUDE = -I $(LBMXD) \
 	-I $(INCD) \
