@@ -17,13 +17,11 @@ static void delete_no_child(t_tnode **root, void *data, int (*cmp)(void*, void*)
 }
 
 static void delete_tnode_1ch(t_tnode **root, void *data, int (*cmp)(void*, void*), void (*free_tnode)(t_tnode *tnode)) {
-    t_tnode *root_ = *root;
     t_tnode *delNode = 0;
-    int result = cmp(root_->data, data);
 
     if ((root == 0) || (*root == 0))
         return;
-    if (result == 0) {
+    if (cmp((*root)->data, data) == 0) {
         if ((*root)->right != 0) {
             delNode = *root;
             *root = (*root)->right;
@@ -35,12 +33,10 @@ static void delete_tnode_1ch(t_tnode **root, void *data, int (*cmp)(void*, void*
             free_tnode(delNode);
         }
     }
-    else if (result > 0) {
+    else if (cmp((*root)->data, data) > 0)
         delete_tnode_1ch(&((*root)->left), data, cmp, free_tnode);
-    }
-    else {
+    else
         delete_tnode_1ch(&((*root)->right), data, cmp, free_tnode);
-    }
 }
 
 static void delete_tnode_2ch(t_tnode **root, int (*cmp)(void*, void*), t_tnode *finded, void (*free_tnode)(t_tnode *tnode)) {
@@ -52,29 +48,21 @@ static void delete_tnode_2ch(t_tnode **root, int (*cmp)(void*, void*), t_tnode *
 
 void mx_delete_tnode(t_tnode **root, void *data, int (*cmp)(void*, void*), void (*free_tnode)(t_tnode *tnode)) {
     t_tnode *finded = mx_find_tnode(*root, data,  cmp);
-    if (finded == 0) {
+
+    if (finded == 0)
         return;
-    }
     if (finded == *root) {
         printf("ROOTTT\n");
         free_tnode(finded);
     }
-    if (finded == 0) { // no value
+    if (finded == 0) // no value
         return;
-    }
-    if ((finded->left == 0) && (finded->right == 0)) {
+    if ((finded->left == 0) && (finded->right == 0))
         delete_no_child(root, data, cmp, free_tnode);
-    }
-    else
-    if ((finded->left == 0) && (finded->right != 0)) {
+    else if ((finded->left == 0) && (finded->right != 0))
         delete_tnode_1ch(root, data, cmp, free_tnode);
-    }
-    else
-    if ((finded->left != 0) && (finded->right == 0)) {
+    else if ((finded->left != 0) && (finded->right == 0))
         delete_tnode_1ch(root, data, cmp, free_tnode);
-    }
-    else
-    if ((finded->right != 0) && (finded->left !=0)) {
+    else if ((finded->right != 0) && (finded->left !=0))
         delete_tnode_2ch(root, cmp, finded, free_tnode);
-    }
 }

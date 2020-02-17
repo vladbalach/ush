@@ -6,61 +6,7 @@ static bool if_symbol(char test) {
     return 0;
 }
 
-// static char if_isspace2(char s) {
-//     char temp = s;
-
-//      if (s == 0)
-//         temp = '0';
-//     else if (s == '\a')
-//         temp = 'a';
-//     else if (s == '\b')
-//         temp = 'b';
-//     else if (s == '\t')
-//         temp = 't';
-//     else if (s == '\n')
-//         temp = 'n';
-//     else if (s == '\v')
-//         temp = 'v';
-//     else if (s == '\f')
-//         temp = 'f';
-//     else if (s == '\r')
-//         temp = 'r';
-//     return temp;
-// }
-
-// static char if_isspace2(char s) {
-//     char temp = s;
-
-//     if (s == '0')
-//         temp = 0;
-//     else if (s == 'a')
-//         temp = '\a';
-//     else if (s == 'b')
-//         temp = '\b';
-//     else if (s == 't')
-//         temp = '\t';
-//     else if (s == 'n')
-//         temp = '\n';
-//     else if (s == 'v')
-//         temp = '\v';
-//     else if (s == 'f')
-//         temp = '\f';
-//     else if (s == 'r')
-//         temp = '\r';
-//     return temp;
-// }
-
-// char mx_if_isspace(char s) {
-//     char temp = s;
-
-//     if (s < 15 && s > -1)
-//         temp = if_isspace2(s);
-//     else if (s == 48 || s > 96 && s < 19)
-//         temp = if_isspace3(s);
-//     return temp;
-// }
-
-// static void del_backslash_and(char **str) {
+// static void del_backslash_and_(char **str, t_info *processes) {
 //     char *new_str = 0;
 //     char temp[2];
 //     int i = 0;
@@ -75,6 +21,7 @@ static bool if_symbol(char test) {
 //     mx_strdel(str);
 //     *str = new_str;
 // }
+
 static void do_replace(char **str, size_t start, size_t end, char *str_new);
 static void editor_str(char **str, t_info *processes) {
     char *temp = 0;

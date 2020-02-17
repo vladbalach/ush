@@ -32,13 +32,5 @@ char **mx_create_comands(char *str, int end) {
     }
     comands[sum] = 0;
     mx_strdel(&str);
-    // mx_printstr("\n");
-    // for (int i = 0; comands[i]; i++) {
-    //     mx_printstr(comands[i]);
-    //     mx_printstr("|\n");
-    // }
-    // mx_printstr("\n\n");
-    // mx_printint(sum);
-    // mx_printstr("\n\n");
     return comands;
 }

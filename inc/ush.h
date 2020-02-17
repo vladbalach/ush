@@ -19,7 +19,9 @@
 #include <time.h>
 #include <signal.h>
 #include <sys/wait.h>
+
 #define MX_STR info->input->comands[info->input->id]
+#define MX_COMMAND info->input->comands
 #define MX_ID info->input->id
 #define MX_STR_LEN info->input->str_len
 #define MX_STR_POS info->input->end_posit
@@ -32,11 +34,22 @@
 // #define MAIN_STRING "\x4u$h> "
 #define NAME "\x4\x1b[38;5;76mu$h> \x1b[38;5;76m"
 #define SEARCH "\x8\x1b[38;5;243mSearch > \x1b[38;5;68m"
+#define MX_PATH ((t_token*)tmp->next->next->data)->value[0]
+#define MX_GET_PATH (argv[i] ? argv[i] : info->home)
 // #define SEARCH_NAME_REMOVE "\x8Search > "
+
+#define MX_REG_ERR    "^-[^Pui]"
+#define MX_REG_I        "^-i+$"
+#define MX_REG_U        "^-u+.*$"
+#define MX_REG_P        "^-P+.*$"
+#define MX_REG_ERI      "^-i+.+$"
+#define MX_REG_VER      "^.+=.*$"
+#define MX_REG_PROG     "^[^-]+$"
 
 // VARIABLES
 
 typedef struct s_var {
+    char *name;
     char *value;
     bool flag;
     struct s_var *next;
@@ -71,7 +84,7 @@ enum e_operator_status {
     OP_LESS = 16,
     LEFT_VISITED = 128,
     RIGHT_VISITED = 64,
-    OP_AMPERSAND = 32
+    OP_AMP = 32
 };
 
 // AST
@@ -90,6 +103,7 @@ typedef struct s_token{
 } t_token;
 
 typedef struct s_process {
+    char **name;
     pid_t pid;
     int index;
 } t_process;
@@ -186,17 +200,28 @@ int mx_cd(char **argv, t_info *info);
 void mx_printstr_env(char *str);
 int mx_pwd(char **argv, t_info *info);
 void mx_echo(char **str);
-void mx_env(char **argv, t_list *var_tree);
+void mx_env(char **argv, t_info *info);
 void mx_export(char **argv, t_list **var_tree);
 void mx_unset(char **argv, t_list **var_tree);
 void mx_which(char **argv, t_info *info);
 bool mx_is_buildin(char *str);
+void mx_jobs(t_info *info);
+void mx_fg(t_info *info);
+void mx_exit(t_token *token, t_info *info);
+
+//CD 
+int mx_chdir_P(char *path, t_info *info, char flags);
+char* mx_add_one_rank(char *path, char *new_part);
+char* mx_del_last_rank(char *path);
+int mx_chdir_L(char *path, t_info *info, char flags);
 
 //
 bool mx_check_symbol(char *str, int position, char symbol);
+void mx_ctrl_v_and_not_ascii(t_info *info, char *chars);
+void mx_ctrl_R(t_info *info);
+int mx_ascii(t_info *info, char *chars, unsigned int ch);
 int mx_end_flag(char *str, int *position, int end, int flag);
 char *mx_parsing_input(char *str);
-char mx_if_isspace(char s);
 char *mx_audit_str(char *str, t_info *processes, bool dqute);
 char *mx_str_bquote(char **str, t_info *processes);
 char **mx_create_comands(char *str, int end);
@@ -208,21 +233,24 @@ int mx_input(t_info *info);
 void mx_print_esc(char *s);
 void mx_check_outprogram_new_line(void);
 void mx_clean_monitor(char *str, t_info *info, char *new_str);
+void mx_print_esc(char *s);
 void mx_out_monitor_new(char *name, int table2, int pos,char *str);
 void mx_clean_monitor_new(char *name, int table2, int pos,char *str);
 void mx_print_esc(char *s);
 void mx_key_delite(t_info *info);
 char **mx_key_tab(char *parsing, char **str, t_info *info);
+char *mx_mini_parser_tab(char *parsing, t_info *info);
+void mx_read_comand(char *parsing, t_list **list_comand);
 void mx_key_duble_tab(char **str, char **comands, t_info *info);
 void mx_print_Tab_comands(t_list *list_comand);
 t_info* mx_get_info(t_info *info);
-
+bool mx_is_link(char *file);
 
 // lexer
 bool mx_is_char(char c);
-int mx_replace_bquote(char **str, t_info *info);
 void mx_HOME(char **str, int *i, t_info *processes);
 void mx_do_replace(char **str, size_t start, size_t end, char *str_new);
+bool mx_is_operator(t_token *token);
 
 // AST
 t_tnode* mx_create_ast(t_list** tokens, t_tnode *prev);
@@ -236,8 +264,31 @@ void mx_exec_less(t_tnode *root, int *fds, char operatorStatus, t_info *info);
 void mx_execute_proces(t_token* token);
 void mx_close_all_pr(t_info *info);
 int mx_pipe_execute(t_tnode *root, int *fds, char operatorStatus, t_info *processes);
+int mx_buildin_list(t_token *token, t_info *info);
 
 // processes
-int mx_add_process(t_list **processes, pid_t pid);
+int mx_add_process(t_list **processes, pid_t pid, char **name);
+void mx_del_top_process(t_info *info);
+void mx_wait_process(t_info *info, char **argv);
+void mx_segfault();
+void mx_ctrl_c();
+void mx_ctrl_z();
+
+//print
+void mx_print_susp(char **mas_name);
+void mx_print_cont(char **mas_name, int pid);
+char **mx_get_name(t_info *info, int numb);
+
+// env 
+
+char **mx_call_vlad(char **argv, int i);
+char **mx_env_to_vlad(t_var *var);
+bool mx_check_env(char **argv, char **path, t_var *var, int *i);
+bool mx_print_error_env(char *str, int flag);
+void mx_print_env(t_var *var);
+void mx_fre_env_path(t_var *var, char *path);
+bool mx_reg(char *str, char *regular);
+char *mx_get_path_env(char *str1, char *str2, int *i);
+int mx_delete_veriable_env(char *str1, char *str2, t_var *var, int *i);
 
 #endif

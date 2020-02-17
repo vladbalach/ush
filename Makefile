@@ -43,7 +43,6 @@ SRC = main.c \
 	mx_write_from_to.c \
 	mx_print_Tab_comands.c \
 	mx_key_delite.c \
-	mx_replace_bquote.c \
 	mx_get_info.c \
 	mx_ush_close.c \
 	mx_close_all_pr.c \
@@ -57,13 +56,44 @@ SRC = main.c \
 	mx_create_comands.c \
 	mx_audit_str.c \
 	mx_str_bquote.c \
-	mx_if_isspace.c \
 	mx_serch_list.c \
 	mx_unset.c \
 	mx_pipe_execute.c \
 	mx_return_value.c \
 	mx_HOME.c \
 	mx_do_replace.c \
+	mx_ctrl_v_and_not_ascii.c \
+	mx_ascii.c \
+	mx_ctrl_R.c \
+	mx_print_esc.c \
+	mx_print_cont.c \
+	mx_print_susp.c \
+	mx_get_name.c \
+	mx_del_top_process.c \
+	mx_jobs.c \
+	mx_buildin_list.c \
+	mx_fg.c \
+	mx_exit.c \
+	mx_wait_process.c \
+	mx_is_link.c \
+	mx_chdir_P.c \
+	mx_add_one_rank.c \
+	mx_del_last_rank.c \
+	mx_chdir_L.c \
+	mx_key_duble_tab.c \
+	mx_mini_parser_tab.c \
+	mx_read_comand.c \
+	mx_is_operator.c \
+	mx_signals.c \
+	mx_delete_veriable_env.c \
+	mx_get_path_env.c \
+	mx_reg.c \
+	mx_fre_env_path.c \
+	mx_print_env.c \
+	mx_print_error_env.c \
+	mx_check_env.c \
+	mx_call_vlad.c \
+	mx_env_to_vlad.c \
 
 INCLUDE = -I $(LBMXD) \
 	-I $(INCD) \

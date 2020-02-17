@@ -68,6 +68,8 @@ SRC = ./mx_printchar.c \
 	./mx_strjoin3.c \
 	./mx_add_strarr.c \
 	./mx_pop_list.c \
+	./mx_arrstr_to_str.c \
+	./mx_dupstrarr.c \
 
 SRCS = ./src/mx_printchar.c \
 	./src/mx_strlen.c \
@@ -133,6 +135,8 @@ SRCS = ./src/mx_printchar.c \
 	./src/mx_strjoin3.c \
 	./src/mx_add_strarr.c \
 	./src/mx_pop_list.c \
+	./src/mx_arrstr_to_str.c \
+	./src/mx_dupstrarr.c \
 
 OUT = mx_printchar.o \
 	mx_strlen.o \
@@ -198,6 +202,8 @@ OUT = mx_printchar.o \
 	mx_strjoin3.o \
 	mx_add_strarr.o \
 	mx_pop_list.o \
+	mx_arrstr_to_str.o \
+	mx_dupstrarr.o \
 
 OUT1 = ./obj/mx_printchar.o \
 	./obj/mx_strlen.o \
@@ -263,6 +269,8 @@ OUT1 = ./obj/mx_printchar.o \
 	./obj/mx_strjoin3.o \
 	./obj/mx_add_strarr.o \
 	./obj/mx_pop_list.o \
+	./obj/mx_arrstr_to_str.o \
+	./obj/mx_dupstrarr.o \
 
 CFLSGS = -std=c11 -Wall -Wextra -Wpedantic -Werror 
 

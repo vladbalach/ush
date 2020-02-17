@@ -82,5 +82,7 @@ void mx_printcharerr(char c);
 char *mx_get_user_home();
 char *mx_get_user_name();
 unsigned int mx_getchar();
+char* mx_arrstr_to_str(char **strs);
+char **mx_dupstrarr(char **strs);
 
 #endif

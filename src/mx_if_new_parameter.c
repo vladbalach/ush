@@ -15,7 +15,6 @@ static int pos_parametr(char *str, int *start) {
     int i = *start;
 
     while (str[i] != '=') {
-        // (*start)++;
         i++;
     }
     if (str[i] == '=') {
@@ -25,28 +24,19 @@ static int pos_parametr(char *str, int *start) {
         return 0;
 }
 
-void create_parameter(char *str, int *start, int end, t_info *processes) {
+static void create_parameter(char *str, int *start, int end, t_info *processes) {
     int pos = pos_parametr(str, start);
     char *name = mx_strndup(&str[*start], pos - *start);
     char *value = NULL;
     char *temp = NULL;
 
     *start = ++pos;
-
     mx_end_flag(str, &pos, end, ' ');
-    // mx_printint(pos);
     temp = mx_strndup(&str[*start], pos - *start);
     *start = pos;
     value = mx_audit_str(temp, processes, 0);
-
     mx_strdel(&temp);
-    // mx_printstr(name);
-    // mx_strdel(&name);
-    // mx_printstr("|\n");
-    // mx_printstr(value);
-    // mx_strdel(&value);
     mx_serch_list(&(processes->var_tree), name, value);
-    // mx_printstr("|\n");
     pos = get_start_index(&str[*start]);
     if (pos != -1) 
         *start += pos;
