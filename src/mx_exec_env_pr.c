@@ -30,13 +30,14 @@ static int start_child(char *path, char **argv, char **env) {
         }
     }
     else {
-        if (execv(path, argv) == -1) {
-            mx_printerr("u$h: command not found: ");
-            mx_printerr(path);
+        char *path_buff = mx_strjoin(path, "/");
+        path_buff = mx_strjoin2(path_buff, argv[0]);
+        if (execv(path_buff, argv) == -1) {
+            mx_printerr("u$h: No such file or directory: ");
+            mx_printerr(argv[0]);
             mx_printerr("\n");
             exit(1);
         }
-        
     }
     return 0;
 }
