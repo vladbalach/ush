@@ -6,7 +6,7 @@ char* mx_del_last_rank(char *path) {
     int i = len;
 
     while (path[--i] && path[i] != '/')
-            path[i] = 0;
+        path[i] = 0;
     if ((path[i] == '/') && (i != 0))
         path[i] = 0;
     new_path = mx_strdup(path);

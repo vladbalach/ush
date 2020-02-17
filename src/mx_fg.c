@@ -3,7 +3,7 @@
 void mx_fg(t_info *info) {
     pid_t ch_pr = 0;
     int status = 0;
-       
+
     if (info->processes) {
         ch_pr = ((t_process*)info->processes->data)->pid;
         mx_print_cont(mx_get_name(info, ch_pr),

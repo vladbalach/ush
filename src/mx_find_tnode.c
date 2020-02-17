@@ -2,6 +2,7 @@
 
 t_tnode *mx_find_tnode(t_tnode *root, void *data, int (*cmp)(void*, void*)) {
     t_tnode *finded = 0;
+
     if (root == 0)
         return 0;
     if (cmp(root->data, data) == 0)

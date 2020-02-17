@@ -7,7 +7,16 @@ static char *read_to_delim(int des) {
 
     buff[1] = 0;
     while((count = read(des, buff, 1))) {
+        if (buff[0] == '\n')
+            buff[0] = '\x0d';
         newStr = mx_strjoin2(newStr, buff);
+    }
+    if (newStr) {
+        count = strlen(newStr);
+        if (newStr[count] == '\x0d')
+            newStr[count] = 0;
+        if (count > 1 && newStr[count - 1] == '\x0d')
+            newStr[count - 1] = 0;
     }
     close(des);
     return newStr;

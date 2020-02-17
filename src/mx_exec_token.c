@@ -9,8 +9,8 @@ static void del_desc(char operatorStatus, int *fds) {
 
 static void child(t_token *token, char operatorStatus, int *fds) {
     if (operatorStatus & 23) {
-            dup2(fds[1],1);
-            dup2(fds[0],0);
+            dup2(fds[1], 1);
+            dup2(fds[0], 0);
         }
         mx_execute_proces(token);
 }
@@ -28,7 +28,7 @@ int exec_token(t_token *token, int *fds, char operatorStatus, t_info *info) {
             return exitStatus;
         }
         else {
-            if(mx_add_process(&(info->processes), pid, token->value) != -1)
+            if (mx_add_process(&(info->processes), pid, token->value) != -1)
                 printf("Process [%d] created\n", pid);
             printf("pr = %d\n", ((t_process*)info->processes->data)->pid);
         }

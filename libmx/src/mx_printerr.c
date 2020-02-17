@@ -5,5 +5,5 @@ void mx_printerr(const char *s) {
 }
 
 void mx_printcharerr(char c) {
-    write(1, &c, 1);
+    write(2, &c, 1);
 }

@@ -2,7 +2,7 @@
 // SIGFAULT
 static t_list* find_max_priority(t_list* tokens) {
     t_list *tmp = tokens;
-    t_list* maxNode = tmp;
+    t_list *maxNode = tmp;
     int maxPriority = 0;
 
     if (tmp == 0)
@@ -31,7 +31,7 @@ t_list* del_token(t_list **tokens, t_list *max) {
         *tokens = 0;
     }
     while (tmp->next) {
-        if (strcmp(((t_token*)tmp->next->data)->value[0], 
+        if (strcmp(((t_token*)tmp->next->data)->value[0],
                     ((t_token*)max->data)->value[0]) == 0) {
             next = tmp->next->next;
             free(tmp->next);

@@ -64,7 +64,7 @@ void mx_clean_monitor(char *str, t_info *info, char *new_str) {
     }
     write(1,"\r",1);
     mx_print_esc("J");
-    mx_printstr(HISTORY_STRING);
+    mx_printstr(MX_HISTORY_STRING);
     mx_printstr(new_str);
     mx_printstr(" \x1b[0m\n");
 }

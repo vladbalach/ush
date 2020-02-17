@@ -2,9 +2,11 @@
 
 static void buildin_list_1(t_token *token, t_info *info) {
     if (mx_strcmp(token->value[0], "cd") == 0) 
-        info->exit_status = mx_cd(token->value, info);
+        info->lastStatus = mx_cd(token->value, info);
+    else if (mx_strcmp(token->value[0], "history") == 0) 
+        info->lastStatus = mx_history(&(info->history));
     else if (mx_strcmp(token->value[0], "pwd") == 0) 
-        info->exit_status = mx_pwd(token->value, info);
+        info->lastStatus = mx_pwd(token->value, info);
     else if (mx_strcmp(token->value[0], "echo") == 0) 
         mx_echo(token->value);
     else if (mx_strcmp(token->value[0], "exit") == 0)
@@ -15,9 +17,9 @@ static void buildin_list_1(t_token *token, t_info *info) {
 
 static void buildin_list_2(t_token *token, t_info *info) {
     if (mx_strcmp(token->value[0], "export") == 0)
-        mx_export(token->value, &(info->var_tree));
+        mx_export(token->value, &(info->var_tree), info);
     else if (mx_strcmp(token->value[0], "unset") == 0)
-        mx_unset(token->value, &(info->var_tree));
+        mx_unset(token->value, &(info->var_tree), info);
     else if (mx_strcmp(token->value[0], "stop") == 0)
         mx_close_all_pr(info);
     else if (mx_strcmp(token->value[0], "env") == 0)

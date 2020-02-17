@@ -48,14 +48,15 @@ static void export_pwd_oldpwd(t_info *info) {
     temp[1] = mx_strjoin("PWD=", info->pwd);
     temp[2] = mx_strjoin("OLDPWD=", info->old_pwd);
     temp[3] = 0;
-    mx_export(temp, &info->var_tree);
+    mx_export(temp, &info->var_tree, info);
     mx_del_strarr(&temp);
 }
 
 int mx_cd(char **argv, t_info *info) {
     int i = 0;
     int flags = get_flags(argv, &i);
-    char *path = (flags & 4) ? info->old_pwd : MX_GET_PATH;
+    char *path = (flags & 4) ? info->old_pwd : (argv[i] ? argv[i]
+        : mx_return_value2("HOME", &(info->var_tree)));
     int status  = 0;
 
     if (mx_is_link(path) && (flags & 1) && (flags & 2) == 0) {

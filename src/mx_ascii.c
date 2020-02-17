@@ -25,17 +25,17 @@ static void special_symbols(unsigned int ch, t_info *info) {
 
     if (MX_SYMBOL != 9 && ch == 9) {
         str_tab = mx_strndup(MX_STR,str_pos);
-        mx_clean_monitor_new(NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
+        mx_clean_monitor_new(MX_NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
         info->input->comand_tab = mx_key_tab(str_tab, &MX_STR, info);
         info->input->pos_tab = 0;
     }
     if (MX_SYMBOL == 9 && ch == 9) {
-        mx_clean_monitor_new(NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
+        mx_clean_monitor_new(MX_NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
         mx_key_duble_tab(&MX_STR, info->input->comand_tab, info);
     }
     MX_SYMBOL = mx_handleEvents(ch);
     if (MX_SYMBOL == 18) {
-        mx_clean_monitor_new(NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
+        mx_clean_monitor_new(MX_NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
         mx_ctrl_R(info);
     }
 }
@@ -46,7 +46,7 @@ static int ctrl_Enter_D_C(t_info *info) {
         return 0;
     }
     else if (MX_SYMBOL == 2) {
-        mx_clean_monitor_new(NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
+        mx_clean_monitor_new(MX_NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
         return 2;
     }
     else if (MX_SYMBOL == KEY_ENTER) {
@@ -72,7 +72,7 @@ int mx_ascii(t_info *info, char *chars, unsigned int ch) {
             chars[2] = 10;
     }
     else {
-        mx_clean_monitor_new(NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
+        mx_clean_monitor_new(MX_NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
         mx_one_symbol(&(MX_STR), ch, &(MX_STR_LEN), MX_STR_POS);
     }
     return spec_symbol;

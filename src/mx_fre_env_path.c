@@ -1,10 +1,12 @@
 #include "ush.h"
 
 void mx_fre_env_path(t_var *var, char *path) {
-    t_var *tmp = var;
+    t_var *tmp = NULL;
 
-    if (path)
+    if (path) {
         free(path);
+        path = NULL;
+    }
     while (var) {
         tmp = var;
         var = var->next;

@@ -4,7 +4,7 @@ static void left_right(char *chars, t_info *info) {
     unsigned char check;
 
     if (chars[2] == 67) { // RIGHT
-        mx_clean_monitor_new(NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
+        mx_clean_monitor_new(MX_NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
         check = (unsigned char)MX_STR[MX_STR_LEN - MX_STR_POS];
         while (check >> 6 == 2) {
             MX_STR_POS--;
@@ -13,7 +13,7 @@ static void left_right(char *chars, t_info *info) {
         (MX_STR_POS)--;
     }
     else { // LEFT
-        mx_clean_monitor_new(NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
+        mx_clean_monitor_new(MX_NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
         check = (unsigned char)MX_STR[MX_STR_LEN - MX_STR_POS - 2];
         while (check >> 6 == 2) {
             (MX_STR_POS)++;
@@ -26,7 +26,7 @@ static void left_right(char *chars, t_info *info) {
 static void up_down(char *chars, t_info *info){
     if (chars[2] == 65) { // UP
         if (MX_ID != MX_MAX_COMAND) {
-            mx_clean_monitor_new(NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
+            mx_clean_monitor_new(MX_NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
             (MX_ID)++;
             MX_STR_POS = 0;
             MX_STR_LEN = mx_strlen(MX_STR) + 1;
@@ -36,7 +36,7 @@ static void up_down(char *chars, t_info *info){
     }
     else if (chars[2] == 66) { //DOWN
         if (MX_ID != 0) {
-            mx_clean_monitor_new(NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
+            mx_clean_monitor_new(MX_NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
             (MX_ID)--;
             MX_STR_POS = 0;
             MX_STR_LEN = mx_strlen(MX_STR) + 1;
@@ -49,7 +49,7 @@ static void up_down(char *chars, t_info *info){
 static void home_end(char *chars, t_info *info) {
     if (chars[2] == 70) { // position 0
         if (MX_STR_POS != 0) {
-            mx_clean_monitor_new(NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
+            mx_clean_monitor_new(MX_NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
             MX_STR_POS = 0;
         }
         else 
@@ -57,7 +57,7 @@ static void home_end(char *chars, t_info *info) {
     }
     else if (chars[2] == 72) { // position end
         if (MX_STR_POS != MX_STR_LEN - 1) {
-            mx_clean_monitor_new(NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
+            mx_clean_monitor_new(MX_NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
             MX_STR_POS = MX_STR_LEN - 1;
         }
         else 
@@ -70,7 +70,7 @@ static void home_end(char *chars, t_info *info) {
 static void pageU_PageD(char *chars, t_info *info) {
     if (chars[2] == 53) { // PageUP
         if (MX_ID != MX_MAX_COMAND) {
-            mx_clean_monitor_new(NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
+            mx_clean_monitor_new(MX_NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
             MX_STR_POS = 0;
             MX_STR_LEN = mx_strlen(info->input->comands[MX_MAX_COMAND]) + 1;
             MX_ID = MX_MAX_COMAND;
@@ -80,7 +80,7 @@ static void pageU_PageD(char *chars, t_info *info) {
     }
     else if (chars[2] == 54) { //PageDown
         if (MX_ID != 0) {
-            mx_clean_monitor_new(NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
+            mx_clean_monitor_new(MX_NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
             MX_STR_LEN = mx_strlen(info->input->comands[0]) + 1;
             MX_STR_POS = 0;
             MX_ID = 0;

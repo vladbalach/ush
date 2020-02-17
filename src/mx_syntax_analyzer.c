@@ -23,6 +23,7 @@ static bool is_double_op(t_list *tmp, bool *op) {
 
 static bool is_double_more(t_list *tmp) {
     char *value = ((t_token*)tmp->data)->value[0];
+
     if ((mx_strcmp(value, ">") == 0) || (mx_strcmp(value, ">>") == 0)) {
         if ((tmp->next) && (tmp->next->next) 
             && ((mx_strcmp(((t_token*)tmp->next->next->data)->value[0], ">")
@@ -42,6 +43,7 @@ static bool is_double_more(t_list *tmp) {
 
 static bool is_double_less(t_list *tmp) {
     char *value = ((t_token*)tmp->data)->value[0];
+
     if ((mx_strcmp(value, "<") == 0) || (mx_strcmp(value, ">") == 0)) {
         if ((tmp->next) && (tmp->next->next) 
             && ((mx_strcmp(MX_PATH, "<") == 0) ||

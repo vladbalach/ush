@@ -3,6 +3,7 @@
 static int get_rank(char *path) {
     int i = -1;
     int rank = 0;
+
     while(path[++i]) {
         if ((path[i] == '/') && (path[i + 1])) {
             rank++;
@@ -35,10 +36,14 @@ static char *get_new_pwd(char *path, t_info *info) {
 }
 
 int mx_chdir_L(char *path, t_info *info, char flags) {
-    char *new_pwd = get_new_pwd(path, info);
+    char *new_pwd = 0;
+
+    if (path == 0)
+        return 0;
+    new_pwd = get_new_pwd(path, info);
     if (chdir(new_pwd) == -1) {
         if ((flags & 1) == 0)
-        fprintf(stderr, "cd: %s: %s\n", strerror(errno) ,new_pwd);
+        fprintf(stderr, "cd: %s: %s\n", strerror(errno), new_pwd);
         free(new_pwd);
         return 1;
     }

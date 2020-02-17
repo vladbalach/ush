@@ -30,7 +30,7 @@ SRC = main.c \
 	mx_get_token_type.c \
 	mx_create_ast.c \
 	mx_syntax_analyzer.c \
-	Key_TAB.c \
+	mx_key_tab.c \
 	mx_delete_ast.c \
 	mx_execute_tree.c \
 	mx_exec_more.c \
@@ -94,6 +94,16 @@ SRC = main.c \
 	mx_check_env.c \
 	mx_call_vlad.c \
 	mx_env_to_vlad.c \
+	mx_parametr_shell.c \
+	mx_flang_Comand.c \
+	mx_read_user.c \
+	mx_token_in_program.c \
+	mx_start_program.c \
+	mx_exec_env_pr.c \
+	mx_push_env.c \
+	mx_history.c \
+	mx_unset_fds.c \
+	mx_subs.c \
 
 INCLUDE = -I $(LBMXD) \
 	-I $(INCD) \
@@ -103,7 +113,7 @@ INCS = $(addprefix $(INCD)/, $(INC))
 SRCS = $(addprefix $(SRCD)/, $(SRC))
 OBJS = $(addprefix $(OBJD)/, $(SRC:%.c=%.o))
 	
-CFLAGS = -std=c99 $(addprefix -W, all extra error pedantic)
+CFLAGS = -std=c11 # $(addprefix -W, all extra error pedantic)
 CC = clang
 
 all: $(NAME)

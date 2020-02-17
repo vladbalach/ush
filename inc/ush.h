@@ -28,14 +28,16 @@
 #define MX_MAX_COMAND info->input->max_comand
 #define MX_SYMBOL info->input->if_
 #define MX_ID_TAB_KEY info->input->pos_tab
+#define MX_FLAGS_W O_RDWR | O_CREAT | O_TRUNC, S_IWRITE | S_IREAD
 // #define HISTORY_STRING "\x1b[38;2;2;2;2mu$h> \x1b[0m\x1b[33m"
 #define MAX_PROC_COUNT 500
-#define HISTORY_STRING "\x1b[38;5;243mu$h> \x1b[38;5;68m"
+#define MX_HISTORY_STRING "\x1b[38;5;243mu$h> \x1b[38;5;68m"
 // #define MAIN_STRING "\x4u$h> "
-#define NAME "\x4\x1b[38;5;76mu$h> \x1b[38;5;76m"
-#define SEARCH "\x8\x1b[38;5;243mSearch > \x1b[38;5;68m"
+#define MX_NAME "\x4\x1b[38;5;76mu$h> \x1b[38;5;76m"
+#define MX_SEARCH "\x8\x1b[38;5;243mSearch > \x1b[38;5;68m"
 #define MX_PATH ((t_token*)tmp->next->next->data)->value[0]
-#define MX_GET_PATH (argv[i] ? argv[i] : info->home)
+#define MX_FUNC_RETURN mx_return_value("HOME", &(info->var_tree))
+#define MX_GET_PATH (argv[i] ? argv[i] : MX_FUNC_RETURN)
 // #define SEARCH_NAME_REMOVE "\x8Search > "
 
 #define MX_REG_ERR    "^-[^Pui]"
@@ -174,18 +176,26 @@ void mx_insert_tree(t_tnode **root, t_tnode *new,
 );
 t_tnode* mx_get_min_tnode(t_tnode *root);
 t_tnode *mx_create_tnode(void *data);
+void mx_start_program(t_list **var_tree, char **env);
 void mx_delete_tnode(t_tnode **root, void *data, int (*cmp)(void*, void*), void (*free_tnode)(t_tnode *tnode));
+void mx_push_env(t_list **var_tree, char *name, char *value, char *mem);
 t_tnode *mx_find_tnode(t_tnode *root, void *data, int (*cmp)(void*, void*));
 void mx_if_new_parameter(char *str, int *start, int end, t_info *processes);
 char *mx_return_value(char **str, t_list **var_tree);
+char *mx_return_value2(const char *str, t_list **var_tree);
 void mx_serch_list(t_list **var_tree, char *name, char *value);
 t_token *mx_create_token(char type, char **value, int priority);
 void mx_clear_tokens(t_list **tokens);
 t_token* mx_get_next_token(int *start, int end, char *str, t_info *processes);
 char mx_get_token_type(char *str);
+void mx_parametr_shell(t_info *processes, int *i, char **new_str);
+int mx_flang_Comand(char *str, int *pos, int end, int flag);
+void mx_read_user(char **user);
+t_token *mx_token_in_program(int *currPos, int end, char *str, t_info *processes);
 
 // 
 void mx_ush_init(t_info **info, char **env);
+void mx_subs(char **str);
 void mx_parsing(char *str, t_info *info);
 t_list *mx_lexer(char *str, t_info *processes);
 bool mx_syntax_analyzer(t_list *tokens);
@@ -197,12 +207,13 @@ void mx_write_from_to(int from , int to, off_t start);
 
 //BUILT IN
 int mx_cd(char **argv, t_info *info);
+int mx_history(t_list **list_comands);
 void mx_printstr_env(char *str);
 int mx_pwd(char **argv, t_info *info);
 void mx_echo(char **str);
 void mx_env(char **argv, t_info *info);
-void mx_export(char **argv, t_list **var_tree);
-void mx_unset(char **argv, t_list **var_tree);
+void mx_export(char **argv, t_list **var_tree, t_info *info);
+void mx_unset(char **argv, t_list **var_tree, t_info *info);
 void mx_which(char **argv, t_info *info);
 bool mx_is_buildin(char *str);
 void mx_jobs(t_info *info);
@@ -245,7 +256,7 @@ void mx_key_duble_tab(char **str, char **comands, t_info *info);
 void mx_print_Tab_comands(t_list *list_comand);
 t_info* mx_get_info(t_info *info);
 bool mx_is_link(char *file);
-
+void mx_unset_fds(int *fds, int *savedFds, int operator_starus);
 // lexer
 bool mx_is_char(char c);
 void mx_HOME(char **str, int *i, t_info *processes);
@@ -265,6 +276,7 @@ void mx_execute_proces(t_token* token);
 void mx_close_all_pr(t_info *info);
 int mx_pipe_execute(t_tnode *root, int *fds, char operatorStatus, t_info *processes);
 int mx_buildin_list(t_token *token, t_info *info);
+void mx_exec_env_pr(char *path, char **argv, char **env, t_info *info);
 
 // processes
 int mx_add_process(t_list **processes, pid_t pid, char **name);
@@ -273,6 +285,7 @@ void mx_wait_process(t_info *info, char **argv);
 void mx_segfault();
 void mx_ctrl_c();
 void mx_ctrl_z();
+void mx_segfault_in();
 
 //print
 void mx_print_susp(char **mas_name);
