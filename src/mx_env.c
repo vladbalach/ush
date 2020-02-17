@@ -9,32 +9,7 @@
 //     exit(1);
 // }
 
-// static void flags(char **argv, t_list *var_tree, t_info *info) {
-//     pid_t childpid = fork();
 
-//     if (childpid == -1) {
-//         exit(1)
-//     }
-//     else if (childpid == 0) {
-//         if (flag == 1) { // -i
-//             if (execvpe(/*назва програми */, argv, 0) == -1) {
-//                 printerr(name);
-//             }
-//         }
-//         if else (flag == 2) { // -P
-//             if (execve(/*шлях до програми*/, argv, /*env*/) == -1)
-//                 printerr(name);
-//         }
-//         if else (flag == 3) { // -u
-//             if (execve(/*назва програми*/, argv, /*env*/) == -1)
-//                 printerr(name);
-//         }
-//     }
-//     else {
-//         mx_wait_process(info, argv);
-//     }
-//     exit(EXIT_SUCCESS);
-// }
 /* 
 *  -u не передає в процес заданий аргумент env
 *  -P вказати шлях до програм які ти хочеш виконувати
