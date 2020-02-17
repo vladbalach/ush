@@ -10,26 +10,6 @@ static void clearenv(t_info *info) {
     }
 }
 
-// static int start_def_path(char *path, char **argv) {
-//     if (execv(path, argv) == -1) {
-//         mx_printerr("u$h: command not found: ");
-//         mx_printerr(path);
-//         mx_printerr("\n");
-//         exit(1);
-//     }
-//     return 0;
-// }
-
-// static int mx_exe_pr_env(char *path, char **argv) {
-//     if (execvp(argv[0], argv) == -1) {
-//         mx_printerr("u$h: command not found: ");
-//         mx_printerr(argv[0]);
-//         mx_printerr("\n");
-//         exit(1);
-//     }
-//     return 0;
-// }
-
 static void fill_env(char **env) {
     int i = 0;
 
@@ -41,14 +21,6 @@ static void fill_env(char **env) {
 static int start_child(char *path, char **argv, char **env) {
     fill_env(env);
     if (path == 0) {
-        if (execv(path, argv) == -1) {
-            mx_printerr("u$h: command not found: ");
-            mx_printerr(path);
-            mx_printerr("\n");
-            exit(1);
-        }
-    }
-    else {
         if (execvp(argv[0], argv) == -1) {
             mx_printerr("u$h: command not found: ");
             mx_printerr(argv[0]);
@@ -56,10 +28,17 @@ static int start_child(char *path, char **argv, char **env) {
             exit(1);
         }
     }
+    else {
+        if (execv(path, argv) == -1) {
+            mx_printerr("u$h: command not found: ");
+            mx_printerr(path);
+            mx_printerr("\n");
+            exit(1);
+        }
+        
+    }
     return 0;
 }
-
-
 
 void mx_exec_env_pr(char *path, char **argv, char **env, t_info *info) {
     pid_t pid = fork();
