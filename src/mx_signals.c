@@ -2,6 +2,7 @@
 
 void mx_segfault() {
     static int counter = 0;
+
     if (counter == 0) {
         mx_printerr("ush: segmentation fault\n");
         mx_print_unicode(0x1f92d);
@@ -22,6 +23,9 @@ void mx_segfault() {
     counter++;
 }
 
+void mx_segfault_in() {
+    exit(1);
+}
 void mx_ctrl_c() {
 }
 

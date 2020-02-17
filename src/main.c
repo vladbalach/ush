@@ -1,6 +1,7 @@
 #include "ush.h"
 
 int main(int argc, char *argv[], char **envp) {
+    
     int str = 1;
     t_info *info = 0;
 

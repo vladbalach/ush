@@ -19,6 +19,7 @@
 #include <time.h>
 #include <signal.h>
 #include <sys/wait.h>
+
 #define MX_STR info->input->comands[info->input->id]
 #define MX_COMMAND info->input->comands
 #define MX_ID info->input->id
@@ -262,6 +263,7 @@ void mx_execute_proces(t_token* token);
 void mx_close_all_pr(t_info *info);
 int mx_pipe_execute(t_tnode *root, int *fds, char operatorStatus, t_info *processes);
 int mx_buildin_list(t_token *token, t_info *info);
+void mx_exec_env_pr(char *path, char **argv, char **env, t_info *info);
 
 // processes
 int mx_add_process(t_list **processes, pid_t pid, char **name);
@@ -270,6 +272,7 @@ void mx_wait_process(t_info *info, char **argv);
 void mx_segfault();
 void mx_ctrl_c();
 void mx_ctrl_z();
+void mx_segfault_in();
 
 //print
 void mx_print_susp(char **mas_name);
