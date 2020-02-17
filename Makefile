@@ -89,6 +89,7 @@ SRC = main.c \
 	mx_flang_Comand.c \
 	mx_read_user.c \
 	mx_token_in_program.c \
+	mx_start_program.c \
 
 INCLUDE = -I $(LBMXD) \
 	-I $(INCD) \

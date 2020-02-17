@@ -10,12 +10,12 @@ int mx_chdir_P(char *path, t_info *info, char flags) {
     }
     free(info->old_pwd);
     info->old_pwd = info->pwd;
-    info->pwd = getcwd(NULL,0);
+    info->pwd = getcwd(NULL, 0);
     free(info->pwdL);
-    info->pwdL = getcwd(NULL,0);
+    info->pwdL = getcwd(NULL, 0);
     free(info->pwdP);
-    info->pwdP = getcwd(NULL,0);
+    info->pwdP = getcwd(NULL, 0);
     free(info->pwd);
-    info->pwd = getcwd(NULL,0);
+    info->pwd = getcwd(NULL, 0);
     return 0;
 }

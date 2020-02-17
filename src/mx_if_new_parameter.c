@@ -2,6 +2,7 @@
 
 static int get_start_index(char *str) {
     int i = 0;
+
     while(str[i]) {
         if (str[i] != ' ') {
             return i;

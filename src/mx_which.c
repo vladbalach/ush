@@ -69,11 +69,11 @@ static bool check_command(char *command, char** pathes, int flags) {
     return finded;
 }
 
-static bool check_commands(char **commands, char** pathes, 
-int startIndex, int flags) 
-{
+static bool check_commands(char **commands, char** pathes, int startIndex,
+                           int flags) {
     int i = startIndex - 1;
     bool finded = false;
+
     while(commands[++i] != 0) {
         if (pathes == 0)
             finded = false;

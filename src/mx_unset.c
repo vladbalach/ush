@@ -12,7 +12,7 @@ static bool check_argv(char *str) {
 }
 
 static void del_t_variable(void *str) {
-    t_variable *var= str;
+    t_variable *var = str;
 
     mx_strdel(&(var->name));
     mx_strdel(&(var->value));

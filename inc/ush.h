@@ -27,6 +27,7 @@
 #define MX_MAX_COMAND info->input->max_comand
 #define MX_SYMBOL info->input->if_
 #define MX_ID_TAB_KEY info->input->pos_tab
+#define MX_FLAGS_W O_RDWR | O_CREAT | O_TRUNC, S_IWRITE | S_IREAD
 // #define HISTORY_STRING "\x1b[38;2;2;2;2mu$h> \x1b[0m\x1b[33m"
 #define MAX_PROC_COUNT 500
 #define HISTORY_STRING "\x1b[38;5;243mu$h> \x1b[38;5;68m"
@@ -166,6 +167,7 @@ void mx_insert_tree(t_tnode **root, t_tnode *new,
 );
 t_tnode* mx_get_min_tnode(t_tnode *root);
 t_tnode *mx_create_tnode(void *data);
+void mx_start_program(t_list **var_tree, char **env);
 void mx_delete_tnode(t_tnode **root, void *data, int (*cmp)(void*, void*), void (*free_tnode)(t_tnode *tnode));
 t_tnode *mx_find_tnode(t_tnode *root, void *data, int (*cmp)(void*, void*));
 void mx_if_new_parameter(char *str, int *start, int end, t_info *processes);
