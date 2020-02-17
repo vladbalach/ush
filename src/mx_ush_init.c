@@ -50,17 +50,14 @@ static void start_program(t_list **var_tree, char **env) {
 void mx_ush_init(t_info **info, char **env) {
     t_info *newInfo = (t_info*) malloc(sizeof(t_info));
     newInfo->env = env;
-
     newInfo->processes = 0; // empty
     newInfo->isExit = false;
     newInfo->exit_status = 0;
-    newInfo->path = mx_strdup(getenv("PATH"));
     newInfo->pwd = getcwd(NULL, 0);
     newInfo->pwdP = getcwd(NULL, 0);
     newInfo->pwdL = getcwd(NULL, 0);
     newInfo->old_pwd = getcwd(NULL, 0);
     newInfo->lastStatus = 0;
-    newInfo->home = mx_strdup(getenv("HOME"));
     (*info) = newInfo;
     start_program(&(newInfo->var_tree), env);
     signal(SIGSEGV, mx_segfault);
