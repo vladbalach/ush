@@ -1,6 +1,8 @@
 #include "ush.h"
 
 int mx_chdir_P(char *path, t_info *info, char flags) {
+    if (path == 0)
+        return 0;
     if(chdir(path) == -1) {
         if ((flags & 1) == 0)
             fprintf(stderr, "cd: %s: %s\n", strerror(errno), path);

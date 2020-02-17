@@ -35,7 +35,8 @@
 #define SEARCH "\x8\x1b[38;5;243mSearch > \x1b[38;5;68m"
 #define MX_PATH ((t_token*)tmp->next->next->data)->value[0]
 
-#define MX_GET_PATH (argv[i] ? argv[i] : info->home)
+#define MX_FUNC_RETURN mx_return_value("HOME", &(info->var_tree))
+#define MX_GET_PATH (argv[i] ? argv[i] : MX_FUNC_RETURN)
 // #define SEARCH_NAME_REMOVE "\x8Search > "
 
 // VARIABLES
@@ -169,6 +170,7 @@ void mx_delete_tnode(t_tnode **root, void *data, int (*cmp)(void*, void*), void 
 t_tnode *mx_find_tnode(t_tnode *root, void *data, int (*cmp)(void*, void*));
 void mx_if_new_parameter(char *str, int *start, int end, t_info *processes);
 char *mx_return_value(char **str, t_list **var_tree);
+char *mx_return_value2(const char *str, t_list **var_tree);
 void mx_serch_list(t_list **var_tree, char *name, char *value);
 t_token *mx_create_token(char type, char **value, int priority);
 void mx_clear_tokens(t_list **tokens);

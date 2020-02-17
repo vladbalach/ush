@@ -75,7 +75,10 @@ int startIndex, int flags)
     int i = startIndex - 1;
     bool finded = false;
     while(commands[++i] != 0) {
-        finded = check_command(commands[i], pathes, flags);
+        if (pathes == 0)
+            finded = false;
+        else
+            finded = check_command(commands[i], pathes, flags);
         if ((finded == false) && ((flags & 2) == 2))
             return false;
         if (finded == false) 
@@ -87,7 +90,8 @@ int startIndex, int flags)
 }
 
 void mx_which(char **argv, t_info *info) {
-    char **pathes = mx_strsplit(info->path, ':');
+    char *path = mx_return_value2("PATH", &(info->var_tree));
+    char **pathes = mx_strsplit(path, ':');
     int iArgs = 0;
     int flags = get_flags(&iArgs, argv);
     int finded = false;

@@ -35,6 +35,8 @@ static char *get_new_pwd(char *path, t_info *info) {
 }
 
 int mx_chdir_L(char *path, t_info *info, char flags) {
+    if (path == 0)
+        return 0;
     char *new_pwd = get_new_pwd(path, info);
     if (chdir(new_pwd) == -1) {
         if ((flags & 1) == 0)

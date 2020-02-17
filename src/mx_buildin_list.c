@@ -2,9 +2,9 @@
 
 static void buildin_list_1(t_token *token, t_info *info) {
     if (mx_strcmp(token->value[0], "cd") == 0) 
-        info->exit_status = mx_cd(token->value, info);
+        info->lastStatus = mx_cd(token->value, info);
     else if (mx_strcmp(token->value[0], "pwd") == 0) 
-        info->exit_status = mx_pwd(token->value, info);
+        info->lastStatus = mx_pwd(token->value, info);
     else if (mx_strcmp(token->value[0], "echo") == 0) 
         mx_echo(token->value);
     else if (mx_strcmp(token->value[0], "exit") == 0)
