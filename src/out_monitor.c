@@ -19,7 +19,7 @@ static void print_two_str(char *str1, char *str2) {
 void mx_out_monitor_new(char *name, int table2, int pos, char *str) {
     struct winsize w;
     int symbol = mx_bit_sumbol(&str[table2 - pos - 1]);
-    int len = (int) name[0];// mx_strlen(name) - 1;
+    int len = (int) name[0];
 
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
     print_two_str(&name[1], str);

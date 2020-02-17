@@ -80,6 +80,9 @@ SRC = main.c \
 	mx_add_one_rank.c \
 	mx_del_last_rank.c \
 	mx_chdir_L.c \
+	mx_key_duble_tab.c \
+	mx_mini_parser_tab.c \
+	mx_read_comand.c \
 	mx_is_operator.c \
 	mx_signals.c \
 

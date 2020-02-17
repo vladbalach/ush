@@ -232,6 +232,8 @@ void mx_clean_monitor_new(char *name, int table2, int pos,char *str);
 void mx_print_esc(char *s);
 void mx_key_delite(t_info *info);
 char **mx_key_tab(char *parsing, char **str, t_info *info);
+char *mx_mini_parser_tab(char *parsing, t_info *info);
+void mx_read_comand(char *parsing, t_list **list_comand);
 void mx_key_duble_tab(char **str, char **comands, t_info *info);
 void mx_print_Tab_comands(t_list *list_comand);
 t_info* mx_get_info(t_info *info);
