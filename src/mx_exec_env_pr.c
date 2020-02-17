@@ -15,6 +15,7 @@ static void fill_env(char **env) {
 
     while (env[i]) {
         putenv(env[i]);
+        i++;
     }
 }
 
@@ -50,4 +51,6 @@ void mx_exec_env_pr(char *path, char **argv, char **env, t_info *info) {
     else {
         mx_wait_process(info, argv);
     }
+    mx_del_strarr(&env);
+    mx_del_strarr(&argv);
 }

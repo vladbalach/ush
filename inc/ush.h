@@ -36,14 +36,22 @@
 #define MX_NAME "\x4\x1b[38;5;76mu$h> \x1b[38;5;76m"
 #define MX_SEARCH "\x8\x1b[38;5;243mSearch > \x1b[38;5;68m"
 #define MX_PATH ((t_token*)tmp->next->next->data)->value[0]
-
 #define MX_FUNC_RETURN mx_return_value("HOME", &(info->var_tree))
 #define MX_GET_PATH (argv[i] ? argv[i] : MX_FUNC_RETURN)
 // #define SEARCH_NAME_REMOVE "\x8Search > "
 
+#define MX_REG_ERR    "^-[^Pui]"
+#define MX_REG_I        "^-i+$"
+#define MX_REG_U        "^-u+.*$"
+#define MX_REG_P        "^-P+.*$"
+#define MX_REG_ERI      "^-i+.+$"
+#define MX_REG_VER      "^.+=.*$"
+#define MX_REG_PROG     "^[^-]+$"
+
 // VARIABLES
 
 typedef struct s_var {
+    char *name;
     char *value;
     bool flag;
     struct s_var *next;
@@ -283,5 +291,17 @@ void mx_segfault_in();
 void mx_print_susp(char **mas_name);
 void mx_print_cont(char **mas_name, int pid);
 char **mx_get_name(t_info *info, int numb);
+
+// env 
+
+char **mx_call_vlad(char **argv, int i);
+char **mx_env_to_vlad(t_var *var);
+bool mx_check_env(char **argv, char **path, t_var *var, int *i);
+bool mx_print_error_env(char *str, int flag);
+void mx_print_env(t_var *var);
+void mx_fre_env_path(t_var *var, char *path);
+bool mx_reg(char *str, char *regular);
+char *mx_get_path_env(char *str1, char *str2, int *i);
+int mx_delete_veriable_env(char *str1, char *str2, t_var *var, int *i);
 
 #endif

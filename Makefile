@@ -85,6 +85,15 @@ SRC = main.c \
 	mx_read_comand.c \
 	mx_is_operator.c \
 	mx_signals.c \
+	mx_delete_veriable_env.c \
+	mx_get_path_env.c \
+	mx_reg.c \
+	mx_fre_env_path.c \
+	mx_print_env.c \
+	mx_print_error_env.c \
+	mx_check_env.c \
+	mx_call_vlad.c \
+	mx_env_to_vlad.c \
 	mx_parametr_shell.c \
 	mx_flang_Comand.c \
 	mx_read_user.c \
