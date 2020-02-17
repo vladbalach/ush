@@ -53,49 +53,24 @@ static bool check_if_env_have(char *name, t_list **var_tree) {
     return true;
 }
 
-void mx_push_env(t_list **var_tree, char *name, char *value, char *mem) {
-    t_variable *var = (t_variable*) malloc(sizeof(t_variable));
-
-    var->value = value;
-    var->is_env = true;
-    var->name = name;
-    var->mem = mem;
-    putenv(var->mem);
-    mx_push_front(var_tree, var);
-}
-
 static void check_env(t_list **var_tree) {
     t_variable *var = 0;
     char *temp = 0;
 
     if (check_if_env_have("PWD", var_tree)) {
         temp = getcwd(NULL, 0);;
-        mx_push_env(var_tree, mx_strdup("PWD"), temp, mx_strjoin("PWD=", temp));
-        // var = (t_variable*) malloc(sizeof(t_variable));
-        // var->value = getcwd(NULL, 0);
-        // var->is_env = true;
-        // var->name = mx_strdup("PWD");
-        // var->mem = mx_strjoin("PWD=", var->value);
-        // putenv(var->mem);
-        // mx_push_front(var_tree, var);
+        mx_push_env(var_tree, mx_strdup("PWD"),
+                    temp, mx_strjoin("PWD=", temp));
     }
     if (check_if_env_have("OLDPWD", var_tree)) {
-        var = (t_variable*) malloc(sizeof(t_variable));
-        var->value = getcwd(NULL, 0);
-        var->is_env = true;
-        var->name = mx_strdup("OLDPWD");
-        var->mem = mx_strjoin("OLDPWD=", var->value);
-        putenv(var->mem);
-        mx_push_front(var_tree, var);
+        temp = getcwd(NULL, 0);
+        mx_push_env(var_tree, mx_strdup("OLDPWD"), temp,
+                    mx_strjoin("OLDPWD=", temp));
     }
     if (check_if_env_have("SHLVL", var_tree)) {
-        var = (t_variable*) malloc(sizeof(t_variable));
-        var->value = mx_strdup("1");
-        var->is_env = true;
-        var->name = mx_strdup("SHLVL");
-        var->mem = mx_strjoin("SHLVL=", var->value);
-        putenv(var->mem);
-        mx_push_front(var_tree, var);
+        temp = mx_strdup("1");
+        mx_push_env(var_tree, mx_strdup("SHLVL"), temp,
+                    mx_strjoin("SHLVL=", temp));
     }
 }
 

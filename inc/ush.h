@@ -170,6 +170,7 @@ t_tnode* mx_get_min_tnode(t_tnode *root);
 t_tnode *mx_create_tnode(void *data);
 void mx_start_program(t_list **var_tree, char **env);
 void mx_delete_tnode(t_tnode **root, void *data, int (*cmp)(void*, void*), void (*free_tnode)(t_tnode *tnode));
+void mx_push_env(t_list **var_tree, char *name, char *value, char *mem);
 t_tnode *mx_find_tnode(t_tnode *root, void *data, int (*cmp)(void*, void*));
 void mx_if_new_parameter(char *str, int *start, int end, t_info *processes);
 char *mx_return_value(char **str, t_list **var_tree);
@@ -197,6 +198,7 @@ void mx_write_from_to(int from , int to, off_t start);
 
 //BUILT IN
 int mx_cd(char **argv, t_info *info);
+int mx_history(t_list **list_comands);
 void mx_printstr_env(char *str);
 int mx_pwd(char **argv, t_info *info);
 void mx_echo(char **str);
