@@ -174,6 +174,10 @@ t_token *mx_create_token(char type, char **value, int priority);
 void mx_clear_tokens(t_list **tokens);
 t_token* mx_get_next_token(int *start, int end, char *str, t_info *processes);
 char mx_get_token_type(char *str);
+void mx_parametr_shell(t_info *processes, int *i, char **new_str);
+int mx_flang_Comand(char *str, int *pos, int end, int flag);
+void mx_read_user(char **user);
+t_token *mx_token_in_program(int *currPos, int end, char *str, t_info *processes);
 
 // 
 void mx_ush_init(t_info **info, char **env);
@@ -192,8 +196,8 @@ void mx_printstr_env(char *str);
 int mx_pwd(char **argv, t_info *info);
 void mx_echo(char **str);
 void mx_env(char **argv, t_info *info);
-void mx_export(char **argv, t_list **var_tree);
-void mx_unset(char **argv, t_list **var_tree);
+void mx_export(char **argv, t_list **var_tree, t_info *info);
+void mx_unset(char **argv, t_list **var_tree, t_info *info);
 void mx_which(char **argv, t_info *info);
 bool mx_is_buildin(char *str);
 void mx_jobs(t_info *info);

@@ -49,8 +49,8 @@ static void start_program(t_list **var_tree, char **env) {
 
 void mx_ush_init(t_info **info, char **env) {
     t_info *newInfo = (t_info*) malloc(sizeof(t_info));
-    newInfo->env = env;
 
+    // newInfo->env = env;
     newInfo->processes = 0; // empty
     newInfo->isExit = false;
     newInfo->exit_status = 0;

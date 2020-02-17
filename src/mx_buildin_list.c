@@ -15,9 +15,9 @@ static void buildin_list_1(t_token *token, t_info *info) {
 
 static void buildin_list_2(t_token *token, t_info *info) {
     if (mx_strcmp(token->value[0], "export") == 0)
-        mx_export(token->value, &(info->var_tree));
+        mx_export(token->value, &(info->var_tree), info);
     else if (mx_strcmp(token->value[0], "unset") == 0)
-        mx_unset(token->value, &(info->var_tree));
+        mx_unset(token->value, &(info->var_tree), info);
     else if (mx_strcmp(token->value[0], "stop") == 0)
         mx_close_all_pr(info);
     else if (mx_strcmp(token->value[0], "env") == 0)

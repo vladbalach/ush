@@ -48,7 +48,7 @@ static void export_pwd_oldpwd(t_info *info) {
     temp[1] = mx_strjoin("PWD=", info->pwd);
     temp[2] = mx_strjoin("OLDPWD=", info->old_pwd);
     temp[3] = 0;
-    mx_export(temp, &info->var_tree);
+    mx_export(temp, &info->var_tree, info);
     mx_del_strarr(&temp);
 }
 
