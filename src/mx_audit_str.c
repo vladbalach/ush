@@ -25,8 +25,9 @@ static void editor_str(char **str, t_info *processes) {
     }
     else if (str[0][0] == 96 || str[0][0] == '$')
         substitution_comand(str, &temp, processes);
-    else if (str[0][0] == 34) {
+    else if (str[0][0] == 34) { 
         temp2 = mx_audit_str(temp, processes, 1);
+        mx_subs(&temp2);
         mx_strdel(str);
         mx_strdel(&temp);
         *str = temp2;
@@ -52,23 +53,23 @@ static bool chek_comand(char *new_str, int i) {
 }
 
 static void spec_symbol(t_info *processes, int *i, char **new_str) {
-    int flag = *new_str[*i];
+    int flag = new_str[0][*i];
     int pos = *i + 1;
     char *comand = 0;
 
-    if (*new_str[*i] == '$') {
+    if (new_str[0][i[0]] == '$') {
         pos++;
         flag = ')';
     }
-    mx_end_flag(*new_str, &pos, strlen(*new_str), flag);
-    comand = mx_strndup(&new_str[0][*i], pos - *i);
+    mx_end_flag(new_str[0], &pos, strlen(new_str[0]), flag);
+    comand = mx_strndup(&new_str[0][i[0]], pos - i[0]);
     editor_str(&comand, processes);
-    mx_do_replace(new_str, *i, pos, comand);
+    mx_do_replace(new_str, i[0], pos, comand);
     if (comand) {
-        (*i) += mx_strlen(comand);
+        (i[0]) += mx_strlen(comand);
         mx_strdel(&comand);
     }
-    (*i)--;
+    (i[0])--;
 }
 
 char *mx_audit_str(char *str, t_info *processes, bool dqute) {

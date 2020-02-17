@@ -31,10 +31,10 @@
 #define MX_FLAGS_W O_RDWR | O_CREAT | O_TRUNC, S_IWRITE | S_IREAD
 // #define HISTORY_STRING "\x1b[38;2;2;2;2mu$h> \x1b[0m\x1b[33m"
 #define MAX_PROC_COUNT 500
-#define HISTORY_STRING "\x1b[38;5;243mu$h> \x1b[38;5;68m"
+#define MX_HISTORY_STRING "\x1b[38;5;243mu$h> \x1b[38;5;68m"
 // #define MAIN_STRING "\x4u$h> "
-#define NAME "\x4\x1b[38;5;76mu$h> \x1b[38;5;76m"
-#define SEARCH "\x8\x1b[38;5;243mSearch > \x1b[38;5;68m"
+#define MX_NAME "\x4\x1b[38;5;76mu$h> \x1b[38;5;76m"
+#define MX_SEARCH "\x8\x1b[38;5;243mSearch > \x1b[38;5;68m"
 #define MX_PATH ((t_token*)tmp->next->next->data)->value[0]
 
 #define MX_FUNC_RETURN mx_return_value("HOME", &(info->var_tree))
@@ -187,6 +187,7 @@ t_token *mx_token_in_program(int *currPos, int end, char *str, t_info *processes
 
 // 
 void mx_ush_init(t_info **info, char **env);
+void mx_subs(char **str);
 void mx_parsing(char *str, t_info *info);
 t_list *mx_lexer(char *str, t_info *processes);
 bool mx_syntax_analyzer(t_list *tokens);

@@ -4,7 +4,7 @@ void mx_key_delite(t_info *info) {
     int i;
     int sum = mx_bit_sumbol(&MX_STR[MX_STR_LEN - MX_STR_POS - 1]);
 
-    mx_clean_monitor_new(NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
+    mx_clean_monitor_new(MX_NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
     for (;sum > 0; sum--) {
         i = MX_STR_POS;
         MX_STR_POS--;

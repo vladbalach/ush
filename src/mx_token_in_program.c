@@ -39,7 +39,7 @@ static void push_argv_in_list(char **comand, t_token *newToken) {
     char **meny_comand = 0;
     int id = 0;
 
-    meny_comand = mx_strsplit(*comand, '\n');
+    meny_comand = mx_strsplit(*comand, '\x0d');
     mx_strdel(comand);
     while (meny_comand[id]) {
         mx_add_to_strarr(&newToken->value, meny_comand[id++]);

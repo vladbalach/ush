@@ -30,7 +30,7 @@ SRC = main.c \
 	mx_get_token_type.c \
 	mx_create_ast.c \
 	mx_syntax_analyzer.c \
-	Key_TAB.c \
+	mx_key_tab.c \
 	mx_delete_ast.c \
 	mx_execute_tree.c \
 	mx_exec_more.c \
@@ -94,6 +94,7 @@ SRC = main.c \
 	mx_push_env.c \
 	mx_history.c \
 	mx_unset_fds.c \
+	mx_subs.c \
 
 INCLUDE = -I $(LBMXD) \
 	-I $(INCD) \
