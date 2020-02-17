@@ -72,14 +72,15 @@ static bool reg(char *str, char *regular) {
 //     return save;
 // }
 
-void mx_env(char **argv, t_list *var_tree) {
-    // t_list *var_tree_temp = var_tree;
-    // t_var *var = var_tree_to_var(var_tree);
+void mx_env(char **argv, ) {
+    t_var *var = var_tree_to_var(info->var_tree);
     // char *path = NULL;
     char *regular_verenv = "^.+=.*$";
     char *regular_i = "^-i+$";
-    char *regular_u = "^-u+.*$";
-    char *regular_p = "^-P+.*$";
+    char *regular_u_up = "^-u+.*$";
+    char *regular_p_up = "^-P+.*$";
+    char *reg_p = "^-P$";
+    char *reg_u = "^-u$"; 
     char *reg_name_prog = "^a-z+$"; 
     int i = 0;
 
