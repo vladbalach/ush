@@ -247,7 +247,7 @@ void mx_key_duble_tab(char **str, char **comands, t_info *info);
 void mx_print_Tab_comands(t_list *list_comand);
 t_info* mx_get_info(t_info *info);
 bool mx_is_link(char *file);
-
+void mx_unset_fds(int *fds, int *savedFds, int operator_starus);
 // lexer
 bool mx_is_char(char c);
 void mx_HOME(char **str, int *i, t_info *processes);

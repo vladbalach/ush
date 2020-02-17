@@ -93,6 +93,7 @@ SRC = main.c \
 	mx_exec_env_pr.c \
 	mx_push_env.c \
 	mx_history.c \
+	mx_unset_fds.c \
 
 INCLUDE = -I $(LBMXD) \
 	-I $(INCD) \
