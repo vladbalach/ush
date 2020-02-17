@@ -90,6 +90,7 @@ SRC = main.c \
 	mx_read_user.c \
 	mx_token_in_program.c \
 	mx_exec_env_pr.c \
+	mx_unset_fds.c \
 
 INCLUDE = -I $(LBMXD) \
 	-I $(INCD) \

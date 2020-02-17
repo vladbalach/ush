@@ -10,17 +10,6 @@ void set_fds(int *fds, int *savedFds) {
     }
 }
 
-void unset_fds(int *fds, int *savedFds, int operator_starus) {
-    dup2(savedFds[0], 0);
-    dup2(savedFds[1], 1);
-    if ((operator_starus & OP_PIPE_W) || (operator_starus & OP_MORE))
-        close(fds[1]);
-    if (operator_starus & OP_PIPE_R)
-        close(fds[0]);
-    close(savedFds[0]);
-    close(savedFds[1]);
-}
-
 static int mx_exec_buildin(t_token *token, int *fds, 
 char operator_starus, t_info *info)
 {
@@ -29,7 +18,7 @@ char operator_starus, t_info *info)
 
     set_fds(fds, savedFds);
     status = mx_buildin_list(token, info);
-    unset_fds(fds, savedFds, operator_starus);
+    mx_unset_fds(fds, savedFds, operator_starus);
     return status;
 }
 
