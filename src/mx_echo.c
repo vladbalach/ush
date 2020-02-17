@@ -1,21 +1,21 @@
 #include "ush.h"
 
 static int print_echo_d(char *str, int *i) {
-    if (str[0] == '\\' && str[1] == 'a' && ++i > 0)
+    if (str[0] == '\\' && str[1] == 'a' && ++(*i) > 0)
         return '\a';
-    else if (str[0] == '\\' && str[1] == 'b' && ++i > 0)
+    else if (str[0] == '\\' && str[1] == 'b' && ++(*i) > 0)
         return '\b';
-    else if (str[0] == '\\' && str[1] == 't' && ++i > 0)
+    else if (str[0] == '\\' && str[1] == 't' && ++(*i) > 0)
         return '\t';
-    else if (str[0] == '\\' && str[1] == 'n' && ++i > 0)
+    else if (str[0] == '\\' && str[1] == 'n' && ++(*i) > 0)
         return '\n';
-    else if (str[0] == '\\' && str[1] == 'v' && ++i > 0)
+    else if (str[0] == '\\' && str[1] == 'v' && ++(*i) > 0)
         return '\v';
-    else if (str[0] == '\\' && str[1] == 'f' && ++i > 0)
+    else if (str[0] == '\\' && str[1] == 'f' && ++(*i) > 0)
         return '\f';
-    else if (str[0] == '\\' && str[1] == 'r' && ++i > 0)
+    else if (str[0] == '\\' && str[1] == 'r' && ++(*i) > 0)
         return '\r';
-    else if (str[0] == '\\' && str[1] == 'e' && ++i > 0)
+    else if (str[0] == '\\' && str[1] == 'e' && ++(*i) > 0)
         return '\033';
     return -1;
 }

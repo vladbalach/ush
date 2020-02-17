@@ -54,7 +54,6 @@ static bool check_if_env_have(char *name, t_list **var_tree) {
 }
 
 static void check_env(t_list **var_tree) {
-    t_variable *var = 0;
     char *temp = 0;
 
     if (check_if_env_have("PWD", var_tree)) {
@@ -73,7 +72,6 @@ static void check_env(t_list **var_tree) {
                     mx_strjoin("SHLVL=", temp));
     }
 }
-
 
 void mx_start_program(t_list **var_tree, char **env) {
     int i = -1;
