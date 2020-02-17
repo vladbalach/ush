@@ -5,7 +5,8 @@ static void close_desc(int *fds) {
     close(fds[1]);
 }
 
-static int pipe_r(t_tnode *root, int *fds, char operatorStatus, t_info *processes) {
+static int pipe_r(t_tnode *root, int *fds, char operatorStatus,
+                  t_info *processes) {
     int newFds[2];
     int fdsBuff[2];
     int status = 0;
@@ -14,10 +15,12 @@ static int pipe_r(t_tnode *root, int *fds, char operatorStatus, t_info *processe
     operatorStatus &= 252;
     fdsBuff[0] = fds[0];
     fdsBuff[1] = newFds[1];
-    status = mx_execute_tree(root->left, fdsBuff, operatorStatus | OP_PIPE_RW, processes);
+    status = mx_execute_tree(root->left, fdsBuff,
+                             operatorStatus | OP_PIPE_RW, processes);
     fdsBuff[0] = newFds[0];
     fdsBuff[1] = 1;
-    status = mx_execute_tree(root->right, fdsBuff, operatorStatus | OP_PIPE_R, processes);
+    status = mx_execute_tree(root->right, fdsBuff,
+                             operatorStatus | OP_PIPE_R, processes);
     close_desc(newFds);
     return status;
 }
@@ -33,13 +36,15 @@ static int no_pipe(t_tnode *root, char operatorStatus, t_info *processes) {
     fdsBuff[1] = newFds[1];
     if ((operatorStatus & LEFT_VISITED) == 0) {
         operatorStatus &= 63;
-        status = mx_execute_tree(root->left, fdsBuff, operatorStatus | OP_PIPE_W, processes);
+        status = mx_execute_tree(root->left, fdsBuff,
+                                 operatorStatus | OP_PIPE_W, processes);
     }
     fdsBuff[0] = newFds[0];
     fdsBuff[1] = 1;
     if ((operatorStatus & RIGHT_VISITED) == 0) {
         operatorStatus &= 63;
-        status = mx_execute_tree(root->right, fdsBuff, operatorStatus | OP_PIPE_R, processes);
+        status = mx_execute_tree(root->right, fdsBuff,
+                                 operatorStatus | OP_PIPE_R, processes);
     }
     close_desc(newFds);
     return status;
@@ -47,7 +52,8 @@ static int no_pipe(t_tnode *root, char operatorStatus, t_info *processes) {
 
 
 
-int mx_pipe_execute(t_tnode *root, int *fds, char operatorStatus, t_info *processes) {
+int mx_pipe_execute(t_tnode *root, int *fds, char operatorStatus,
+                    t_info *processes) {
     int status = 0;
 
     if ((operatorStatus & 3) == 0) // PIPE NOTHING

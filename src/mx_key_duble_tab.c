@@ -5,7 +5,8 @@ static void not_id_0(char **str, char **comands, t_info *info) {
         mx_one_symbol(str, 127, &(MX_STR_LEN), MX_STR_POS);
     if (comands[MX_ID_TAB_KEY] != 0) {
         for (int i = 0; comands[MX_ID_TAB_KEY][i]; i++)
-            mx_one_symbol(str, comands[MX_ID_TAB_KEY][i], &(MX_STR_LEN), MX_STR_POS);
+            mx_one_symbol(str, comands[MX_ID_TAB_KEY][i],
+                          &(MX_STR_LEN), MX_STR_POS);
         MX_ID_TAB_KEY++;
     }
     else {

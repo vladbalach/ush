@@ -30,6 +30,7 @@ static t_input *create_input(t_info *info) {
 
 static void del_input(t_info *info) {
     t_input *input = info->input;
+
     mx_del_strarr(&(input->comands));
     free(input);
     info->input = 0;

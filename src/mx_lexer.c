@@ -2,6 +2,7 @@
 
 static int get_start_index(char *str) {
     int i = 0;
+
     while(str[i]) {
         if (str[i] != ' ') {
             return i;
@@ -41,6 +42,7 @@ t_list *mx_create_tokens(char *str, t_info *processes) {
 
 t_list *mx_lexer(char *str, t_info *processes) {
     t_list *tokens = 0;
+
     if (str == 0)
         return 0;
     tokens = mx_create_tokens(str, processes);
