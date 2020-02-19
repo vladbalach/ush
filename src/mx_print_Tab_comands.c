@@ -23,13 +23,11 @@ static int max_comands(t_list *list_comand) {
 }
 
 static int row_tab(int *max, t_list *list_comand) {
-    struct winsize w;
     int coloms = 0;
     int row = 0;
     int sum = mx_list_size(list_comand);
 
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-    coloms = w.ws_col / *max;
+    coloms = mx_get_twidth() / *max;
     if (coloms == 0)
         coloms = 1;
     row = sum / coloms;

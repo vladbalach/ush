@@ -13,7 +13,6 @@
 #include <regex.h> 
 #include <pwd.h>
 #include <stdio.h>
-#include <sys/ioctl.h>
 #include <dirent.h>
 #include "libmx.h"
 #include <time.h>
