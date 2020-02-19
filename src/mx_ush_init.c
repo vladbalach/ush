@@ -15,7 +15,6 @@ static char* get_pwd() {
     char *pwd = mx_strdup(getenv("PWD"));
     char *cwd = getcwd(NULL, 0);
     char *link_path = 0;
-    char *new_pwd = 0;
 
     if (pwd == 0)
         return cwd;

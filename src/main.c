@@ -3,7 +3,7 @@
 int main(int argc, char *argv[], char **envp) {
     int str = 1;
     t_info *info = 0;
-
+    mx_get_twidth();
     argv++;
     argc++;
     mx_ush_init(&info, envp);
