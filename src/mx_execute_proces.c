@@ -24,11 +24,11 @@ void mx_execute_proces(t_token* token) {
         mx_del_strarr(&(token->value));
         if (errno == 2) {
             errno = 0;
-            exit(126);
+            exit(127);
         }
         else {
             errno = 0;
-            exit(127);
+            exit(126);
         }  
     }
 }
