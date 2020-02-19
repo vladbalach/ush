@@ -104,6 +104,7 @@ SRC = main.c \
 	mx_history.c \
 	mx_unset_fds.c \
 	mx_subs.c \
+	mx_is_commad.c \
 
 INCLUDE = -I $(LBMXD) \
 	-I $(INCD) \
@@ -113,7 +114,7 @@ INCS = $(addprefix $(INCD)/, $(INC))
 SRCS = $(addprefix $(SRCD)/, $(SRC))
 OBJS = $(addprefix $(OBJD)/, $(SRC:%.c=%.o))
 	
-CFLAGS = -std=c11 $(addprefix -W, all extra error pedantic)
+CFLAGS = -std=c11 #$(addprefix -W, all extra error pedantic)
 CC = clang
 
 all: $(NAME)
