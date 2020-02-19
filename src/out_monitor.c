@@ -1,11 +1,8 @@
 #include "ush.h"
 
 void mx_check_outprogram_new_line(void) {
-    struct winsize w;
-
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
     write(1,"%",1);
-    for(int i = 0; i < w.ws_col - 1; i++)
+    for(int i = 0; i < mx_get_twidth() - 1; i++)
         write(1," ",1);
     write(1,"\r",1);
     mx_print_esc("J");
@@ -17,19 +14,18 @@ static void print_two_str(char *str1, char *str2) {
 }
 
 void mx_out_monitor_new(char *name, int table2, int pos, char *str) {
-    struct winsize w;
     int symbol = mx_bit_sumbol(&str[table2 - pos - 1]);
     int len = (int) name[0];
+    int col = mx_get_twidth();
 
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
     print_two_str(&name[1], str);
     mx_printstr(" ");
-    for (int i = (mx_len_symbol(table2, str) + len) / w.ws_col; i > 0; i--)
+    for (int i = (mx_len_symbol(table2, str) + len) / col; i > 0; i--)
         mx_print_esc("1F");
     write(1,"\r",1);
     mx_printstr(&name[1]);
     write(1, str, table2 - pos - 1);
-    if ((mx_len_symbol(table2 - pos, str) + len) % w.ws_col == 0) {
+    if ((mx_len_symbol(table2 - pos, str) + len) % col == 0) {
         if (pos == 0)
             write(1, " ", 1);
         else
@@ -40,12 +36,11 @@ void mx_out_monitor_new(char *name, int table2, int pos, char *str) {
 }
 
 void mx_clean_monitor_new(char *name, int table2, int pos, char *str) {
-    struct winsize w;
+
     int temp;
     int len = (int) name[0];
 
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-    temp = (mx_len_symbol(table2 - pos, str) + len) / w.ws_col;
+    temp = (mx_len_symbol(table2 - pos, str) + len) / mx_get_twidth();
     for (int i = temp; i > 0; i--) {
         mx_print_esc("1F");
     }
@@ -54,11 +49,10 @@ void mx_clean_monitor_new(char *name, int table2, int pos, char *str) {
 }
 
 void mx_clean_monitor(char *str, t_info *info, char *new_str) {
-    struct winsize w;
     int temp;
+    int col = mx_get_twidth();
 
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-    temp = (mx_len_symbol(MX_STR_LEN - MX_STR_POS, str) + 4) / w.ws_col;
+    temp = (mx_len_symbol(MX_STR_LEN - MX_STR_POS, str) + 4) / col;
     for (int i = temp; i > 0; i--) {
         mx_print_esc("1F");
     }
