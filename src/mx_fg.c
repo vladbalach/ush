@@ -1,4 +1,5 @@
 #include "ush.h"
+#include "macroses.h"
 
 void mx_fg(t_info *info) {
     pid_t ch_pr = 0;
@@ -10,11 +11,11 @@ void mx_fg(t_info *info) {
             ((t_process*)info->processes->data)->index);
         kill(ch_pr, SIGCONT);
         ch_pr = waitpid(-1, &status, WUNTRACED);
-        if (!WIFEXITED(status))
+        if (!MX_WIFEXIT(status))
             mx_print_susp(mx_get_name(info, ch_pr));
         else {
             mx_del_top_process(info);
-            info->lastStatus = WEXITSTATUS(status);
+            info->lastStatus = MX_EXSTATUS(status);
         }
     }
     else

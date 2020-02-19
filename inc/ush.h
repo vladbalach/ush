@@ -226,6 +226,9 @@ char* mx_add_one_rank(char *path, char *new_part);
 char* mx_del_last_rank(char *path);
 int mx_chdir_L(char *path, t_info *info, char flags);
 
+// Which
+bool mx_is_commad(char *fullname, int flags);
+
 //
 bool mx_check_symbol(char *str, int position, char symbol);
 void mx_ctrl_v_and_not_ascii(t_info *info, char *chars);
