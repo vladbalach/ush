@@ -19,25 +19,38 @@ static void fill_env(char **env) {
     }
 }
 
+static void print_error(char *err) {
+    if (errno == 2) {
+        mx_printerr("u$h: ");
+        mx_printerr(err);
+        mx_printerr(": ");
+        mx_printerr(strerror(errno));
+        mx_printerr("\n");
+        errno = 0;
+        exit(127);
+    }
+    else {
+        mx_printerr("u$h: ");
+        mx_printerr(err);
+        mx_printerr(": ");
+        mx_printerr(strerror(errno));
+        mx_printerr("\n");
+        errno = 0;
+        exit(126); 
+    }
+}
+
 static int start_child(char *path, char **argv, char **env) {
     fill_env(env);
     if (path == 0) {
-        if (execvp(argv[0], argv) == -1) {
-            mx_printerr("u$h: command not found: ");
-            mx_printerr(argv[0]);
-            mx_printerr("\n");
-            exit(1);
-        }
+        if (execvp(argv[0], argv) == -1)
+            print_error(argv[0]);
     }
     else {
         char *path_buff = mx_strjoin(path, "/");
         path_buff = mx_strjoin2(path_buff, argv[0]);
-        if (execv(path_buff, argv) == -1) {
-            mx_printerr("u$h: No such file or directory: ");
-            mx_printerr(argv[0]);
-            mx_printerr("\n");
-            exit(1);
-        }
+        if (execv(path_buff, argv) == -1)
+            print_error(argv[0]);
     }
     return 0;
 }
