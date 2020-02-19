@@ -20,21 +20,16 @@ static void fill_env(char **env) {
 }
 
 static void print_error(char *err) {
+    mx_printerr("u$h: ");
+    mx_printerr(err);
+    mx_printerr(": ");
+    mx_printerr(strerror(errno));
+    mx_printerr("\n");
     if (errno == 2) {
-        mx_printerr("u$h: ");
-        mx_printerr(err);
-        mx_printerr(": ");
-        mx_printerr(strerror(errno));
-        mx_printerr("\n");
         errno = 0;
         exit(127);
     }
     else {
-        mx_printerr("u$h: ");
-        mx_printerr(err);
-        mx_printerr(": ");
-        mx_printerr(strerror(errno));
-        mx_printerr("\n");
         errno = 0;
         exit(126); 
     }
