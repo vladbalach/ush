@@ -8,8 +8,8 @@ void mx_wait_process(t_info *info, char **argv) {
 
     pr = waitpid(-1, &status, WUNTRACED); 
     if (!MX_WIFEXIT(status)) {
-        if (MX_WIFSIG(status)) {
-            if(MX_WTERMSIG(status) == SIGSEGV)
+        if (WIFSIGNALED(status)) {
+            if(WTERMSIG(status) == SIGSEGV)
                 mx_segfault();
         }
         else {
@@ -19,7 +19,7 @@ void mx_wait_process(t_info *info, char **argv) {
         }
     }
     else {
-         mx_del_pid_process(info, pr);
+        mx_del_pid_process(info, pr);
         info->lastStatus = MX_EXSTATUS(status);
     }
 }
