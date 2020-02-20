@@ -19,7 +19,7 @@ void mx_wait_process(t_info *info, char **argv) {
         }
     }
     else {
-        mx_del_top_process(info);
+         mx_del_pid_process(info, pr);
         info->lastStatus = MX_EXSTATUS(status);
     }
 }

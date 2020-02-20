@@ -217,7 +217,7 @@ void mx_unset(char **argv, t_list **var_tree, t_info *info);
 void mx_which(char **argv, t_info *info);
 bool mx_is_buildin(char *str);
 void mx_jobs(t_info *info);
-void mx_fg(t_info *info);
+void mx_fg(char **argv, t_info *info);
 void mx_exit(t_token *token, t_info *info);
 
 //CD 
@@ -286,6 +286,7 @@ void mx_exec_env_pr(char *path, char **argv, char **env, t_info *info);
 // processes
 int mx_add_process(t_list **processes, pid_t pid, char **name);
 void mx_del_top_process(t_info *info);
+void mx_del_pid_process(t_info *info, int pid);
 void mx_wait_process(t_info *info, char **argv);
 void mx_segfault();
 void mx_ctrl_c();
