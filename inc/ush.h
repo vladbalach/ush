@@ -29,16 +29,13 @@
 #define MX_SYMBOL info->input->if_
 #define MX_ID_TAB_KEY info->input->pos_tab
 #define MX_FLAGS_W O_RDWR | O_CREAT | O_TRUNC, S_IWRITE | S_IREAD
-// #define HISTORY_STRING "\x1b[38;2;2;2;2mu$h> \x1b[0m\x1b[33m"
 #define MAX_PROC_COUNT 500
 #define MX_HISTORY_STRING "\x1b[38;5;243mu$h> \x1b[38;5;68m"
-// #define MAIN_STRING "\x4u$h> "
 #define MX_NAME "\x4\x1b[38;5;76mu$h> \x1b[38;5;76m"
 #define MX_SEARCH "\x8\x1b[38;5;243mSearch > \x1b[38;5;68m"
 #define MX_PATH ((t_token*)tmp->next->next->data)->value[0]
 #define MX_FUNC_RETURN mx_return_value("HOME", &(info->var_tree))
 #define MX_GET_PATH (argv[i] ? argv[i] : MX_FUNC_RETURN)
-// #define SEARCH_NAME_REMOVE "\x8Search > "
 
 #define MX_REG_ERR    "^-[^Pui]"
 #define MX_REG_I        "^-i+$"
@@ -162,7 +159,6 @@ enum e_keys{
     CTRL_C = 3,
     CTRL_B = 2,
     CTRL_N = 14,
-
     KEY_ESCAPE = 27,
     KEY_SPACE = 32,
     KEY_ENTER = 13
