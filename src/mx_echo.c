@@ -63,10 +63,21 @@ static char *checkflags(char **str, int *counter) {
     return flags;
 }
 
-void mx_echo(char **str) {
+static void print_e(int i, char *flags, char **str) {
+    int error = 1;    
+
+    for (i = i + 1; str[i]; i++) {
+        error = print_echo_e(str[i]);
+        if (str[i + 1] && error)
+            write(1, " ", 1);
+    }
+    if (flags[0] != 'n' && error)
+        write(1, "\n", 1);
+}
+
+void mx_echo(char **str, t_info *info) {
     int i = 0;
     char *flags = checkflags(str, &i);
-    int error = 1;
 
     if (flags[1] == 'E') {
         for (i = i + 1; str[i]; i++) {
@@ -78,14 +89,9 @@ void mx_echo(char **str) {
             write(1, "\n", 1);
     }
     else {
-        for (i = i + 1; str[i]; i++) {
-            error = print_echo_e(str[i]);
-            if (str[i + 1] && error)
-                write(1, " ", 1);
-        }
-        if (flags[0] != 'n' && error)
-            write(1, "\n", 1);
+        print_e(i, flags, str);
     }
+    info->lastStatus = 0;
     free(flags);
 }
 
