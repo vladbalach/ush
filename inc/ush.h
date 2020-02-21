@@ -20,6 +20,7 @@
 #include <signal.h>
 #include <sys/wait.h>
 
+
 #define MX_STR info->input->comands[info->input->id]
 #define MX_COMMAND info->input->comands
 #define MX_ID info->input->id
@@ -40,7 +41,8 @@
 #define MX_GET_PATH (argv[i] ? argv[i] : MX_FUNC_RETURN)
 // #define SEARCH_NAME_REMOVE "\x8Search > "
 
-#define MX_REG_ERR    "^-[^Pui]"
+#define MX_REG_EXPORT   "^[A-Za-z_]+[A-Za-z_0-9]*(=.*)?$"
+#define MX_REG_ERR      "^-[^Pui]"
 #define MX_REG_I        "^-i+$"
 #define MX_REG_U        "^-u+.*$"
 #define MX_REG_P        "^-P+.*$"
