@@ -8,7 +8,7 @@ static void buildin_list_1(t_token *token, t_info *info) {
     else if (mx_strcmp(token->value[0], "pwd") == 0) 
         info->lastStatus = mx_pwd(token->value, info);
     else if (mx_strcmp(token->value[0], "echo") == 0) 
-        mx_echo(token->value);
+        mx_echo(token->value, info);
     else if (mx_strcmp(token->value[0], "exit") == 0)
         mx_exit(token, info);
     else if (mx_strcmp(token->value[0], "fg") == 0)
