@@ -74,6 +74,7 @@ void mx_export(char **argv, t_list **var_tree, t_info *info) {
         if (mx_reg(argv[i], "")) {
             mx_printerr("export: not valid in this context:");
             mx_printerr(argv[i]);
+            info->lastStatus = 1;
             return;
         }
     }

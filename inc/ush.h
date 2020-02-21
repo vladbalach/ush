@@ -212,7 +212,7 @@ int mx_cd(char **argv, t_info *info);
 int mx_history(t_list **list_comands);
 void mx_printstr_env(char *str);
 int mx_pwd(char **argv, t_info *info);
-void mx_echo(char **str);
+void mx_echo(char **str,  t_info *info);
 void mx_env(char **argv, t_info *info);
 void mx_export(char **argv, t_list **var_tree, t_info *info);
 void mx_unset(char **argv, t_list **var_tree, t_info *info);
