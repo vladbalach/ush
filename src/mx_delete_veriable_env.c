@@ -13,7 +13,8 @@ static void chenge_var(t_var *var, char *name) {
 int mx_delete_veriable_env(char *str1, char *str2, t_var *var, int *i) {  
     char *name = NULL;
 
-    if ((mx_strlen(str1) > 2 && str1[1] == 'u') || (mx_strlen(str1) > 3 && str1[1] == 'i')) {
+    if ((mx_strlen(str1) > 2 && str1[1] == 'u') 
+        || (mx_strlen(str1) > 3 && str1[1] == 'i')) {
         str1++;
         if (*str1 == 'i')
             for (; *str1 == 'i'; str1++);

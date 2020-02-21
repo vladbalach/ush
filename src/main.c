@@ -16,7 +16,7 @@ int main(int argc, char *argv[], char **envp) {
             break;
         str = mx_input(info);
     }
-    system("leaks ush");
+    // system("leaks ush");
     return info->exit_status;
 }
 
