@@ -1,8 +1,10 @@
 #include "ush.h"
 
 void mx_check_outprogram_new_line(void) {
+    int twidth = mx_get_twidth() - 1;
+
     write(1,"%",1);
-    for(int i = 0; i < mx_get_twidth() - 1; i++)
+    for (int i = 0; i < twidth; i++)
         write(1," ",1);
     write(1,"\r",1);
     mx_print_esc("J");
