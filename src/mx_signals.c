@@ -24,7 +24,6 @@ void mx_segfault() {
 }
 
 void mx_segfault_in() {
-    printf("SIG");
     exit(1);
 }
 void mx_ctrl_c() {

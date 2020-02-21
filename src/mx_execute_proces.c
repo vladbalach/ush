@@ -12,6 +12,19 @@ static void print_err(t_token *token) {
     mx_printerr("\n");
 }
 
+static void exec(t_token* token) {
+    print_err(token);
+    mx_del_strarr(&(token->value));
+    if (errno == 2) {
+        errno = 0;
+        exit(127);
+    }
+    else {
+        errno = 0;
+        exit(126);
+    }
+}
+
 void mx_execute_proces(t_token* token) {
     char **argv = 0;
     int i = 0;
@@ -19,18 +32,11 @@ void mx_execute_proces(t_token* token) {
     for (; token->value[i]; i++)
         mx_add_to_strarr(&argv, token->value[i]);
     mx_add_to_strarr(&argv, token->value[i]);
-    if (execvp(argv[0], argv) == -1) {
-        print_err(token);
-        mx_del_strarr(&(token->value));
-        if (errno == 2) {
-            errno = 0;
-            exit(127);
-        }
-        else {
-            errno = 0;
-            exit(126);
-        }  
-    }
+    if (getenv("PATH") == 0)
+        if (execv(argv[0], argv) == -1)
+            exec(token);
+    if (execvp(argv[0], argv) == -1)
+        exec(token);
 }
 
 

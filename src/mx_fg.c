@@ -61,17 +61,17 @@ static int fg_continue(char **argv, t_info *info) {
 
 static void fg_wait(int status, pid_t ch_pr, t_info *info) {
     if (MX_WIFSIG(status)) {
-                    if (MX_WTERMSIG(status) == SIGSEGV)
-                        mx_segfault();
-                    else if (MX_WTERMSIG(status) == SIGINT) {
-                        mx_del_pid_process(info, ch_pr);
-                        info->lastStatus = MX_EXSTATUS(status);
-                    }
-                    else {
-                        char **str = mx_get_name(info, ch_pr);
-                        mx_print_susp(str);
-                    }
-                }
+        if (MX_WTERMSIG(status) == SIGSEGV)
+            mx_segfault();
+        else if (MX_WTERMSIG(status) == SIGINT) {
+            mx_del_pid_process(info, ch_pr);
+            info->lastStatus = MX_EXSTATUS(status);
+        }
+        else {
+            char **str = mx_get_name(info, ch_pr);
+            mx_print_susp(str);
+        }
+    }
 }
 
 void mx_fg(char **argv, t_info *info) {
