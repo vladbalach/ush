@@ -46,7 +46,7 @@ void mx_ush_init(t_info **info, char **env) {
     newInfo->lastStatus = 0;
     (*info) = newInfo;
     mx_start_program(&(newInfo->var_tree), env);
-    signal(SIGSEGV, mx_segfault);
+    signal(SIGSEGV, mx_segfault_in);
     signal(SIGINT, mx_ctrl_c);
     signal(SIGTSTP, mx_ctrl_z);
 }

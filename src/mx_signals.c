@@ -21,10 +21,10 @@ void mx_segfault() {
         counter = -1;
     }
     counter++;
-    exit(0);
 }
 
 void mx_segfault_in() {
+    printf("SIG");
     exit(1);
 }
 void mx_ctrl_c() {
