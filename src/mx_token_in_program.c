@@ -18,7 +18,8 @@ static bool if_symbol(char test) {
 static void end_argv(int *currPos, int end, char *str) {
     int pos = 0;
 
-    while (mx_is_char(str[*currPos])) {
+    while (mx_is_char(str[*currPos]) || (str[*currPos] == ' ' 
+           && !mx_check_symbol(str, *currPos, str[*currPos]))) {
         if (if_symbol(str[*currPos])
             && mx_check_symbol(str, *currPos, str[*currPos])) {
             pos = (*currPos);
