@@ -47,37 +47,9 @@ static void swap(t_var *var) {
     var->next->flag = flag;
 }
 
-static t_var *node(t_list *var_tree, t_var *var) {
-    var->next = malloc(sizeof(t_var));
-    var = var->next;
-    var->flag = 1;
-    var->value = strdup(((t_variable*)var_tree->data)->mem);
-    var->name = mx_strdup(((t_variable*)var_tree->data)->name);
-    var->next = NULL;
-    return var;
-}
-
-static t_var *var_tree_to_var(t_list *var_tree) {
-    t_var *var = malloc(sizeof(t_var));
-    t_var *save = var;
-
-    var->next = NULL;
-    var->value = NULL;
-    for (;var_tree; var_tree = var_tree->next) {
-        if (var->value == NULL && ((t_variable*)var_tree->data)->is_env) {
-            var->value = strdup(((t_variable*)var_tree->data)->mem);
-            var->name = mx_strdup(((t_variable*)var_tree->data)->name);
-            var->flag = 1;
-        }
-        else if (((t_variable*)var_tree->data)->is_env)
-            var = node(var_tree, var);
-    }
-    return save;
-}
-
 static void print_export(t_list *var_tree_tmp) {
-    t_var *var = var_tree_to_var(var_tree_tmp);
-    // t_var *tmp = var;
+    t_var *var = mx_var_tree_to_var(var_tree_tmp);
+    t_var *tmp = var;
 
     for (t_var *i = var; i; i = i->next) {
         for (t_var *j = var; j->next; j = j->next) {
@@ -86,12 +58,13 @@ static void print_export(t_list *var_tree_tmp) {
         }
     }
     while (var) {
-        mx_printstr(var->name);
-        mx_printstr("=");
-        if (var->value)
-            mx_printstr(var->value);
+        mx_printstr(var->value);
         mx_printstr("\n");
+        tmp = var;
         var = var->next;
+        free(tmp->value);
+        free(tmp->name);
+        free(tmp);
     }
 }
 

@@ -104,6 +104,7 @@ SRC = main.c \
 	mx_history.c \
 	mx_unset_fds.c \
 	mx_subs.c \
+	mx_var_tree_to_var.c \
 
 INCLUDE = -I $(LBMXD) \
 	-I $(INCD) \
