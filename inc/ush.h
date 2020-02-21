@@ -20,6 +20,7 @@
 #include <sys/wait.h>
 #include <termcap.h>
 
+
 #define MX_STR info->input->comands[info->input->id]
 #define MX_COMMAND info->input->comands
 #define MX_ID info->input->id
@@ -37,11 +38,12 @@
 #define MX_FUNC_RETURN mx_return_value("HOME", &(info->var_tree))
 #define MX_GET_PATH (argv[i] ? argv[i] : MX_FUNC_RETURN)
 
-#define MX_REG_ERR    "^-[^Pui]"
+#define MX_REG_EXPORT   "^[A-Za-z_]+[A-Za-z_0-9]*(=.*)?$"
+#define MX_REG_ERR      "^-[^Pui]"
 #define MX_REG_I        "^-i+$"
-#define MX_REG_U        "^-u+.*$"
-#define MX_REG_P        "^-P+.*$"
-#define MX_REG_ERI      "^-i+.+$"
+#define MX_REG_U        "^-(i+)?u.*$"
+#define MX_REG_P        "^-(i+)?P.*$"
+#define MX_REG_ERI      "^-i+[^Pu]$"
 #define MX_REG_VER      "^.+=.*$"
 #define MX_REG_PROG     "^[^-]+$"
 
@@ -256,6 +258,7 @@ void mx_print_Tab_comands(t_list *list_comand);
 t_info* mx_get_info(t_info *info);
 bool mx_is_link(char *file);
 void mx_unset_fds(int *fds, int *savedFds, int operator_starus);
+t_var *mx_var_tree_to_var(t_list *var_tree);
 int mx_get_twidth();
 
 // lexer

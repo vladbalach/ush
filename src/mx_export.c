@@ -1,86 +1,86 @@
 #include "ush.h"
 
+static void new_node(t_list **var_tree, char *name, char *value, char *tmp) {
+    t_variable *node = malloc(sizeof(t_variable));
 
-static void not_env(t_variable *var, char *name, char *value) {
-    char *temp = NULL;
-
-    var->is_env = true;
-    if (value) {
-        mx_strdel(&(var->value));
-        var->value = mx_strdup(value); 
-    }
-    temp = mx_strjoin(name, "=");
-    temp = mx_strjoin2(temp, var->value);
-    var->mem = temp;
-    putenv(var->mem);
+    node->name = name;
+    node->value = value;
+    node->mem = value == 0 ? tmp : mx_strjoin2(tmp, value);
+    node->is_env = true;
+    putenv(node->mem);
+    mx_push_back(var_tree, node);
 }
 
-static void have_list_name(t_variable *var, char *name, char *value) {
-    char *temp = NULL;
+static void get_parametr(t_list **var_tree, char *str) {
+    int counter = mx_get_char_index(str, '=');
+    char *name = counter == -1 ? mx_strdup(str) : mx_strndup(str, counter);
+    char *value = counter == -1 ? 0 : mx_strdup(str + counter + 1);
+    t_list *var_tree_tmp = *var_tree;
+    char *tmp = mx_strjoin(name, "=");
 
-    if (var->is_env == false)
-        not_env(var, name, value);
-    else {
-        if (value) {
-            mx_strdel(&(var->value));
-            var->value = mx_strdup(value);
-            mx_strdel(&(var->mem));
-            temp = mx_strjoin(name, "=");
-            temp = mx_strjoin2(temp, var->value);
-            var->mem = temp;
-            putenv(var->mem);
+    for (; var_tree_tmp; var_tree_tmp = var_tree_tmp->next) {
+        if (strcmp(((t_variable*)(var_tree_tmp->data))->name, name) == 0) {
+            free(((t_variable*)(var_tree_tmp->data))->value);
+            ((t_variable*)(var_tree_tmp->data))->value = value;
+            free(((t_variable*)(var_tree_tmp->data))->mem);
+            ((t_variable*)(var_tree_tmp->data))->mem = value == 0 ? tmp 
+                : mx_strjoin2(tmp, value);
+            free(name);
+            ((t_variable*)(var_tree_tmp->data))->is_env = true;
+            putenv(((t_variable*)(var_tree_tmp->data))->mem);
+            return;
         }
     }
+    new_node(var_tree, name, value, tmp);
 }
 
-static void check_parametr(t_list **var_tree, char *name, char *value) {
-    t_list *var_tree_temp = *var_tree;
-    t_variable *var = 0;
-    int check = 1;
+static void swap(t_var *var) {
+    char *name = var->name;
+    char *value = var->value;
+    int flag = var->flag;
 
-    while (check == 1 && var_tree_temp) {
-        if (name  && mx_strcmp(((t_variable *)var_tree_temp->data)->name,
-                               name) == 0) {
-            have_list_name(var_tree_temp->data, name, value);
-            check = 0;
-        }
-        var_tree_temp = var_tree_temp->next;
-    }
-    if (check == 1 && value) {
-        var = (t_variable *) malloc(sizeof(t_variable));
-        var->name = mx_strdup(name);
-        var->value = 0;
-        not_env(var, name, value);
-        mx_push_back(var_tree, var);
-    }
+    var->name = var->next->name;
+    var->value = var->next->value;
+    var->flag = var->next->flag;
+    var->next->name = name;
+    var->next->value = value;
+    var->next->flag = flag;
 }
 
-static void print_env(t_list **var_tree) {
-    t_list *var_tree_temp = *var_tree;
+static void print_export(t_list *var_tree_tmp) {
+    t_var *var = mx_var_tree_to_var(var_tree_tmp);
+    t_var *tmp = var;
 
-    while (var_tree_temp) {
-        if (((t_variable *)var_tree_temp->data)->is_env) {
-            mx_printstr(((t_variable *)var_tree_temp->data)->mem);
-            mx_printstr("\n");
+    for (t_var *i = var; i; i = i->next) {
+        for (t_var *j = var; j->next; j = j->next) {
+            if (mx_strcmp(j->name, j->next->name) > 0)
+                swap(j);
         }
-        var_tree_temp = var_tree_temp->next;
+    }
+    while (var) {
+        mx_printstr(var->value);
+        mx_printstr("\n");
+        tmp = var;
+        var = var->next;
+        free(tmp->value);
+        free(tmp->name);
+        free(tmp);
     }
 }
 
 void mx_export(char **argv, t_list **var_tree, t_info *info) {
-    char **parametr = 0;
-    char *temp = 0;
-
     info->lastStatus = 0;
+    for (int i = 0; argv[i]; i++) {
+        if (mx_reg(argv[i], "")) {
+            mx_printerr("export: not valid in this context:");
+            mx_printerr(argv[i]);
+            return;
+        }
+    }
     for (int i = 1; argv[i]; i++) {
-        parametr = mx_strsplit(argv[i], '=');
-        if (parametr[0] && argv[i][mx_strlen(parametr[0])] == '=')
-            temp = mx_strdup(&(argv[i][mx_strlen(parametr[0]) + 1]));
-        if (parametr[1] == 0 || parametr[2] == 0)
-            check_parametr(var_tree, parametr[0], temp);
-        mx_del_strarr(&parametr);
-        mx_strdel(&temp);
+        if (mx_reg(argv[i], MX_REG_EXPORT))
+            get_parametr(var_tree, argv[i]);
     }
     if (argv[1] == 0)
-        print_env(var_tree);
+        print_export(*var_tree);
 }
