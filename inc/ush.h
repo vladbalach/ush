@@ -44,9 +44,9 @@
 #define MX_REG_EXPORT   "^[A-Za-z_]+[A-Za-z_0-9]*(=.*)?$"
 #define MX_REG_ERR      "^-[^Pui]"
 #define MX_REG_I        "^-i+$"
-#define MX_REG_U        "^-u+.*$"
-#define MX_REG_P        "^-P+.*$"
-#define MX_REG_ERI      "^-i+.+$"
+#define MX_REG_U        "^-(i+)?u.*$"
+#define MX_REG_P        "^-(i+)?P.*$"
+#define MX_REG_ERI      "^-i+[^Pu]$"
 #define MX_REG_VER      "^.+=.*$"
 #define MX_REG_PROG     "^[^-]+$"
 
