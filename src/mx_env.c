@@ -1,33 +1,5 @@
 #include "ush.h"
 
-static t_var *new_node(t_list *var_tree, t_var *var) {
-    var->next = malloc(sizeof(t_var));
-    var = var->next;
-    var->flag = 1;
-    var->value = strdup(((t_variable*)var_tree->data)->mem);
-    var->name = mx_strdup(((t_variable*)var_tree->data)->name);
-    var->next = NULL;
-    return var;
-}
-
-static t_var *var_tree_to_var(t_list *var_tree) {
-    t_var *var = malloc(sizeof(t_var));
-    t_var *save = var;
-
-    var->next = NULL;
-    var->value = NULL;
-    for (;var_tree; var_tree = var_tree->next) {
-        if (var->value == NULL && ((t_variable*)var_tree->data)->is_env) {
-            var->value = strdup(((t_variable*)var_tree->data)->mem);
-            var->name = mx_strdup(((t_variable*)var_tree->data)->name);
-            var->flag = 1;
-        }
-        else if (((t_variable*)var_tree->data)->is_env)
-            var = new_node(var_tree, var);
-    }
-    return save;
-}
-
 static void push_back(t_var *var, char *str) {
     char *name = strndup(str, mx_get_char_index(str, '='));
 
@@ -68,7 +40,7 @@ static bool print_env(t_var *var, char **argv, int *i) {
 }
 
 void mx_env(char **argv, t_info *info) {
-    t_var *var = var_tree_to_var(info->var_tree);
+    t_var *var = mx_var_tree_to_var(info->var_tree);
     char *path = NULL;
     int i = 0;
 

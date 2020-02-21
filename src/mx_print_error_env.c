@@ -21,7 +21,8 @@ bool mx_print_error_env(char *str, int flag) {
     if (flag)
         mx_printerr("env: illegal option -- ");
     else {
-        s = str[1];
+        for (int i = 1; str[i] == 'i'; i++)
+            s = str[i + 1];
         mx_printerr("env: option requires an argument -- ");
     }
     write(2, &s, 1);

@@ -104,6 +104,7 @@ SRC = main.c \
 	mx_history.c \
 	mx_unset_fds.c \
 	mx_subs.c \
+	mx_var_tree_to_var.c \
 	mx_is_commad.c \
 	mx_get_twidth.c \
 	mx_del_pid_process.c \
