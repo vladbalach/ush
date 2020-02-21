@@ -13,12 +13,12 @@
 #include <regex.h> 
 #include <pwd.h>
 #include <stdio.h>
-#include <sys/ioctl.h>
 #include <dirent.h>
 #include "libmx.h"
 #include <time.h>
 #include <signal.h>
 #include <sys/wait.h>
+#include <termcap.h>
 
 
 #define MX_STR info->input->comands[info->input->id]
@@ -219,7 +219,7 @@ void mx_unset(char **argv, t_list **var_tree, t_info *info);
 void mx_which(char **argv, t_info *info);
 bool mx_is_buildin(char *str);
 void mx_jobs(t_info *info);
-void mx_fg(t_info *info);
+void mx_fg(char **argv, t_info *info);
 void mx_exit(t_token *token, t_info *info);
 
 //CD 
@@ -227,6 +227,9 @@ int mx_chdir_P(char *path, t_info *info, char flags);
 char* mx_add_one_rank(char *path, char *new_part);
 char* mx_del_last_rank(char *path);
 int mx_chdir_L(char *path, t_info *info, char flags);
+
+// Which
+bool mx_is_commad(char *fullname, int flags);
 
 //
 bool mx_check_symbol(char *str, int position, char symbol);
@@ -260,6 +263,7 @@ t_info* mx_get_info(t_info *info);
 bool mx_is_link(char *file);
 void mx_unset_fds(int *fds, int *savedFds, int operator_starus);
 t_var *mx_var_tree_to_var(t_list *var_tree);
+int mx_get_twidth();
 
 // lexer
 bool mx_is_char(char c);
@@ -285,6 +289,7 @@ void mx_exec_env_pr(char *path, char **argv, char **env, t_info *info);
 // processes
 int mx_add_process(t_list **processes, pid_t pid, char **name);
 void mx_del_top_process(t_info *info);
+void mx_del_pid_process(t_info *info, int pid);
 void mx_wait_process(t_info *info, char **argv);
 void mx_segfault();
 void mx_ctrl_c();

@@ -105,6 +105,9 @@ SRC = main.c \
 	mx_unset_fds.c \
 	mx_subs.c \
 	mx_var_tree_to_var.c \
+	mx_is_commad.c \
+	mx_get_twidth.c \
+	mx_del_pid_process.c \
 
 INCLUDE = -I $(LBMXD) \
 	-I $(INCD) \
@@ -114,7 +117,8 @@ INCS = $(addprefix $(INCD)/, $(INC))
 SRCS = $(addprefix $(SRCD)/, $(SRC))
 OBJS = $(addprefix $(OBJD)/, $(SRC:%.c=%.o))
 	
-CFLAGS = -std=c11 $(addprefix -W, all extra error pedantic)
+CFLAGS = -std=c11  #-Wall -Wextra -Wpedantic -Werror
+
 CC = clang
 
 all: $(NAME)
@@ -125,7 +129,7 @@ $(LBMXS):
 	@make -sC $(LBMXD)
 
 $(NAME): $(OBJS) $(LBMXS)
-	@$(CC) $(CFLAGS) $(LBMXS) $(OBJS) -o $@
+	@$(CC) -ltermcap $(CFLAGS) $(LBMXS) $(OBJS) -o $@
 	@printf "\x1b[32;1m$@ created\x1b[0m\n"
 
 $(OBJD)/%.o: $(SRCD)/%.c $(INCS)

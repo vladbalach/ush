@@ -1,6 +1,6 @@
 #include "ush.h"
 
-static int get_max_index(t_list *process) {
+static int get_index(t_list *process) {
     t_list *tmp = process;
     int max = 0;
 
@@ -28,7 +28,7 @@ static bool is_exist(t_list* process, pid_t pid) {
 }
 
 int mx_add_process(t_list **processes, pid_t pid, char **name) {
-    int max_index = get_max_index(*processes);
+    int max_index = get_index(*processes);
     t_process *pr = 0;
 
     if (is_exist(*processes, pid))

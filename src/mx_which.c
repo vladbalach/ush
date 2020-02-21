@@ -27,40 +27,37 @@ static int get_flags(int *i, char **argv) {
     return flags;
 }
 
-static bool is_commad(char *fullname, int flags) {
-    struct stat st;
-
-    if (stat(fullname, &st) != -1) { // finded
-        if ((st.st_mode & S_IXUSR) == S_IXUSR) {
-            if ((flags & 2) == 2) {
-                free(fullname);
-                return true;
-            }
-            mx_printstr(fullname);
-            mx_printchar('\n');
-            free(fullname);
-            return true;
-        }
+/* 
+1 - return true;
+0 - dont return;
+*/
+static int mx_check_buildin(char *command, int flags, bool *finded) {
+    if (mx_is_buildin(command)) {
+        if ((flags & 2) == 2)
+            return 1;
+        printf("%s: shell built-in command\n", command);
+        *finded = true;
+        if ((flags & 1) == 0)
+            return 1;
     }
-    free(fullname);
-    return false;
+    return 0;
 }
+
 
 static bool check_command(char *command, char** pathes, int flags) {
     char *fullname = 0;
     bool finded = false;
 
-    if (mx_is_buildin(command)) {
-        if ((flags & 2) == 2)
-            return true;
-        printf("%s: shell built-in command\n", command);
-        finded = true;
-        if ((flags & 1) == 0)
-            return true;
+    if (mx_check_buildin(command, flags, &finded) == 1)
+        return true;
+    if (command[0] == '/') {
+        if (mx_is_commad(mx_strdup(command), flags))
+                return true;
     }
+    else
     for(int i = 0; pathes[i]; i++) {
         fullname = mx_strjoin2(mx_strjoin(pathes[i], "/"), command);
-        if (is_commad(fullname, flags)) {
+        if (mx_is_commad(fullname, flags)) {
             if ((flags & 1) == 0)
                 return true;
             finded = true;

@@ -12,7 +12,7 @@ static void buildin_list_1(t_token *token, t_info *info) {
     else if (mx_strcmp(token->value[0], "exit") == 0)
         mx_exit(token, info);
     else if (mx_strcmp(token->value[0], "fg") == 0)
-        mx_fg(info);
+        mx_fg(token->value, info);
 }
 
 static void buildin_list_2(t_token *token, t_info *info) {

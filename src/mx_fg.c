@@ -1,20 +1,81 @@
 #include "ush.h"
+#include "macroses.h"
 
-void mx_fg(t_info *info) {
+static t_process* get_process(int n, char *str, t_info *info) {
+    t_list *tmp = info->processes;
+
+    if (n != -1) {
+        while (tmp) {
+            if (((t_process*)tmp->data)->index == n)
+                return ((t_process*)tmp->data);
+            tmp = tmp->next;
+        }
+        fprintf(stderr, "fg: job not found: %s\n", str);
+    }
+    else {
+        while (tmp) {
+            if (mx_strcmp(((t_process*)tmp->data)->name[0], str) == 0)
+                return ((t_process*)tmp->data);
+            tmp = tmp->next;
+        }
+        fprintf(stderr, "fg: job not found: %s\n", str);
+    }
+    return 0;
+}
+
+/*return true if all elements - numbers*/
+static bool mx_is_number_fg(char *str) {
+    int i = -1;
+    if (str[0] == '%')
+        i++;
+    while (str[++i]) {
+        if (str[i] < 48 || str[i] > 57)
+            return false;
+    }
+    return true;
+}
+
+static int fg_continue(char **argv, t_info *info) {
+    t_process *pr = (t_process*)info->processes->data;
+    int i = 0;
+
+    if (argv[1] == 0) {
+        kill(pr->pid, SIGCONT);
+        return 0;
+    }
+    i = (argv[1][0] == '%') ? 1 : 0;
+    if (mx_is_number_fg(argv[1])) {
+            pr = get_process(atoi(&argv[1][i]), argv[1], info);
+    }
+    else {
+        pr = get_process(-1, &argv[1][i], info);
+    }
+    if (pr == 0) {
+        info->exit_status = 1;
+        return 1;
+    }
+    mx_print_cont(pr->name, pr->index);
+    kill(pr->pid, SIGCONT);
+    return 0;
+}
+
+
+
+void mx_fg(char **argv, t_info *info) {
     pid_t ch_pr = 0;
     int status = 0;
 
     if (info->processes) {
-        ch_pr = ((t_process*)info->processes->data)->pid;
-        mx_print_cont(mx_get_name(info, ch_pr),
-            ((t_process*)info->processes->data)->index);
-        kill(ch_pr, SIGCONT);
-        ch_pr = waitpid(-1, &status, WUNTRACED);
-        if (!WIFEXITED(status))
-            mx_print_susp(mx_get_name(info, ch_pr));
-        else {
-            mx_del_top_process(info);
-            info->lastStatus = WEXITSTATUS(status);
+        if (fg_continue(argv, info) == 0) {
+            ch_pr = waitpid(-1, &status, WUNTRACED);
+            if (!MX_WIFEXIT(status)) {
+                char **str = mx_get_name(info, ch_pr);
+                mx_print_susp(str);
+            }
+            else {
+                mx_del_pid_process(info, ch_pr);
+                info->lastStatus = MX_EXSTATUS(status);
+            }
         }
     }
     else

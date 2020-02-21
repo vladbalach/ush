@@ -1,4 +1,5 @@
 #include "ush.h"
+#include "macroses.h"
 
 void mx_wait_process(t_info *info, char **argv) {
     int status = 0;
@@ -6,7 +7,7 @@ void mx_wait_process(t_info *info, char **argv) {
     char **mas_name = 0;
 
     pr = waitpid(-1, &status, WUNTRACED); 
-    if (!WIFEXITED(status)) {
+    if (!MX_WIFEXIT(status)) {
         if (WIFSIGNALED(status)) {
             if(WTERMSIG(status) == SIGSEGV)
                 mx_segfault();
@@ -18,7 +19,7 @@ void mx_wait_process(t_info *info, char **argv) {
         }
     }
     else {
-        mx_del_top_process(info);
-        info->lastStatus = WEXITSTATUS(status);
+        mx_del_pid_process(info, pr);
+        info->lastStatus = MX_EXSTATUS(status);
     }
 }
