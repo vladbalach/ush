@@ -80,7 +80,7 @@ void mx_start_program(t_list **var_tree, char **env) {
     t_variable *var = 0;
 
     while (env[++i]) {
-        var = (t_variable*) malloc(sizeof(t_variable));
+        var = (t_variable *)malloc(sizeof(t_variable));
         envvar = mx_strsplit(env[i], '=');
         temp = create_mem(envvar[0], &envvar[1], env[i]);
         var->is_env = true;

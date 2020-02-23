@@ -22,6 +22,7 @@ bool mx_check_env(char **argv, char **path, t_var *var, int *i) {
     if (strcmp(argv[*i], "=") == 0 && mx_print_error_env(NULL, 2))
         return 1;
     else if (mx_reg(argv[*i], MX_REG_ERR)) {
+        printf("vlad\n");
         mx_print_error_env(argv[*i], 1);
         return 1;
     }
