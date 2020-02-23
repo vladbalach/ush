@@ -65,7 +65,10 @@ static void fg_wait(int status, pid_t ch_pr, t_info *info) {
             mx_segfault();
         else if (MX_WTERMSIG(status) == SIGINT) {
             mx_del_pid_process(info, ch_pr);
+<<<<<<< HEAD
             printf("ch_pr = %d\n", ch_pr);
+=======
+>>>>>>> master
             info->lastStatus = 130;
         }
         else {
