@@ -20,14 +20,10 @@ static void get_parametr(t_list **var_tree, char *str) {
 
     for (; var_tree_tmp; var_tree_tmp = var_tree_tmp->next) {
         if (strcmp(((t_variable*)(var_tree_tmp->data))->name, name) == 0) {
-            free(((t_variable*)(var_tree_tmp->data))->value);
-            ((t_variable*)(var_tree_tmp->data))->value = value;
-            free(((t_variable*)(var_tree_tmp->data))->mem);
-            ((t_variable*)(var_tree_tmp->data))->mem = value == 0 ? tmp 
-                : mx_strjoin2(tmp, value);
+            mx_charge_parametr_export(value, tmp,
+                                     (t_variable*)(var_tree_tmp->data));
             free(name);
-            ((t_variable*)(var_tree_tmp->data))->is_env = true;
-            putenv(((t_variable*)(var_tree_tmp->data))->mem);
+            free(tmp);
             return;
         }
     }

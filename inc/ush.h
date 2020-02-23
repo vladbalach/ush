@@ -40,11 +40,10 @@
 #define MX_GET_PATH (argv[i] ? argv[i] : MX_FUNC_RETURN)
 
 #define MX_REG_EXPORT   "^[A-Za-z_]+[A-Za-z_0-9]*(=.*)?$"
-#define MX_REG_ERR      "^-[^Pui]"
-#define MX_REG_I        "^-i+$"
+#define MX_REG_ERR      "^-(i+)?[^Pui]+$"
+#define MX_REG_I        "^-i+((P|u)?|((P|u).+)?)$"
 #define MX_REG_U        "^-(i+)?u.*$"
 #define MX_REG_P        "^-(i+)?P.*$"
-#define MX_REG_ERI      "^-i+[^Pu]$"
 #define MX_REG_VER      "^.+=.*$"
 #define MX_REG_PROG     "^[^-]+$"
 
@@ -191,8 +190,7 @@ void mx_parametr_shell(t_info *processes, int *i, char **new_str);
 int mx_flang_Comand(char *str, int *pos, int end, int flag);
 void mx_read_user(char **user);
 t_token *mx_token_in_program(int *currPos, int end, char *str, t_info *processes);
-
-// 
+int mx_exec_dmore(t_tnode *root, int *fds, int operatorStatus, t_info *info);
 void mx_ush_init(t_info **info, char **env);
 void mx_subs(char **str);
 void mx_parsing(char *str, t_info *info);
@@ -200,6 +198,7 @@ t_list *mx_lexer(char *str, t_info *processes);
 bool mx_syntax_analyzer(t_list *tokens);
 void mx_execute(char **commands, t_info *processes);
 void mx_ush_close(t_info *info);
+void mx_charge_parametr_export(char *value, char *tmp, t_variable *data);
 
 void mx_write_from_to(int from , int to, off_t start);
 // typedef struct termios t_termios;
