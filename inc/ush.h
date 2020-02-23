@@ -127,18 +127,23 @@ typedef struct s_programInfo {
     t_list *history;
     t_input *input;
     t_list *processes;
-    bool isExit;
-    bool if_ctrl_C;
+    bool is_exit;
+    bool if_ctrl_c;
     int exit_status;
     char *pwd;
-    char *pwdL;
-    char *pwdP;
+    char *pwd_l;
+    char *pwd_p;
     char *old_pwd;
     char *path;
     char *home;
     t_list *var_tree;
+<<<<<<< HEAD
     int lastStatus;
 }              t_info;
+=======
+    int last_status;
+} t_info;
+>>>>>>> Vlad
 
 enum e_keys{
     CTRL_A = 1,
@@ -189,9 +194,9 @@ void mx_clear_tokens(t_list **tokens);
 t_token* mx_get_next_token(int *start, int end, char *str, t_info *processes);
 char mx_get_token_type(char *str);
 void mx_parametr_shell(t_info *processes, int *i, char **new_str);
-int mx_flang_Comand(char *str, int *pos, int end, int flag);
+int mx_flang_comand(char *str, int *pos, int end, int flag);
 void mx_read_user(char **user);
-t_token *mx_token_in_program(int *currPos, int end, char *str, t_info *processes);
+t_token *mx_token_in_program(int *curr_pos, int end, char *str, t_info *processes);
 int mx_exec_dmore(t_tnode *root, int *fds, int operatorStatus, t_info *info);
 void mx_ush_init(t_info **info, char **env);
 void mx_subs(char **str);
@@ -221,10 +226,10 @@ void mx_fg(char **argv, t_info *info);
 void mx_exit(t_token *token, t_info *info);
 
 //CD 
-int mx_chdir_P(char *path, t_info *info, char flags);
+int mx_chdir_p(char *path, t_info *info, char flags);
 char* mx_add_one_rank(char *path, char *new_part);
 char* mx_del_last_rank(char *path);
-int mx_chdir_L(char *path, t_info *info, char flags);
+int mx_chdir_l(char *path, t_info *info, char flags);
 
 // Which
 bool mx_is_commad(char *fullname, int flags);
@@ -232,7 +237,7 @@ bool mx_is_commad(char *fullname, int flags);
 //
 bool mx_check_symbol(char *str, int position, char symbol);
 void mx_ctrl_v_and_not_ascii(t_info *info, char *chars);
-void mx_ctrl_R(t_info *info);
+void mx_ctrl_r(t_info *info);
 int mx_ascii(t_info *info, char *chars, unsigned int ch);
 int mx_end_flag(char *str, int *position, int end, int flag);
 char *mx_parsing_input(char *str);
@@ -256,7 +261,7 @@ char **mx_key_tab(char *parsing, char **str, t_info *info);
 char *mx_mini_parser_tab(char *parsing, t_info *info);
 void mx_read_comand(char *parsing, t_list **list_comand);
 void mx_key_duble_tab(char **str, char **comands, t_info *info);
-void mx_print_Tab_comands(t_list *list_comand);
+void mx_print_tab_comands(t_list *list_comand);
 t_info* mx_get_info(t_info *info);
 bool mx_is_link(char *file);
 void mx_unset_fds(int *fds, int *savedFds, int operator_starus);
@@ -265,7 +270,7 @@ int mx_get_twidth();
 
 // lexer
 bool mx_is_char(char c);
-void mx_HOME(char **str, int *i, t_info *processes);
+void mx_home(char **str, int *i, t_info *processes);
 void mx_do_replace(char **str, size_t start, size_t end, char *str_new);
 bool mx_is_operator(t_token *token);
 
@@ -274,13 +279,13 @@ t_tnode* mx_create_ast(t_list** tokens, t_tnode *prev);
 void mx_delete_ast(t_tnode **root);
 
 //exec
-int mx_execute_tree(t_tnode *root, int *fds, char operatorStatus, t_info *info);
-int mx_exec_more(t_tnode *root, int *fds, int operatorStatus, t_info *info);
-int exec_token(t_token *token, int *fds, char operatorStatus, t_info *info);
-void mx_exec_less(t_tnode *root, int *fds, char operatorStatus, t_info *info);
+int mx_execute_tree(t_tnode *root, int *fds, char operator_status, t_info *info);
+int mx_exec_more(t_tnode *root, int *fds, int operator_status, t_info *info);
+int exec_token(t_token *token, int *fds, char operator_status, t_info *info);
+void mx_exec_less(t_tnode *root, int *fds, char operator_status, t_info *info);
 void mx_execute_proces(t_token* token);
 void mx_close_all_pr(t_info *info);
-int mx_pipe_execute(t_tnode *root, int *fds, char operatorStatus, t_info *processes);
+int mx_pipe_execute(t_tnode *root, int *fds, char operator_status, t_info *processes);
 int mx_buildin_list(t_token *token, t_info *info);
 void mx_exec_env_pr(char *path, char **argv, char **env, t_info *info);
 

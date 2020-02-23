@@ -12,7 +12,7 @@ char *mx_strstr(const char *haystack, const char *needle) {
             if (needle[i + 1] == 0)
                 return (char *)(&haystack[a - i]); 
         }
-    a++;
+        a++;
     }
     return NULL;
 }

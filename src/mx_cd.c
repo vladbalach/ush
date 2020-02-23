@@ -68,12 +68,12 @@ int mx_cd(char **argv, t_info *info) {
         return 1;
     }
     if (flags & 2)
-        status = mx_chdir_P(path, info, flags);
+        status = mx_chdir_p(path, info, flags);
     else
-        status = mx_chdir_L(path, info, flags);
+        status = mx_chdir_l(path, info, flags);
     if (status == 0)
         export_pwd_oldpwd(info);
-    info->lastStatus = status;
+    info->last_status = status;
     return status;
 }
 

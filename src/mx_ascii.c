@@ -1,6 +1,6 @@
 #include "ush.h"
 
-static int mx_handleEvents(char ch) {
+static int mx_handle_events(char ch) {
     if (ch == KEY_ENTER) {
         return KEY_ENTER;
     }
@@ -36,11 +36,11 @@ static void special_symbols(unsigned int ch, t_info *info) {
     MX_SYMBOL = mx_handleEvents(ch);
     if (MX_SYMBOL == 18) {
         mx_clean_monitor_new(MX_NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
-        mx_ctrl_R(info);
+        mx_ctrl_r(info);
     }
 }
 
-static int ctrl_Enter_D_C(t_info *info) {
+static int ctrl_enter_d_c(t_info *info) {
     if (MX_SYMBOL == -1) {
         mx_clean_monitor(MX_STR, info, "exit");
         return 0;
@@ -67,7 +67,7 @@ int mx_ascii(t_info *info, char *chars, unsigned int ch) {
     if (ch < 32) {
         special_symbols(ch, info);
         if (MX_SYMBOL == -1 || MX_SYMBOL == 2 || MX_SYMBOL == 13)
-            spec_symbol = ctrl_Enter_D_C(info);
+            spec_symbol = ctrl_enter_d_c(info);
         else
             chars[2] = 10;
     }

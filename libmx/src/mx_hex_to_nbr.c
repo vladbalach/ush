@@ -1,3 +1,5 @@
+#include "libmx.h"
+
 unsigned long mx_hex_to_nbr(const char *hex) {
     int a = 0;
     unsigned long sum = 0;

@@ -80,10 +80,10 @@ char *mx_audit_str(char *str, t_info *info, bool dqute) {
     if (str == 0)
         return 0;
     new_str = mx_strdup(str);
-    for (; new_str && new_str[i] && info->if_ctrl_C; i++) {
+    for (; new_str && new_str[i] && info->if_ctrl_c; i++) {
         pos = i;
         if (new_str[i] == '~' && !dqute)
-            mx_HOME(&new_str, &i, info);
+            mx_home(&new_str, &i, info);
         else if (chek_comand(new_str, i))
             spec_symbol(info, &i, &new_str);
         else if (mx_check_symbol(new_str, i ,'$'))

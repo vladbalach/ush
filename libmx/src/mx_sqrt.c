@@ -1,3 +1,5 @@
+#include "libmx.h"
+
 int mx_sqrt(int x) {
     int sqrt = 46341;
 

@@ -12,8 +12,8 @@ char *mx_file_to_str(const char *file) {
     while (read(desc,&c,1))
         count++;
     close(desc);
-    if((str = (char*) malloc (sizeof(char) * count + 1)) == 0)
-        return  0;
+    if((str = (char *)malloc(sizeof(char) * count + 1)) == 0)
+        return 0;
     if((desc = open(file, O_RDONLY)) == 0) 
         return 0;
     while (read(desc, &c, 1))
