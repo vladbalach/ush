@@ -21,20 +21,20 @@ static void delete_no_child(t_tnode **root, void *data,
 static void delete_tnode_1ch(t_tnode **root, void *data,
                              int (*cmp)(void*, void*),
                              void (*free_tnode)(t_tnode *tnode)) {
-    t_tnode *delNode = 0;
+    t_tnode *del_node = 0;
 
     if ((root == 0) || (*root == 0))
         return;
     if (cmp((*root)->data, data) == 0) {
         if ((*root)->right != 0) {
-            delNode = *root;
+            del_node = *root;
             *root = (*root)->right;
-            free_tnode(delNode);
+            free_tnode(del_node);
         }
         else if ((*root)->left != 0) {
-            delNode = *root;
+            del_node = *root;
             *root = (*root)->left;
-            free_tnode(delNode);
+            free_tnode(del_node);
         }
     }
     else if (cmp((*root)->data, data) > 0)

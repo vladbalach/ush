@@ -13,10 +13,10 @@ int main(int argc, char *argv[], char **envp) {
             mx_parsing(info->history->data, info);
             mx_check_outprogram_new_line();
         }
-        if (info->isExit)
+        if (info->is_exit)
             break;
         str = mx_input(info);
-        info->if_ctrl_C = 1;
+        info->if_ctrl_c = 1;
     }
     mx_ush_close(info);
     system("leaks ush");

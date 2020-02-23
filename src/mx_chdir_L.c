@@ -14,7 +14,7 @@ static int get_rank(char *path) {
 
 static char *get_new_pwd(char *path, t_info *info) {
     char **tokens = mx_strsplit(path, '/');
-    char *tmp_pwd = path[0] == '/' ? mx_strdup("/") : mx_strdup(info->pwdL);
+    char *tmp_pwd = path[0] == '/' ? mx_strdup("/") : mx_strdup(info->pwd_l);
     char *res = 0;
 
     for (int i = 0; tokens[i]; i++)
@@ -35,7 +35,7 @@ static char *get_new_pwd(char *path, t_info *info) {
     return res;
 }
 
-int mx_chdir_L(char *path, t_info *info, char flags) {
+int mx_chdir_l(char *path, t_info *info, char flags) {
     char *new_pwd = 0;
 
     if (path == 0)
@@ -49,10 +49,10 @@ int mx_chdir_L(char *path, t_info *info, char flags) {
     }
     free(info->old_pwd);
     info->old_pwd = info->pwd;
-    free(info->pwdL);
-    info->pwdL = new_pwd;
-    free(info->pwdP);
-    info->pwdP = getcwd(NULL, 0);
-    info->pwd = mx_strdup(info->pwdL);
+    free(info->pwd_l);
+    info->pwd_l = new_pwd;
+    free(info->pwd_p);
+    info->pwd_p = getcwd(NULL, 0);
+    info->pwd = mx_strdup(info->pwd_l);
     return 0;
 }

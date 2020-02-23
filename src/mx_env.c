@@ -49,7 +49,7 @@ void mx_env(char **argv, t_info *info) {
             break;
         if (mx_check_env(argv, &path, var, &i)) {
             mx_fre_env_path(var, path);
-            info->lastStatus = 1;
+            info->last_status = 1;
             return;
         }
     }

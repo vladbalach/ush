@@ -1,11 +1,11 @@
 #include "ush.h"
 
 t_tnode *mx_create_tnode(void *data) {
-    t_tnode *newNode = (t_tnode*) malloc (sizeof(t_tnode));
+    t_tnode *new_node = (t_tnode*) malloc (sizeof(t_tnode));
 
-    newNode->data = data;
-    newNode->left = 0;
-    newNode->right = 0;
-    newNode->parent = 0;
-    return newNode;
+    new_node->data = data;
+    new_node->left = 0;
+    new_node->right = 0;
+    new_node->parent = 0;
+    return new_node;
 }
