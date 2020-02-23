@@ -9,7 +9,7 @@ static void check_status(char **argv, int status, t_info *info, pid_t pr) {
             mx_segfault();
         if (MX_WTERMSIG(status) == SIGINT) {
             mx_del_pid_process(info, pr);
-            info->lastStatus = 130;
+            info->last_status = 130;
         }
     }
     else {
@@ -29,6 +29,6 @@ void mx_wait_process(t_info *info, char **argv) {
     }
     else {
         mx_del_pid_process(info, pr);
-        info->lastStatus = MX_EXSTATUS(status);
+        info->last_status = MX_EXSTATUS(status);
     }
 }

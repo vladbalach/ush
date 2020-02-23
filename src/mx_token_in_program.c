@@ -15,58 +15,58 @@ static bool if_symbol(char test) {
     return 0;
 }
 
-static void end_argv(int *currPos, int end, char *str) {
+static void end_argv(int *curr_pos, int end, char *str) {
     int pos = 0;
 
-    while (mx_is_char(str[*currPos]) || (str[*currPos] == ' '
-           && !mx_check_symbol(str, *currPos, str[*currPos]))) {
-        if (if_symbol(str[*currPos])
-            && mx_check_symbol(str, *currPos, str[*currPos])) {
-            pos = (*currPos);
-            (*currPos)++;
-            mx_end_flag(str, currPos, end, str[pos]);
+    while (mx_is_char(str[*curr_pos]) || (str[*curr_pos] == ' '
+           && !mx_check_symbol(str, *curr_pos, str[*curr_pos]))) {
+        if (if_symbol(str[*curr_pos])
+            && mx_check_symbol(str, *curr_pos, str[*curr_pos])) {
+            pos = (*curr_pos);
+            (*curr_pos)++;
+            mx_end_flag(str, curr_pos, end, str[pos]);
         }
-        else if(str[*currPos] == '$' && str[(*currPos) + 1] == '(') {
-            pos = (*currPos);
-            *currPos += 2;
-            mx_end_flag(str, currPos, end, ')');
+        else if(str[*curr_pos] == '$' && str[(*curr_pos) + 1] == '(') {
+            pos = (*curr_pos);
+            *curr_pos += 2;
+            mx_end_flag(str, curr_pos, end, ')');
         }
         else
-            (*currPos)++;
+            (*curr_pos)++;
     }
 }
 
-static void push_argv_in_list(char **comand, t_token *newToken) {
+static void push_argv_in_list(char **comand, t_token *new_token) {
     char **meny_comand = 0;
     int id = 0;
 
     meny_comand = mx_strsplit(*comand, '\x0d');
     mx_strdel(comand);
     while (meny_comand[id]) {
-        mx_add_to_strarr(&newToken->value, meny_comand[id++]);
-        newToken->type = 1;
-        newToken->priority = 10;
+        mx_add_to_strarr(&new_token->value, meny_comand[id++]);
+        new_token->type = 1;
+        new_token->priority = 10;
     }
     if (meny_comand)
         free(meny_comand);
     meny_comand = 0;
 }
 
-t_token *mx_token_in_program(int *currPos, int end, char *str,
+t_token *mx_token_in_program(int *curr_pos, int end, char *str,
                                  t_info *processes) {
-    int tokenStart = *currPos;
-    t_token *newToken = mx_create_token(2,0,0);
+    int token_start = *curr_pos;
+    t_token *new_token = mx_create_token(2,0,0);
     char *newValue = 0;
     char *temp = 0;
 
-    while (mx_is_char(str[tokenStart])) {
-        end_argv(currPos, end, str);
-        newValue = mx_strndup(&str[tokenStart], *currPos - tokenStart);
+    while (mx_is_char(str[token_start])) {
+        end_argv(curr_pos, end, str);
+        newValue = mx_strndup(&str[token_start], *curr_pos - token_start);
         temp = mx_audit_str(newValue, processes, 0);
         mx_strdel(&newValue);
-        mx_skip_spaces(str, currPos, end);
-        tokenStart = *currPos;
-        push_argv_in_list(&temp, newToken);
+        mx_skip_spaces(str, curr_pos, end);
+        token_start = *curr_pos;
+        push_argv_in_list(&temp, new_token);
     }
-    return newToken;
+    return new_token;
 }

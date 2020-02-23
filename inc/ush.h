@@ -137,13 +137,8 @@ typedef struct s_programInfo {
     char *path;
     char *home;
     t_list *var_tree;
-<<<<<<< HEAD
-    int lastStatus;
-}              t_info;
-=======
     int last_status;
-} t_info;
->>>>>>> Vlad
+}              t_info;
 
 enum e_keys{
     CTRL_A = 1,

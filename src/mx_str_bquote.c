@@ -4,30 +4,30 @@
 static char *read_to_delim(int des) {
     int count = 1;
     char buff[2];
-    char *newStr = 0;
+    char *new_str = 0;
 
     buff[1] = 0;
     while((count = read(des, buff, 1))) {
         if (buff[0] == '\n')
             buff[0] = '\x0d';
-        newStr = mx_strjoin2(newStr, buff);
+        new_str = mx_strjoin2(new_str, buff);
     }
-    if (newStr) {
-        count = strlen(newStr);
-        if (newStr[count] == '\x0d')
-            newStr[count] = 0;
-        if (count > 1 && newStr[count - 1] == '\x0d')
-            newStr[count - 1] = 0;
+    if (new_str) {
+        count = strlen(new_str);
+        if (new_str[count] == '\x0d')
+            new_str[count] = 0;
+        if (count > 1 && new_str[count - 1] == '\x0d')
+            new_str[count - 1] = 0;
     }
     close(des);
-    return newStr;
+    return new_str;
 }
 
 static void child(t_info *processes, int des[2], char **str) {
     close(des[0]);
     dup2(des[1], 1);
     mx_parsing(*str, processes);
-    if (processes->lastStatus == 130 || !(processes->if_ctrl_c))
+    if (processes->last_status == 130 || !(processes->if_ctrl_c))
         exit(130);
     exit(0);
 }

@@ -33,7 +33,7 @@ static bool if_argv(void *s1, void *s2) {
 }
 
 void mx_unset(char **argv, t_list **var_tree, t_info *info) {
-    info->lastStatus = 0;
+    info->last_status = 0;
     for (int i = 1; argv[i]; i++) {
         if (check_argv(argv[i])) {
             mx_pop_list(var_tree, argv[i], if_argv, del_t_variable);

@@ -67,9 +67,9 @@ static bool check_command(char *command, char **pathes, int flags) {
     return finded;
 }
 
-static bool check_commands(char **commands, char** pathes, int startIndex,
+static bool check_commands(char **commands, char** pathes, int start_index,
                            int flags) {
-    int i = startIndex - 1;
+    int i = start_index - 1;
     bool finded = false;
 
     while(commands[++i] != 0) {
@@ -87,16 +87,16 @@ static bool check_commands(char **commands, char** pathes, int startIndex,
 void mx_which(char **argv, t_info *info) {
     char *path = mx_return_value2("PATH", &(info->var_tree));
     char **pathes = mx_strsplit(path, ':');
-    int iArgs = 0;
-    int flags = get_flags(&iArgs, argv);
+    int i_args = 0;
+    int flags = get_flags(&i_args, argv);
     int finded = false;
     
     if (flags == -1) {
         mx_del_strarr(&pathes);
-        info->lastStatus = 1;
+        info->last_status = 1;
         return;
     }
-    finded = check_commands(argv, pathes, iArgs, flags);
-    finded ? (info->lastStatus = 0) : (info->lastStatus = 1);
+    finded = check_commands(argv, pathes, i_args, flags);
+    finded ? (info->last_status = 0) : (info->last_status = 1);
     mx_del_strarr(&pathes);
 }

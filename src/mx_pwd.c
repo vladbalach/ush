@@ -41,9 +41,9 @@ int mx_pwd(char **argv, t_info *info) {
     int flags = get_flags(argv, &i);
 
     if (flags & 2) {
-        printf("%s\n", info->pwdP);
+        printf("%s\n", info->pwd_p);
     }
     else
-        printf("%s\n", info->pwdL);
+        printf("%s\n", info->pwd_l);
     return 0;
 }
