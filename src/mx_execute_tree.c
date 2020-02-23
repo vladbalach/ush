@@ -25,7 +25,7 @@ static int or_operator(t_tnode *root, int *fds, char operatorStatus,
     int status = 0;
 
     status = mx_execute_tree(root->left, fds, operatorStatus, info);
-        if (info->lastStatus != 0)
+        if (info->last_status != 0)
             status = mx_execute_tree(root->right, fds, operatorStatus, info);
     return status;
 }
@@ -35,7 +35,7 @@ static int and_operator(t_tnode *root, int *fds, char operatorStatus,
     int status = 0;
 
     status = mx_execute_tree(root->left, fds, operatorStatus, info);
-        if (info->lastStatus == 0)
+        if (info->last_status == 0)
             status = mx_execute_tree(root->right, fds, operatorStatus, info);
     return status;
 }
@@ -43,7 +43,7 @@ static int and_operator(t_tnode *root, int *fds, char operatorStatus,
 int mx_execute_tree(t_tnode *root, int *fds, char op_st, t_info *info) {
     int status = 0;
 
-    if ((root == 0) || (info->isExit))
+    if ((root == 0) || (info->is_exit))
         return -1;
     if (mx_is_buildin(((t_token*)root->data)->value[0]))
         mx_exec_buildin((t_token*)root->data, fds, op_st, info);

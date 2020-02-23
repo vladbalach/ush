@@ -91,7 +91,7 @@ void mx_echo(char **str, t_info *info) {
     else {
         print_e(i, flags, str);
     }
-    info->lastStatus = 0;
+    info->last_status = 0;
     free(flags);
 }
 
