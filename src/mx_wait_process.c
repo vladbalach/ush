@@ -1,6 +1,12 @@
 #include "ush.h"
 #include "macroses.h"
 
+static void kill_all(t_info *info) {
+    while(info->processes) {
+        // kill(SIGKILL, )
+        mx_del_top_process(info);
+    }
+}
 
 static void check_status(char **argv, int status, t_info *info, pid_t pr) {
     char **mas_name = 0;
@@ -10,6 +16,7 @@ static void check_status(char **argv, int status, t_info *info, pid_t pr) {
                 mx_segfault();
             if (MX_WTERMSIG(status) == SIGINT) {
                 mx_del_pid_process(info, pr);
+                // kill_all(info);
                 info->lastStatus = MX_EXSTATUS(status);
             }
         }
