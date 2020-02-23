@@ -1,4 +1,5 @@
 #include "ush.h"
+#include "macroses.h"
 
 static char *read_to_delim(int des) {
     int count = 1;
@@ -22,24 +23,42 @@ static char *read_to_delim(int des) {
     return newStr;
 }
 
+static void  child(t_info *processes, int des[2], char **str) {
+    close(des[0]);
+    dup2(des[1], 1);
+    mx_parsing(*str, processes);
+    if (processes->lastStatus == 130)
+        exit(130);
+    exit(0);
+}
+
+static void parent(t_info *processes, int *status, char **str, int des[2]) {
+    *status = MX_EXSTATUS(*status);
+    mx_strdel(str);
+    close(des[1]);
+    if (*status == 130) {
+        processes->lastStatus = 130;
+        close(des[0]);
+    }
+}
+
 char *mx_str_bquote(char **str, t_info *processes) {
     int des[2] = {0, 0};
     pid_t pid;
+    int status;
 
     pipe(des);
     pid = fork();
-    if (pid == 0) {
-        dup2(des[1], 1);
-        mx_parsing(*str, processes);
-        exit(1);
-    }
+    if (pid == 0)
+        child(processes, des, str);
     else if (pid == -1) {
         mx_printerr(strerror(errno));
         exit(1);
     }
     else
-        wait(0);
-    close(des[1]);
-    mx_strdel(str);
+        wait(&status);
+    parent(processes, &status, str, des);
+    if (status == 130)
+        return 0;
     return read_to_delim(des[0]);
 }

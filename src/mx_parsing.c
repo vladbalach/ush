@@ -14,6 +14,7 @@ void mx_parsing(char *str, t_info *info) {
         return;
     }
     comands = mx_create_comands(temp, end);
+    info->lastStatus = 0;
     mx_execute(comands, info);
     mx_del_strarr(&comands);
 }

@@ -6,14 +6,18 @@ void mx_execute(char **commands, t_info *processes) {
     t_tnode *rootAst = 0;
     int i = 0;
 
-    while(commands[i]) {
+    while (commands[i]) {
         tokens = mx_lexer(commands[i], processes);
-        if (mx_syntax_analyzer(tokens)) {
+        if (processes->lastStatus != 130 && mx_syntax_analyzer(tokens)) {
             rootAst = mx_create_ast(&tokens, 0);
             mx_execute_tree(rootAst, 0, 0, processes);
             mx_delete_ast(&rootAst);
         }
-        mx_clear_tokens(&tokens);
-        i++;
+        else
+            mx_clear_tokens(&tokens);
+        if (processes->lastStatus == 130)
+            while (commands[++i]);
+        else
+            i++;
     }
 }

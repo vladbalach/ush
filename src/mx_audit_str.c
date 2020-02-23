@@ -72,7 +72,7 @@ static void spec_symbol(t_info *processes, int *i, char **new_str) {
     (i[0])--;
 }
 
-char *mx_audit_str(char *str, t_info *processes, bool dqute) {
+char *mx_audit_str(char *str, t_info *info, bool dqute) {
     char *new_str = 0;
     int i = 0;
     int pos = 0;
@@ -80,14 +80,14 @@ char *mx_audit_str(char *str, t_info *processes, bool dqute) {
     if (str == 0)
         return 0;
     new_str = mx_strdup(str);
-    for (; new_str && new_str[i]; i++) {
+    for (; new_str && new_str[i] && info->lastStatus != 130; i++) {
         pos = i;
         if (new_str[i] == '~' && !dqute)
-            mx_HOME(&new_str, &i, processes);
+            mx_HOME(&new_str, &i, info);
         else if (chek_comand(new_str, i))
-            spec_symbol(processes, &i, &new_str);
+            spec_symbol(info, &i, &new_str);
         else if (mx_check_symbol(new_str, i ,'$'))
-            mx_parametr_shell(processes, &i, &new_str);
+            mx_parametr_shell(info, &i, &new_str);
         else if (new_str[i] == '\\'
                  && (!dqute || (dqute && (new_str[i + 1] == '\\'))))
             mx_do_replace(&new_str, i, i + 1, 0);

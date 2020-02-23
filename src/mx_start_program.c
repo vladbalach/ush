@@ -85,10 +85,11 @@ void mx_start_program(t_list **var_tree, char **env) {
         temp = create_mem(envvar[0], &envvar[1], env[i]);
         var->is_env = true;
         var->name = envvar[0];
-        var->value = envvar[1];
+        var->value = mx_strdup(&env[i][mx_strlen(var->name)]);
         var->mem = temp;
         putenv(temp);
         mx_push_front(var_tree, var);
+        free(envvar[1]);
         free(envvar);
     }
     check_env(var_tree);
