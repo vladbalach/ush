@@ -40,7 +40,7 @@
 #define MX_GET_PATH (argv[i] ? argv[i] : MX_FUNC_RETURN)
 
 #define MX_REG_EXPORT   "^[A-Za-z_]+[A-Za-z_0-9]*(=.*)?$"
-#define MX_REG_ERR      "^-(i+)?[^Pui]+$"
+#define MX_REG_ERR      "^-(i+)?[^Pu]$"
 #define MX_REG_I        "^-i+((P|u)?|((P|u).+)?)$"
 #define MX_REG_U        "^-(i+)?u.*$"
 #define MX_REG_P        "^-(i+)?P.*$"
@@ -101,13 +101,13 @@ typedef struct s_token{
     char type;
     char **value;
     int priority;
-} t_token;
+}              t_token;
 
 typedef struct s_process {
     char **name;
     pid_t pid;
     int index;
-} t_process;
+}              t_process;
 
 typedef struct s_input {
     char **comands;
@@ -172,6 +172,7 @@ void mx_insert_tree(t_tnode **root, t_tnode *new,
     int (*cmp)(void*, void*),
     void (*free_)(void *)
 );
+
 t_tnode* mx_get_min_tnode(t_tnode *root);
 t_tnode *mx_create_tnode(void *data);
 void mx_start_program(t_list **var_tree, char **env);
