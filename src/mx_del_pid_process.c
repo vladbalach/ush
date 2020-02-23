@@ -13,7 +13,8 @@ void mx_del_pid_process(t_info *info, int pid) {
             if (((t_process*)tmp->next->data)->pid == pid) {
                 tmp2 = tmp->next;
                 tmp->next = tmp->next->next;
-                mx_del_strarr(&((t_process*)tmp2->next->data)->name);
+                mx_del_strarr(&((t_process*)tmp2->data)->name);
+                free(tmp2->data);
                 free(tmp2);
                 return;
             }
