@@ -80,7 +80,7 @@ char *mx_audit_str(char *str, t_info *info, bool dqute) {
     if (str == 0)
         return 0;
     new_str = mx_strdup(str);
-    for (; new_str && new_str[i] && info->lastStatus != 130; i++) {
+    for (; new_str && new_str[i] && info->if_ctrl_C; i++) {
         pos = i;
         if (new_str[i] == '~' && !dqute)
             mx_HOME(&new_str, &i, info);

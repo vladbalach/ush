@@ -36,7 +36,7 @@ t_list *mx_create_tokens(char *str, t_info *processes) {
             free(newToken);
         else
             mx_push_back(&tokens, newToken);
-        if (processes->lastStatus == 130)
+        if (!(processes->if_ctrl_C))
             return tokens;
     }
     return tokens;

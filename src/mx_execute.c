@@ -8,14 +8,14 @@ void mx_execute(char **commands, t_info *processes) {
 
     while (commands[i]) {
         tokens = mx_lexer(commands[i], processes);
-        if (processes->lastStatus != 130 && mx_syntax_analyzer(tokens)) {
+        if (processes->if_ctrl_C && mx_syntax_analyzer(tokens)) {
             rootAst = mx_create_ast(&tokens, 0);
             mx_execute_tree(rootAst, 0, 0, processes);
             mx_delete_ast(&rootAst);
         }
         else
             mx_clear_tokens(&tokens);
-        if (processes->lastStatus == 130)
+        if (!(processes->if_ctrl_C))
             while (commands[++i]);
         else
             i++;
