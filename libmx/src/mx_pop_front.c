@@ -10,7 +10,7 @@ void mx_pop_front(t_list **head) {
         s = s->next;
         t = *head;
         if (t->data != 0)
-        free(t->data);
+            free(t->data);
         t->data = NULL;
         t->next = NULL;
         free(t);
@@ -28,7 +28,7 @@ void mx_pop_front_free_data(t_list **head) {
         s = s->next;
         t = *head;
         if (t->data != 0)
-        free(t->data);
+            free(t->data);
         t->data = NULL;
         t->next = NULL;
         free(t);

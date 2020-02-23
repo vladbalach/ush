@@ -1,3 +1,5 @@
+#include "libmx.h"
+
 double mx_pow(double n, unsigned int pow) {
     double a = 1;
 

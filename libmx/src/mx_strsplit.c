@@ -23,16 +23,14 @@ static void write_str_to_strstr(char ***s1, const char *s, char c, int b) {
     *s1 = s2;
 }
 
-//M> split string on strings
 char **mx_strsplit(const char *s, char c) {
     int b = 0;
     char **s1 = NULL;
 
     if (s == 0)
         return 0;
-    b = mx_count_words(s,c);
-    s1 = (char **) malloc ((b + 1) * sizeof(char *));
-
+    b = mx_count_words(s, c);
+    s1 = (char **)malloc((b + 1) * sizeof(char *));
     if (s1 != 0) { 
         write_str_to_strstr(&s1, s, c, b);
     }

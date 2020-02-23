@@ -1,3 +1,5 @@
+#include "libmx.h"
+
 int mx_get_char_index(const char *str, char c) {
     if (str == 0)
         return - 2;

@@ -2,6 +2,7 @@
 
 static void write_str(char **temp, char *s, int a) {
     char *s1 = *temp;
+
     for (int i = 0, b = 0; b < a; i++, b++) {
         while (mx_isspace(s[i]) == 1 && mx_isspace(s[i + 1]) == 1)
             i++;
