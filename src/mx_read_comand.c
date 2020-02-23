@@ -48,13 +48,12 @@ static void add_file_directory(t_list **list_comand,
     else
         i = mx_strlen(directori) + 1;
     if ((comands(pars[0]) == 0) && (dir = opendir(directori))) {
-        while ((entry = readdir(dir)) != NULL) {
+        while ((entry = readdir(dir)) != NULL)
             if (entry->d_name[0] != '.'
                 && mx_strcmp2(entry->d_name, &pars[i]) == 0) {
                 temp = mx_strdup(entry->d_name);
                 mx_push_front(list_comand, temp);
             }
-        }
         closedir(dir);
     }
     add_comand(list_comand, pars, paths, &directori);

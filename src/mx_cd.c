@@ -28,11 +28,12 @@ static int get_flags_from_line(char *str) {
 */
 static int get_flags(char **argv, int *i) {
     int flags = 0;
+    int curr = 0;
 
     while(argv[++(*i)]) {
         if (argv[(*i)][0] != '-')
             return flags;
-        int curr = get_flags_from_line(argv[*i]);
+        curr = get_flags_from_line(argv[*i]);
         if (curr == -1)
             return 0;
         flags |= curr;
@@ -42,7 +43,7 @@ static int get_flags(char **argv, int *i) {
 }
 
 static void export_pwd_oldpwd(t_info *info) {
-    char **temp = (char **) malloc(4 * sizeof (char *));
+    char **temp = (char **) malloc(4 * sizeof(char *));
 
     temp[0] = mx_strdup("cd");
     temp[1] = mx_strjoin("PWD=", info->pwd);

@@ -4,7 +4,7 @@ static void print_row(t_list *tmp, char c) {
     char *name = mx_arrstr_to_str(((t_process*)tmp->data)->name);
 
     printf("[%d] %c suspended %s\n", ((t_process*)tmp->data)->index, c,
-        name);
+           name);
     free(name);
 }
 
@@ -16,7 +16,6 @@ void mx_jobs(t_info *info) {
     if (tmp == 0)
         printf("fg: no current job\n");
     while (tmp) {
-        
         if (++i == 0)
             c = '+';
         else if (i == 1)

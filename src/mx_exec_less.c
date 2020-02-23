@@ -2,12 +2,14 @@
 
 static void operator_0(t_tnode *root, int fd, char operatorStatus,
                        t_info *info) {
-    int newFds[2];
+    if (operatorStatus == 0) {
+        int newFds[2];
 
-    newFds[0] = fd;
-    newFds[1] = 1;
-    exec_token((t_token*)root->left->data, newFds,
-                operatorStatus | OP_LESS, info);
+        newFds[0] = fd;
+        newFds[1] = 1;
+        exec_token((t_token*)root->left->data, newFds,
+                    operatorStatus | OP_LESS, info);
+    }
 }
 
 static void close_fds(int *newFds) {
@@ -25,8 +27,7 @@ void mx_exec_less(t_tnode *root, int *fds, char operatorStatus,
     int fd = open(((t_token*)root->right->data)->value[0], O_RDWR);
     int newFds[2];
 
-    if (operatorStatus == 0)
-        operator_0(root, fd, operatorStatus, info);
+    operator_0(root, fd, operatorStatus, info);
     if (operatorStatus & OP_PIPE_W) {
         set_new_fds(newFds, fd, fds[1]);
         exec_token((t_token*)root->left->data, newFds,

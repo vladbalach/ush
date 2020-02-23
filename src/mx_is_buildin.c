@@ -13,7 +13,8 @@ bool mx_is_buildin(char *str) {
         || (mx_strcmp(str, "fg") == 0)
         || (mx_strcmp(str, "exit") == 0)
         || (mx_strcmp(str, "jobs") == 0)
-        || (mx_strcmp(str, "history") == 0))
+        || (mx_strcmp(str, "history") == 0)) {
         return true;
+    }
     return false;
 }

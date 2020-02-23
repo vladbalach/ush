@@ -1,7 +1,7 @@
 #include "ush.h"
 
 void mx_push_env(t_list **var_tree, char *name, char *value, char *mem) {
-    t_variable *var = (t_variable*) malloc(sizeof(t_variable));
+    t_variable *var = (t_variable *)malloc(sizeof(t_variable));
 
     var->value = value;
     var->is_env = true;

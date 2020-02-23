@@ -43,7 +43,7 @@ int mx_chdir_L(char *path, t_info *info, char flags) {
     new_pwd = get_new_pwd(path, info);
     if (chdir(new_pwd) == -1) {
         if ((flags & 1) == 0)
-        fprintf(stderr, "cd: %s: %s\n", strerror(errno), new_pwd);
+            fprintf(stderr, "cd: %s: %s\n", strerror(errno), new_pwd);
         free(new_pwd);
         return 1;
     }

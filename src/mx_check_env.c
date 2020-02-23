@@ -21,7 +21,7 @@ static bool get_path(char **path, int *i, char **argv) {
 bool mx_check_env(char **argv, char **path, t_var *var, int *i) {
     if (strcmp(argv[*i], "=") == 0 && mx_print_error_env(NULL, 2))
         return 1;
-    else if (mx_reg(argv[*i], MX_REG_ERR) || mx_reg(argv[*i], MX_REG_ERI)) {
+    else if (mx_reg(argv[*i], MX_REG_ERR)) {
         mx_print_error_env(argv[*i], 1);
         return 1;
     }
@@ -29,13 +29,12 @@ bool mx_check_env(char **argv, char **path, t_var *var, int *i) {
         if (get_path(path, i, argv))
             return 1;
     }
-    else if (mx_reg(argv[*i], MX_REG_U)) {
+    else if (mx_reg(argv[*i], MX_REG_U))
         if (mx_delete_veriable_env(argv[*i], argv[*i + 1], var, i)) {
             mx_print_error_env(argv[*i - 1], 0);
             return 1;
         }
-    }
-    else if (mx_reg(argv[*i], MX_REG_I))
+    if (mx_reg(argv[*i - 1], MX_REG_I) || mx_reg(argv[*i], MX_REG_I))
         all_false(var);
     return 0;
 }

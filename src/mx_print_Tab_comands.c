@@ -41,7 +41,7 @@ void mx_print_Tab_comands(t_list *list_comand) {
     int row = row_tab(&max, list_comand);
     t_list *list = NULL;
     t_list *list2 = list_comand;
-    int i[] = {0,0};
+    int i[] = {0, 0};
 
     for (i[0] = row; i[0] != 0; i[0]--) {
         list = list2;

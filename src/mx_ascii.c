@@ -1,17 +1,14 @@
 #include "ush.h"
 
 static int mx_handleEvents(char ch) {
-    if (ch == KEY_ENTER) {
+    if (ch == KEY_ENTER)
         return KEY_ENTER;
-    }
     if (ch == CTRL_I)
         return 9;
-    if (ch == CTRL_D) {
+    if (ch == CTRL_D)
         return -1;
-    }
-    if (ch == CTRL_Z) {
+    if (ch == CTRL_Z)
         write(1, "\a", 1);
-    }
     if (ch == CTRL_C)
         return 2;
     if (ch == CTRL_R)

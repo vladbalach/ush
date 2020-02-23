@@ -39,11 +39,10 @@
 #define MX_GET_PATH (argv[i] ? argv[i] : MX_FUNC_RETURN)
 
 #define MX_REG_EXPORT   "^[A-Za-z_]+[A-Za-z_0-9]*(=.*)?$"
-#define MX_REG_ERR      "^-[^Pui]"
-#define MX_REG_I        "^-i+$"
+#define MX_REG_ERR      "^-(i+)?[^Pui]+$"
+#define MX_REG_I        "^-i+((P|u)?|((P|u).+)?)$"
 #define MX_REG_U        "^-(i+)?u.*$"
 #define MX_REG_P        "^-(i+)?P.*$"
-#define MX_REG_ERI      "^-i+[^Pu]$"
 #define MX_REG_VER      "^.+=.*$"
 #define MX_REG_PROG     "^[^-]+$"
 
@@ -298,7 +297,6 @@ void mx_print_cont(char **mas_name, int pid);
 char **mx_get_name(t_info *info, int numb);
 
 // env 
-
 char **mx_call_vlad(char **argv, int i);
 char **mx_env_to_vlad(t_var *var);
 bool mx_check_env(char **argv, char **path, t_var *var, int *i);

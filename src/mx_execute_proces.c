@@ -38,6 +38,3 @@ void mx_execute_proces(t_token* token) {
     if (execvp(argv[0], argv) == -1)
         exec(token);
 }
-
-
-

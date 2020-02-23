@@ -4,9 +4,10 @@ static unsigned int out_monitor_and_read_keyboard(t_info *info, int index,
                                                   int i, char *temp) {
     unsigned int ch = 0;
 
-    if (index != MX_MAX_COMAND + 1)
+    if (index != MX_MAX_COMAND + 1) {
         mx_out_monitor_new(MX_NAME, mx_strlen(MX_COMMAND[index]) + 1, 0,
                            MX_COMMAND[index]);
+    }
     else
         mx_out_monitor_new(MX_NAME, 1, 0, "");
     mx_printstr("\n");

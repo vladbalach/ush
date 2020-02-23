@@ -55,7 +55,7 @@ static void push_argv_in_list(char **comand, t_token *newToken) {
 t_token *mx_token_in_program(int *currPos, int end, char *str,
                                  t_info *processes) {
     int tokenStart = *currPos;
-    t_token *newToken = mx_create_token(2,0,0);
+    t_token *newToken = mx_create_token(2, 0, 0);
     char *newValue = 0;
     char *temp = 0;
 

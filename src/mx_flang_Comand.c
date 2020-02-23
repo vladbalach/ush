@@ -50,8 +50,9 @@ int mx_flang_Comand(char *str, int *pos, int end, int flag) {
         else if ((if_symbol(str[*pos])
                   && mx_check_symbol(str, pos[0], str[pos[0]]))
                   || (pos[0] > 0 && str[pos[0]] == 40 
-             && mx_check_symbol(str, pos[0] - 1, '$')))
+                  && mx_check_symbol(str, pos[0] - 1, '$'))) {
              check_flag = new_spec_symbol(str, pos, end, check_flag);
+        }
         else
             (pos[0])++;
     }

@@ -2,7 +2,7 @@
 
 static char **creat_comands(t_list **list_comands) {
     int sum_comand = mx_list_size(*list_comands) + 2;
-    char **comands = (char **) malloc(sum_comand * sizeof(char *));
+    char **comands = (char **)malloc(sum_comand * sizeof(char *));
     t_list *list = *list_comands;
 
     comands[0] = NULL;

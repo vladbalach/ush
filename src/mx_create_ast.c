@@ -17,7 +17,6 @@ static t_list* find_max_priority(t_list* tokens) {
     }
     if (maxNode == 0)
         return 0;
-    
     return maxNode;
 }
 

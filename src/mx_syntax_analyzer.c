@@ -75,7 +75,7 @@ bool mx_syntax_analyzer(t_list *tokens) {
 
     if ((tokens == 0) || (mx_is_operator((t_token*)tmp->data)))
         return false;
-    while(tmp->next) {
+    while (tmp->next) {
         if (is_double_op(tmp, &op))
             return false;
         if (is_double_more(tmp))

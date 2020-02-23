@@ -33,7 +33,7 @@ static char* get_pwd() {
 }
 
 void mx_ush_init(t_info **info, char **env) {
-    t_info *newInfo = (t_info*) malloc(sizeof(t_info));
+    t_info *newInfo = (t_info *)malloc(sizeof(t_info));
 
     newInfo->env = env;
     newInfo->processes = 0; // empty

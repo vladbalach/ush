@@ -3,7 +3,7 @@
 static bool name_comand(char temp) {
     char check = temp >> 7;
 
-    if ((temp > 47 && temp < 58) || (temp > 64 && temp <91) || temp == '~')
+    if ((temp > 47 && temp < 58) || (temp > 64 && temp < 91) || temp == '~')
         return 1;
     if ((temp > 96 && temp < 123) || temp == 46 || temp == '/' || temp == '.')
         return 1;

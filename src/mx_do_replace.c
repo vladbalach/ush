@@ -7,7 +7,7 @@ void mx_do_replace(char **str, size_t start, size_t end, char *str_new) {
 
     if (str_new)
         sum = mx_strlen(str_new);
-    newStr = (char*) malloc (i - (end - start) + sum + 1);
+    newStr = (char *)malloc(i - (end - start) + sum + 1);
     if (newStr) {
         for (i = 0; i < start; i++)
             newStr[i] = (*str)[i];

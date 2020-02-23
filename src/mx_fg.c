@@ -47,9 +47,8 @@ static int fg_continue(char **argv, t_info *info) {
     if (mx_is_number_fg(argv[1]) && (i == 1)) {
             pr = get_process(atoi(&argv[1][i]), argv[1], info);
     }
-    else {
+    else
         pr = get_process(-1, &argv[1][i], info);
-    }
     if (pr == 0) {
         info->exit_status = 1;
         return 1;
@@ -69,6 +68,7 @@ static void fg_wait(int status, pid_t ch_pr, t_info *info) {
         }
         else {
             char **str = mx_get_name(info, ch_pr);
+
             mx_print_susp(str);
         }
     }

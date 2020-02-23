@@ -8,8 +8,7 @@ bool mx_is_commad(char *fullname, int flags) {
             if ((flags & 2) == 2) {
                 free(fullname);
                 return true;
-            }
-            
+            }  
             mx_printstr(fullname);
             mx_printchar('\n');
             free(fullname);

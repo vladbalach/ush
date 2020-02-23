@@ -3,10 +3,12 @@
 
 static void substitution_comand(char **str, char **str2, t_info *processes) {
     mx_strdel(str);
-    for (int i = 0; str2[0][i]; i++) 
+    for (int i = 0; str2[0][i]; i++) {
         if (str2[0][i] == '\\' && (str2[0][i + 1] == '`'
-            || str2[0][i + 1] == '\\'))
+            || str2[0][i + 1] == '\\')) {
             mx_do_replace(str2, i, i + 1, 0);
+        }
+    }
     *str2 = mx_str_bquote(str2, processes);
     *str = *str2;
 }
@@ -37,17 +39,21 @@ static void editor_str(char **str, t_info *processes) {
 static bool chek_comand(char *new_str, int i) {
     if (new_str[i] == 34 || new_str[i] == 39 || new_str[i] == 96) {
         if (i == 0 || new_str[i - 1] != '\''
-            || !mx_check_symbol(new_str, i, new_str[i]))
+            || !mx_check_symbol(new_str, i, new_str[i])) {
             return true;
-        else
+        }
+        else {
             return false;
+        }
     }
     else if (new_str[i + 1] == '(' && new_str[i] == '$'
-             && (i == 0 || new_str[i - 1] != '\''))
+             && (i == 0 || new_str[i - 1] != '\'')) {
         return true;
+    }
     else if (new_str[i + 1] == '(' && new_str[i - 1] == '\''
-             && !mx_check_symbol(new_str, i, '$'))
+             && !mx_check_symbol(new_str, i, '$')) {
         return true;
+    }
     else
         return false;
 }
@@ -74,13 +80,12 @@ static void spec_symbol(t_info *processes, int *i, char **new_str) {
 
 char *mx_audit_str(char *str, t_info *processes, bool dqute) {
     char *new_str = 0;
-    int i = 0;
     int pos = 0;
 
     if (str == 0)
         return 0;
     new_str = mx_strdup(str);
-    for (; new_str && new_str[i]; i++) {
+    for (int i = 0; new_str && new_str[i]; i++) {
         pos = i;
         if (new_str[i] == '~' && !dqute)
             mx_HOME(&new_str, &i, processes);
@@ -89,8 +94,9 @@ char *mx_audit_str(char *str, t_info *processes, bool dqute) {
         else if (mx_check_symbol(new_str, i ,'$'))
             mx_parametr_shell(processes, &i, &new_str);
         else if (new_str[i] == '\\'
-                 && (!dqute || (dqute && (new_str[i + 1] == '\\'))))
+                 && (!dqute || (dqute && (new_str[i + 1] == '\\')))) {
             mx_do_replace(&new_str, i, i + 1, 0);
+        }
     }
     return new_str;
 }
