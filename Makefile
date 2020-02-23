@@ -108,6 +108,7 @@ SRC = main.c \
 	mx_is_commad.c \
 	mx_get_twidth.c \
 	mx_del_pid_process.c \
+	mx_exec_dmore.c \
 
 INCLUDE = -I $(LBMXD) \
 	-I $(INCD) \
