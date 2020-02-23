@@ -40,7 +40,7 @@ void mx_out_monitor_new(char *name, int table2, int pos, char *str) {
 void mx_clean_monitor_new(char *name, int table2, int pos, char *str) {
 
     int temp;
-    int len = (int) name[0];
+    int len = (int)name[0];
 
     temp = (mx_len_symbol(table2 - pos, str) + len) / mx_get_twidth();
     for (int i = temp; i > 0; i--) {

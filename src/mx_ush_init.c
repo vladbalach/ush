@@ -11,7 +11,7 @@ static char* mx_get_link_path(char *path) {
     return link_path;
 }
 
-static char* get_pwd() {
+static char *get_pwd() {
     char *pwd = mx_strdup(getenv("PWD"));
     char *cwd = getcwd(NULL, 0);
     char *link_path = 0;

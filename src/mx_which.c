@@ -44,7 +44,7 @@ static int mx_check_buildin(char *command, int flags, bool *finded) {
 }
 
 
-static bool check_command(char *command, char** pathes, int flags) {
+static bool check_command(char *command, char **pathes, int flags) {
     char *fullname = 0;
     bool finded = false;
 
@@ -54,13 +54,14 @@ static bool check_command(char *command, char** pathes, int flags) {
         if (mx_is_commad(mx_strdup(command), flags))
                 return true;
     }
-    else
-    for(int i = 0; pathes[i]; i++) {
-        fullname = mx_strjoin2(mx_strjoin(pathes[i], "/"), command);
-        if (mx_is_commad(fullname, flags)) {
-            if ((flags & 1) == 0)
-                return true;
-            finded = true;
+    else {
+        for(int i = 0; pathes[i]; i++) {
+            fullname = mx_strjoin2(mx_strjoin(pathes[i], "/"), command);
+            if (mx_is_commad(fullname, flags)) {
+                if ((flags & 1) == 0)
+                    return true;
+                finded = true;
+            }
         }
     }
     return finded;

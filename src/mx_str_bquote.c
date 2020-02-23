@@ -23,11 +23,11 @@ static char *read_to_delim(int des) {
     return newStr;
 }
 
-static void  child(t_info *processes, int des[2], char **str) {
+static void child(t_info *processes, int des[2], char **str) {
     close(des[0]);
     dup2(des[1], 1);
     mx_parsing(*str, processes);
-    if (processes->lastStatus == 130 || !(processes->if_ctrl_C))
+    if (processes->lastStatus == 130 || !(processes->if_ctrl_c))
         exit(130);
     exit(0);
 }
@@ -37,7 +37,7 @@ static void parent(t_info *processes, int *status, char **str, int des[2]) {
     mx_strdel(str);
     close(des[1]);
     if (*status == 130) {
-        processes->if_ctrl_C = 0;
+        processes->if_ctrl_c = 0;
         close(des[0]);
     }
 }
@@ -58,7 +58,7 @@ char *mx_str_bquote(char **str, t_info *processes) {
     else
         wait(&status);
     parent(processes, &status, str, des);
-    if (!processes->if_ctrl_C)
+    if (!processes->if_ctrl_c)
         return 0;
     return read_to_delim(des[0]);
 }
