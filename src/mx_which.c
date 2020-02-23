@@ -72,10 +72,7 @@ static bool check_commands(char **commands, char** pathes, int startIndex,
     bool finded = false;
 
     while(commands[++i] != 0) {
-        if (pathes == 0)
-            finded = false;
-        else
-            finded = check_command(commands[i], pathes, flags);
+        finded = check_command(commands[i], pathes, flags);
         if ((finded == false) && ((flags & 2) == 2))
             return false;
         if (finded == false) 
@@ -92,8 +89,8 @@ void mx_which(char **argv, t_info *info) {
     int iArgs = 0;
     int flags = get_flags(&iArgs, argv);
     int finded = false;
-
-    if (flags == -1){
+    
+    if (flags == -1) {
         mx_del_strarr(&pathes);
         info->lastStatus = 1;
         return;

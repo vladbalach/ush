@@ -30,6 +30,10 @@ static int get_flags(char **argv, int *i) {
     int flags = 0;
 
     while(argv[++(*i)]) {
+        if (mx_strcmp(argv[(*i)], "--") == 0) {
+            (*i)++;
+            return flags;
+        }
         if (argv[(*i)][0] != '-')
             return flags;
         int curr = get_flags_from_line(argv[*i]);
