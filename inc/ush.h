@@ -40,12 +40,12 @@
 #define MX_GET_PATH (argv[i] ? argv[i] : MX_FUNC_RETURN)
 
 #define MX_REG_EXPORT   "^[A-Za-z_]+[A-Za-z_0-9]*(=.*)?$"
-#define MX_REG_ERR      "^-(i+)?[^Pu]$"
+#define MX_REG_ERR      "^^-(i+)?[^Pui]"
 #define MX_REG_I        "^-i+((P|u)?|((P|u).+)?)$"
 #define MX_REG_U        "^-(i+)?u.*$"
 #define MX_REG_P        "^-(i+)?P.*$"
 #define MX_REG_VER      "^.+=.*$"
-#define MX_REG_PROG     "^[^-]+$"
+#define MX_REG_PROG     "^[^-]"
 
 // VARIABLES
 
@@ -54,14 +54,14 @@ typedef struct s_var {
     char *value;
     bool flag;
     struct s_var *next;
-} t_var;
+}              t_var;
 
 typedef struct s_variable {
     char *name;
     char *value;
     bool is_env;
     char *mem;
-} t_variable;
+}              t_variable;
 
 typedef struct s_tree_node {
     struct s_tree_node *left;
@@ -118,7 +118,7 @@ typedef struct s_input {
     int end_posit;
     int if_;
     int pos_tab;
-} t_input;
+}              t_input;
 
 typedef struct s_programInfo {
     struct termios term_old;
@@ -138,7 +138,7 @@ typedef struct s_programInfo {
     char *home;
     t_list *var_tree;
     int lastStatus;
-} t_info;
+}              t_info;
 
 enum e_keys{
     CTRL_A = 1,
