@@ -9,5 +9,5 @@ void mx_exit(t_token *token, t_info *info) {
     }
     else
         info->exit_status = 0;
-    info->isExit = true;
+    info->is_exit = true;
 }

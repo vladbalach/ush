@@ -26,5 +26,5 @@ void mx_jobs(t_info *info) {
         print_row(tmp, c);
         tmp = tmp->next;
     }
-    info->lastStatus = 0;
+    info->last_status = 0;
 }

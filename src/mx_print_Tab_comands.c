@@ -36,7 +36,7 @@ static int row_tab(int *max, t_list *list_comand) {
     return row;
 }
 
-void mx_print_Tab_comands(t_list *list_comand) {
+void mx_print_tab_comands(t_list *list_comand) {
     int max = max_comands(list_comand) + 2;
     int row = row_tab(&max, list_comand);
     t_list *list = NULL;

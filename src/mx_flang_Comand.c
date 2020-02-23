@@ -39,7 +39,7 @@ static int new_spec_symbol(char *str, int *pos, int end, int flag) {
     return new_flag;
 }
 
-int mx_flang_Comand(char *str, int *pos, int end, int flag) {
+int mx_flang_comand(char *str, int *pos, int end, int flag) {
     int check_flag = flag;
 
     while (pos[0] <= end) {
