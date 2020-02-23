@@ -55,6 +55,8 @@ int mx_execute_tree(t_tnode *root, int *fds, char op_st, t_info *info) {
         status = mx_exec_more(root, fds, op_st, info);
     if (mx_strcmp(((t_token*)root->data)->value[0], "<") == 0)
         mx_exec_less(root, fds, op_st, info);
+    if (mx_strcmp(((t_token*)root->data)->value[0], ">>") == 0)
+        mx_exec_dmore(root, fds, op_st, info);
     if (mx_strcmp(((t_token*)root->data)->value[0], "||") == 0)
         status = or_operator(root, fds, op_st, info);
     if (mx_strcmp(((t_token*)root->data)->value[0], "&&") == 0)

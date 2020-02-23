@@ -30,6 +30,7 @@
 #define MX_SYMBOL info->input->if_
 #define MX_ID_TAB_KEY info->input->pos_tab
 #define MX_FLAGS_W O_RDWR | O_CREAT | O_TRUNC, S_IWRITE | S_IREAD
+#define MX_FLAGS_WE O_RDWR | O_CREAT | O_APPEND, S_IWRITE | S_IREAD
 #define MAX_PROC_COUNT 500
 #define MX_HISTORY_STRING "\x1b[38;5;243mu$h> \x1b[38;5;68m"
 #define MX_NAME "\x4\x1b[38;5;76mu$h> \x1b[38;5;76m"
