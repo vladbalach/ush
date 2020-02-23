@@ -1,10 +1,5 @@
 #include "ush.h"
 
-
-static void free_proc() {
-
-}
-
 void mx_del_pid_process(t_info *info, int pid) {
     t_list *tmp = info->processes;
     t_list *tmp2 = info->processes;
