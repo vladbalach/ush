@@ -9,7 +9,7 @@ char *mx_nbr_to_hex(unsigned long nbr) {
         a++;
         ac = ac / 16;
     }
-    s = malloc (sizeof (char) * (a + 1));
+    s = malloc(sizeof(char) * (a + 1));
     s[a--] = '\0';
     while (a >= 0) {
         if ((nbr - (nbr / 16) * 16) < 10) 

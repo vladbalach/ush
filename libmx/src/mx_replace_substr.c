@@ -11,7 +11,7 @@ static int int_str_sub(const char *str, const char *sub, int a, int b) {
 }
 
 static int char_to_str(const char *str, const char *sub,
-const char *replace) {
+                        const char *replace) {
     int a = mx_count_substr(str, sub);
     int b  = mx_strlen(str) - (mx_strlen(sub) - mx_strlen(replace)) * a;
 
@@ -19,7 +19,7 @@ const char *replace) {
 }
 
 char *mx_replace_substr(const char *str,
-const char *sub, const char *replace) {
+                        const char *sub, const char *replace) {
     int a[5] = {0, 0, 0, 0, 0};
     char *s = NULL;
 

@@ -1,6 +1,5 @@
 #include "libmx.h"
 
-/*free both strings*/
 char *mx_strjoin3(char *s1, char *s2) {
     char *newStr = NULL;
 
