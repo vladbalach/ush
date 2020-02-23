@@ -35,7 +35,7 @@ static char *env_param(char **string, int *i, t_info *processes) {
     return home;
 }
 
-void mx_HOME(char **string, int *i, t_info *processes) {
+void mx_home(char **string, int *i, t_info *processes) {
     char *home = 0;
     int new_position = *i;
 

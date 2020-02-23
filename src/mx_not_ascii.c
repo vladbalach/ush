@@ -67,7 +67,7 @@ static void home_end(char *chars, t_info *info) {
         mx_printstr("/n/nEROOR!! DUBLE_COMAND\n\n");
 }
 
-static void pageU_PageD(char *chars, t_info *info) {
+static void page_u_Page_d(char *chars, t_info *info) {
     if (chars[2] == 53) { // PageUP
         if (MX_ID != MX_MAX_COMAND) {
             mx_clean_monitor_new(MX_NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
@@ -104,7 +104,7 @@ void mx_not_ascii(char *chars, t_info *info) {
         left_right(chars, info);
     }
     else if (chars[3] == 126 && (chars[2] == 53 || chars[2] == 54)) {
-        pageU_PageD(chars, info);
+        page_u_Page_d(chars, info);
     }
     else if (chars[3] == 126 && chars[2] == 51 && MX_STR_POS != 0) {
         mx_key_delite(info);
