@@ -38,7 +38,8 @@
 #define MX_PATH ((t_token*)tmp->next->next->data)->value[0]
 #define MX_FUNC_RETURN mx_return_value("HOME", &(info->var_tree))
 #define MX_GET_PATH (argv[i] ? argv[i] : MX_FUNC_RETURN)
-
+#define MX_AMPERSAND "\033[1;31m\'&\' - not allowed in this version!\033[0m\n"
+#define MX_DLES "\033[1;31m\'<<\' - not allowed in this version!\033[0m\n"
 #define MX_REG_EXPORT   "^[A-Za-z_]+[A-Za-z_0-9]*(=.*)?$"
 #define MX_REG_ERR      "^^-(i+)?[^Pui]"
 #define MX_REG_I        "^-i+((P|u)?|((P|u).+)?)$"

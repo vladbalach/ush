@@ -60,11 +60,11 @@ static bool is_double_less(t_list *tmp) {
 
 static bool mx_is_ampersand(t_list *tmp) {
     if (mx_strcmp(((t_token*)tmp->data)->value[0], "&") == 0) {
-        mx_printerr("\033[1;31m\'&\' - not allowed in this version!\033[0m\n");
+        mx_printerr(MX_AMPERSAND);
         return true;
     }
     if (mx_strcmp(((t_token*)tmp->data)->value[0], "<<") == 0) {
-        mx_printerr("\033[1;31m\'<<\' - not allowed in this version!\033[0m\n");
+        mx_printerr(MX_DLES);
         return true;
     }
     return false;
