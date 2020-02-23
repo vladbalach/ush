@@ -119,7 +119,7 @@ INCS = $(addprefix $(INCD)/, $(INC))
 SRCS = $(addprefix $(SRCD)/, $(SRC))
 OBJS = $(addprefix $(OBJD)/, $(SRC:%.c=%.o))
 	
-CFLAGS = -std=c11  #-Wall -Wextra -Wpedantic -Werror
+CFLAGS = -std=c11 -Wall -Wextra -Wpedantic -Werror
 
 CC = clang
 

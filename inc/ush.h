@@ -128,6 +128,7 @@ typedef struct s_programInfo {
     t_input *input;
     t_list *processes;
     bool isExit;
+    bool if_ctrl_C;
     int exit_status;
     char *pwd;
     char *pwdL;
