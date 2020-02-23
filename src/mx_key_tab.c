@@ -16,7 +16,7 @@ static char **many_comand_in_list(char *path, char **str, t_info *info,
     char *name_comand = 0;
 
     mx_clean_monitor("", info, *str);
-    mx_print_Tab_comands(list_comand);
+    mx_print_tab_comands(list_comand);
     creat_list_comands = (char **)malloc(size_list * sizeof(char *));
     for (temp = mx_strlen(path) - 1; temp != 0 && path[temp] != '/'; temp--);
     temp = mx_strlen(&path[temp]);

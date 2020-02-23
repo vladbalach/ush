@@ -1,6 +1,6 @@
 #include "ush.h"
 
-int mx_chdir_r(char *path, t_info *info, char flags) {
+int mx_chdir_p(char *path, t_info *info, char flags) {
     if (path == 0)
         return 0;
     if(chdir(path) == -1) {

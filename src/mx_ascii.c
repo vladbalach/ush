@@ -33,7 +33,7 @@ static void special_symbols(unsigned int ch, t_info *info) {
         mx_clean_monitor_new(MX_NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
         mx_key_duble_tab(&MX_STR, info->input->comand_tab, info);
     }
-    MX_SYMBOL = mx_handleEvents(ch);
+    MX_SYMBOL = mx_handle_events(ch);
     if (MX_SYMBOL == 18) {
         mx_clean_monitor_new(MX_NAME, MX_STR_LEN, MX_STR_POS, MX_STR);
         mx_ctrl_r(info);

@@ -50,7 +50,7 @@ char *mx_mini_parser_tab(char *parsing, t_info *info) {
         temp = mx_strdup(&tem_str[1]);
         if_comand = tem_str[0];
         mx_strdel(&tem_str);
-        mx_HOME(&temp, &pos, info);
+        mx_home(&temp, &pos, info);
         tem_str = mx_strjoin("\r", temp);
         mx_strdel(&temp);
         tem_str[0] = if_comand;
