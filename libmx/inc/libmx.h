@@ -31,6 +31,7 @@ char *mx_itoa(int number);
 void mx_foreach(int *arr, int size, void (*f)(int));
 int mx_binary_search(char **arr, int size, const char *s, int *count);
 int mx_strcmp(const char *s1, const char *s2);
+int mx_strncmp(const char *s1, const char *s2, int n);
 int mx_bubble_sort(char **arr, int size);
 int mx_quicksort(char **arr, int left, int right);
 void mx_swap_char(char *s1, char *s2);
@@ -88,5 +89,6 @@ char *mx_get_user_name();
 unsigned int mx_getchar();
 char* mx_arrstr_to_str(char **strs);
 char **mx_dupstrarr(char **strs);
+bool mx_is_str_starts(char *string, char *start);
 
 #endif
