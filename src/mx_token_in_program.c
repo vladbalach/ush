@@ -38,18 +38,14 @@ static void end_argv(int *curr_pos, int end, char *str) {
 
 static void push_argv_in_list(char **comand, t_token *new_token) {
     char **meny_comand = 0;
-    int id = 0;
 
     meny_comand = mx_strsplit(*comand, '\x0d');
     mx_strdel(comand);
-    while (meny_comand[id]) {
-        mx_add_to_strarr(&new_token->value, meny_comand[id++]);
+    if (meny_comand) {
+        mx_strarr_add_to_strarr(&new_token->value, &meny_comand);
         new_token->type = 1;
         new_token->priority = 10;
     }
-    if (meny_comand)
-        free(meny_comand);
-    meny_comand = 0;
 }
 
 t_token *mx_token_in_program(int *curr_pos, int end, char *str,

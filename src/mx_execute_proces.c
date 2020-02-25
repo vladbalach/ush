@@ -26,16 +26,10 @@ static void exec(t_token* token) {
 }
 
 void mx_execute_proces(t_token* token) {
-    char **argv = 0;
-    int i = 0;
-
-    for (; token->value[i]; i++)
-        mx_add_to_strarr(&argv, token->value[i]);
-    mx_add_to_strarr(&argv, token->value[i]);
     if (getenv("PATH") == 0)
-        if (execv(argv[0], argv) == -1)
+        if (execv(token->value[0], token->value) == -1)
             exec(token);
-    if (execvp(argv[0], argv) == -1)
+    if (execvp(token->value[0], token->value) == -1)
         exec(token);
 }
 

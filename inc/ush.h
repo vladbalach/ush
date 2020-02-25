@@ -176,6 +176,7 @@ void mx_insert_tree(t_tnode **root, t_tnode *new,
 );
 
 t_tnode* mx_get_min_tnode(t_tnode *root);
+void mx_strarr_add_to_strarr(char ***strs, char ***str);
 t_tnode *mx_create_tnode(void *data);
 void mx_start_program(t_list **var_tree, char **env);
 void mx_delete_tnode(t_tnode **root, void *data, int (*cmp)(void*, void*), void (*free_tnode)(t_tnode *tnode));

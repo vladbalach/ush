@@ -110,6 +110,7 @@ SRC = main.c \
 	mx_del_pid_process.c \
 	mx_exec_dmore.c \
 	mx_charge_paranetr_export.c \
+	mx_strarr_add_to_strarr.c \
 
 INCLUDE = -I $(LBMXD) \
 	-I $(INCD) \
