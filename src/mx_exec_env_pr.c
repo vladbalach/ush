@@ -3,7 +3,7 @@
 static void clearenv(t_info *info) {
     t_list *tmp = info->var_tree;
 
-    while(tmp) {
+    while (tmp) {
         if (((t_variable*)tmp->data)->is_env)
             unsetenv(((t_variable*)tmp->data)->name);
         tmp = tmp->next;

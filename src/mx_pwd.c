@@ -5,7 +5,7 @@ static int get_flags_from_line(char *str) {
     int i = 0;
     int flags = 0;
 
-    while(str[++i]) {
+    while (str[++i]) {
         if (str[i] == 'L') 
             flags |= 1;
         else if (str[i] == 'P') 
@@ -23,7 +23,7 @@ static int get_flags_from_line(char *str) {
 static int get_flags(char **argv, int *i) {
     int flags = 0;
 
-    while(argv[++(*i)]) {
+    while (argv[++(*i)]) {
         if (argv[(*i)][0] != '-')
             return flags;
         int curr = get_flags_from_line(argv[*i]);

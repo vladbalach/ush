@@ -24,7 +24,7 @@ unsigned int mx_getchar() {
 
     tcgetattr(STDIN_FILENO, &oldTerm);
     setTerminalSettings();
-    if (read(1, &ch, 4) == 0) {
+    if (read(0, &ch, 4) == 0) {
         return 0;
     }
     disableTerminal(oldTerm);

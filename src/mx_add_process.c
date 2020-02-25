@@ -19,7 +19,7 @@ static int get_index(t_list *process) {
 static bool is_exist(t_list* process, pid_t pid) {
     t_list *tmp = process;
 
-    while(tmp) {
+    while (tmp) {
         if (((t_process*)process->data)->pid == pid)
             return true;
         tmp = tmp->next;

@@ -11,7 +11,7 @@ static char *direct(char *parsing) {
     int i = mx_strlen(parsing);
 
     if (comands(parsing[0]) == 0) {
-        while(i != 0 && parsing[--i] != '/');
+        while (i != 0 && parsing[--i] != '/');
         if (i == 0)
             return mx_strdup("./");
         else
