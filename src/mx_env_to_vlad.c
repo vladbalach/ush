@@ -5,6 +5,8 @@ char **mx_env_to_vlad(t_var *var) {
     int counter = 0;
     char **env = NULL;
 
+    if (var == NULL)
+        return NULL;
     for ( ; var; var = var->next) {
         if (var->flag)
             counter++;

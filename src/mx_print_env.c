@@ -2,8 +2,9 @@
 
 void mx_print_env(t_var *var) { 
     while (var) {
-        if (var->flag)
+        if (var->flag) {
             printf("%s\n", var->value);
+        }
         var = var->next;
     }
 }

@@ -22,20 +22,21 @@ static int print_echo_d(char *str, int *i) {
 
 static int print_echo_e(char *str) {
     char buf;
-    int value = 0;
 
     for (int i = 0; str[i] != '\0'; i++) {
-            if (str[i] == '\\' && str[i + 1] == '\\')
-                buf = '\\';
-            else if (str[i] == '\\' && str[i + 1] == '0' && ++i > 0)
-                buf = '\0';
-            else if ((value = print_echo_d(&str[i], &i)) != -1) {
-                buf = (char)value;
-            }
-            else if (str[i] == '\\' && str[i + 1] == 'c' && ++i > 0)
-                return 0;
-            else
-                buf = str[i];
+        if (str[i] == '\\' 
+            && mx_reg(str + i + 1, "^(x[0-9a-fA-F]{2}.*)|(0[0-7]{2,3}.*)$")) {
+            buf = mx_0_and_x(str, &i);
+        }
+        else if(str[i] == '\\' && str[i + 1] == '\\')
+            buf = '\\';
+        else if (str[i] == '\\' && str[i + 1] == '0' && ++i > 0)
+            buf = '\0';
+        else if ((buf = print_echo_d(&str[i], &i)) != -1);
+        else if (str[i] == '\\' && str[i + 1] == 'c' && ++i > 0)
+            return 0;
+        else
+            buf = str[i];
         write(1, &buf, 1);
     }
     return 1;

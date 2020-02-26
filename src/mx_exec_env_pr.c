@@ -13,6 +13,8 @@ static void clearenv(t_info *info) {
 static void fill_env(char **env) {
     int i = 0;
 
+    if (!env)
+        return;
     while (env[i]) {
         putenv(env[i]);
         i++;

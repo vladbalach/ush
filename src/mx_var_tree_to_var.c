@@ -11,9 +11,11 @@ static t_var *node(t_list *var_tree, t_var *var) {
 }
 
 t_var *mx_var_tree_to_var(t_list *var_tree) {
-    t_var *var = malloc(sizeof(t_var));
+    t_var *var = malloc(sizeof(t_var));;
     t_var *save = var;
 
+    var->name = NULL;
+    var->flag = 0;
     var->next = NULL;
     var->value = NULL;
     for (;var_tree; var_tree = var_tree->next) {

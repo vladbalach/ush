@@ -313,4 +313,7 @@ bool mx_reg(char *str, char *regular);
 char *mx_get_path_env(char *str1, char *str2, int *i);
 int mx_delete_veriable_env(char *str1, char *str2, t_var *var, int *i);
 
+// echo
+int mx_0_and_x(char *str, int *i);
+
 #endif

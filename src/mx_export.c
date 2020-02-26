@@ -47,13 +47,13 @@ static void print_export(t_list *var_tree_tmp) {
     t_var *var = mx_var_tree_to_var(var_tree_tmp);
     t_var *tmp = var;
 
-    for (t_var *i = var; i; i = i->next) {
+    for (t_var *i = var; i && var->value; i = i->next) {
         for (t_var *j = var; j->next; j = j->next) {
             if (mx_strcmp(j->name, j->next->name) > 0)
                 swap(j);
         }
     }
-    while (var) {
+    while (var && var->value) {
         mx_printstr(var->value);
         mx_printstr("\n");
         tmp = var;
@@ -62,6 +62,7 @@ static void print_export(t_list *var_tree_tmp) {
         free(tmp->name);
         free(tmp);
     }
+    free(var);
 }
 
 void mx_export(char **argv, t_list **var_tree, t_info *info) {

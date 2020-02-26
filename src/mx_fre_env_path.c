@@ -10,8 +10,10 @@ void mx_fre_env_path(t_var *var, char *path) {
     while (var) {
         tmp = var;
         var = var->next;
-        free(tmp->value);
-        free(tmp->name);
+        if (tmp->value)
+            free(tmp->value);
+        if (tmp->name)
+            free(tmp->name);
         free(tmp);
     }
 }
