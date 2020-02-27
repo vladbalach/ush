@@ -39,7 +39,7 @@ static void print_error(char *err) {
 
 static int start_child(char *path, char **argv, char **env) {
     fill_env(env);
-    if (path == 0) {
+    if (path == 0 || mx_get_char_index(argv[0], '/') >= 0) {
         if (execvp(argv[0], argv) == -1)
             print_error(argv[0]);
     }
