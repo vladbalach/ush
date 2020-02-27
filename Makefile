@@ -113,6 +113,7 @@ SRC = main.c \
 	mx_charge_paranetr_export.c \
 	mx_strarr_add_to_strarr.c \
 	mx_0_and_x.c \
+	mx_read_keyboard.c \
 
 INCLUDE = -I $(LBMXD) \
 	-I $(INCD) \

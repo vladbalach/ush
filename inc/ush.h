@@ -270,6 +270,7 @@ bool mx_is_char(char c);
 void mx_home(char **str, int *i, t_info *processes);
 void mx_do_replace(char **str, size_t start, size_t end, char *str_new);
 bool mx_is_operator(t_token *token);
+unsigned int mx_read_keyboard(t_info *info);
 
 // AST
 t_tnode* mx_create_ast(t_list** tokens, t_tnode *prev);
