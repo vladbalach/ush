@@ -19,11 +19,13 @@ static void shlvl_new(char **s) {
     *s = temp;
 }
 
-static char *create_mem(char *str1, char **str2, char *str3) {
+static char *create_mem(char *str1, char **str2, char *str3, char **value) {
     char *mem = 0;
 
     if (mx_strcmp(str1, "SHLVL") == 0) {
         shlvl_new(str2);
+        mx_strdel(value);
+        *value = mx_strdup(*str2);
         mem = mx_strjoin("SHLVL=", *str2);
     }
     else if (mx_strcmp(str1, "PWD") == 0) {
@@ -82,13 +84,13 @@ void mx_start_program(t_list **var_tree, char **env) {
     while (env[++i]) {
         var = (t_variable *)malloc(sizeof(t_variable));
         envvar = mx_strsplit(env[i], '=');
-        temp = create_mem(envvar[0], &envvar[1], env[i]);
-        var->is_env = true;
         var->name = envvar[0];
         var->value = mx_strdup(&env[i][mx_strlen(var->name) + 1]);
+        temp = create_mem(envvar[0], &envvar[1], env[i], &(var->value));
+        var->is_env = true;
         var->mem = temp;
         putenv(temp);
-        mx_push_front(var_tree, var);
+        mx_push_back(var_tree, var);
         free(envvar[1]);
         free(envvar);
     }

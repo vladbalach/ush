@@ -1,11 +1,11 @@
 #include "ush.h"
 #include "macroses.h"
 
-static char *read_to_delim(int des, int des2) {
+
+static char *read_bqute(int des, int des2) {
     char *str = 0;
     char *temp = malloc(1025 * sizeof(char));
     ssize_t check;
-    int i = -1;
     ssize_t check2 = 0;
 
     close(des2);
@@ -14,9 +14,17 @@ static char *read_to_delim(int des, int des2) {
         mx_memcpy(&str[check2], temp, check);
         check2 += check;
     }
+    if (check2 > 1)
+        str[check2 - 1] = 0;
     close(des);
-    str[check2 - 1] = 0;
     free(temp);
+    return str;
+}
+
+static char *read_to_delim(int des, int des2) {
+    char *str = read_bqute(des, des2);
+    int i = -1;
+
     while (str && str[++i] != 0)
         if (str[i] == '\n')
             str[i] = '\x0d';
@@ -37,8 +45,12 @@ static void child(t_info *processes, int des[2], char **str) {
     exit(0);
 }
 
-static void parent(t_info *processes, int status, char **str) {
-    int check = MX_EXSTATUS(status);
+static void parent(t_info *processes, char **str) {
+    int status;
+    int check;
+
+    wait(&status);
+    check = MX_EXSTATUS(status);
     mx_strdel(str);
     if (check == 130) {
         processes->if_ctrl_c = 0;
@@ -48,7 +60,6 @@ static void parent(t_info *processes, int status, char **str) {
 char *mx_str_bquote(char **str, t_info *processes) {
     int des[2] = {0, 0};
     pid_t pid;
-    int status;
     char *test = 0;
 
     pipe(des);
@@ -61,8 +72,7 @@ char *mx_str_bquote(char **str, t_info *processes) {
     }
     else
         test = read_to_delim(des[0], des[1]);
-    wait(&status);
-    parent(processes, status, str);
+    parent(processes, str);
     if (!processes->if_ctrl_c) {
         mx_strdel(&test);
         return 0;

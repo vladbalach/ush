@@ -42,6 +42,6 @@ int main(int argc, char *argv[], char **envp) {
             info->if_ctrl_c = 1;
         }
     mx_ush_close(info);
-    // system("leaks ush");
+    system("leaks ush");
     return info->exit_status;
 }

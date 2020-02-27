@@ -61,7 +61,7 @@ SRC = main.c \
 	mx_unset.c \
 	mx_pipe_execute.c \
 	mx_return_value.c \
-	mx_HOME.c \
+	mx_home.c \
 	mx_do_replace.c \
 	mx_ctrl_v_and_not_ascii.c \
 	mx_ascii.c \
@@ -97,7 +97,6 @@ SRC = main.c \
 	mx_env_to_vlad.c \
 	mx_parametr_shell.c \
 	mx_flang_Comand.c \
-	mx_read_user.c \
 	mx_token_in_program.c \
 	mx_start_program.c \
 	mx_exec_env_pr.c \
