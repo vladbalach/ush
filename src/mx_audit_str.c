@@ -3,10 +3,12 @@
 
 static void substitution_comand(char **str, char **str2, t_info *processes) {
     mx_strdel(str);
-    for (int i = 0; str2[0][i]; i++) 
+    for (int i = 0; str2[0][i]; i++) { 
         if (str2[0][i] == '\\' && (str2[0][i + 1] == '`'
-            || str2[0][i + 1] == '\\'))
+            || str2[0][i + 1] == '\\')) {
             mx_do_replace(str2, i, i + 1, 0);
+        }
+    }
     *str2 = mx_str_bquote(str2, processes);
     *str = *str2;
 }

@@ -32,7 +32,7 @@ void mx_out_monitor_new(char *name, int table2, int pos, char *str) {
             write(1, " ", 1);
         else
             write(1, &str[table2 - pos - 1], symbol);
-    write(1, "\b", 1);
+        write(1, "\b", 1);
     }
     mx_printstr("\x1b[0m");
 }
