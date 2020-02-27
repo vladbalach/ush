@@ -2,12 +2,18 @@
 
 void mx_check_outprogram_new_line(void) {
     int twidth = mx_get_twidth() - 1;
+    int save_fd1 = dup(1);
+    int term_fd1 = open("/dev/tty", O_WRONLY);
 
+    dup2(term_fd1, 1);
     write(1,"%",1);
     for (int i = 0; i < twidth; i++)
         write(1," ",1);
     write(1,"\r",1);
     mx_print_esc("J");
+    dup2(save_fd1, 1);
+    close(save_fd1);
+    close(term_fd1);
 }
 
 static void print_two_str(char *str1, char *str2) {
