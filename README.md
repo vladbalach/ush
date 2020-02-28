@@ -36,4 +36,5 @@
   <li>Support of logical operators "&&" and "||"</li>
 </ul>
 </li>
+<li>Support of double quotes, back quotes and single quotes</li>
 </ul>
