@@ -10,7 +10,7 @@ static int get_rank(char *path) {
         }
     }
     return rank;
-}
+} 
 
 static char *get_new_pwd(char *path, t_info *info) {
     char **tokens = mx_strsplit(path, '/');

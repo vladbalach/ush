@@ -42,7 +42,7 @@ SRC = main.c \
 	mx_exec_token.c \
 	mx_execute_proces.c \
 	mx_write_from_to.c \
-	mx_print_Tab_comands.c \
+	mx_print_tab_comands.c \
 	mx_key_delite.c \
 	mx_get_info.c \
 	mx_ush_close.c \
@@ -65,7 +65,7 @@ SRC = main.c \
 	mx_do_replace.c \
 	mx_ctrl_v_and_not_ascii.c \
 	mx_ascii.c \
-	mx_ctrl_R.c \
+	mx_ctrl_r.c \
 	mx_print_esc.c \
 	mx_print_cont.c \
 	mx_print_susp.c \
@@ -80,7 +80,7 @@ SRC = main.c \
 	mx_chdir_p.c \
 	mx_add_one_rank.c \
 	mx_del_last_rank.c \
-	mx_chdir_L.c \
+	mx_chdir_l.c \
 	mx_key_duble_tab.c \
 	mx_mini_parser_tab.c \
 	mx_read_comand.c \
@@ -96,7 +96,7 @@ SRC = main.c \
 	mx_call_vlad.c \
 	mx_env_to_vlad.c \
 	mx_parametr_shell.c \
-	mx_flang_Comand.c \
+	mx_flang_comand.c \
 	mx_token_in_program.c \
 	mx_start_program.c \
 	mx_exec_env_pr.c \

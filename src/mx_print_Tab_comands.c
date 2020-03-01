@@ -20,7 +20,7 @@ static int max_comands(t_list *list_comand) {
         comands = comands->next;
     }
     return max;
-}
+} 
 
 static int row_tab(int *max, t_list *list_comand) {
     int coloms = 0;

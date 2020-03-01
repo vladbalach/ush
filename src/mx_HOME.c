@@ -12,7 +12,7 @@ static bool is_not_operator2(char c) {
     if (c == '$' || c == '=' || c == 92 || c == 34 || c == 39 || c == 96)
         return false;
     return true;
-}
+} 
 
 static void read_user(char **user) {
     struct passwd *check = getpwnam(*user);

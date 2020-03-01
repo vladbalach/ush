@@ -34,7 +34,7 @@ static int search_comand(t_info *info, int index, char *temp) {
 }
 
 void mx_ctrl_r(t_info *info) {
-    unsigned int ch = 0;
+    unsigned int ch = 0; 
     char *temp = mx_strnew(0);
     int i = 1;
     bool check = 1;
